@@ -13,8 +13,11 @@ const VH_PER_ITEM = 45;
 /** Height of the fixed site header. */
 const HEADER_HEIGHT = 69;
 
-const shortName = (item: JewelryItem) =>
-  item.shortNameEn?.trim() || item.nameEn.split(/\s+/).slice(0, 2).join(' ');
+const shortName = (item: JewelryItem) => item.shortNameEn?.trim() ?? '';
+
+/** Photo candidates in order: dedicated square showcase photo, then the main product photo. */
+const photoSources = (item: JewelryItem) =>
+  [item.indexImageUrl, item.imageUrl].filter((src): src is string => !!src);
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
@@ -23,7 +26,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
  * (active one in black, the rest in light grey), the matching piece on the right.
  */
 export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({ items, onSelectItem, onViewAll }) => {
-  const pieces = useMemo(() => items.filter((item) => item.imageUrl), [items]);
+  // Only pieces with a short English name appear here; long names do not fit the large type.
+  const pieces = useMemo(
+    () => items.filter((item) => shortName(item) && photoSources(item).length > 0),
+    [items]
+  );
   const count = pieces.length;
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -31,7 +38,9 @@ export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({ items, onSel
   const nameRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [listOffset, setListOffset] = useState(0);
-  const [brokenIds, setBrokenIds] = useState<Record<string, true>>({});
+  // Per piece: how many photo sources have failed to load.
+  const [failedCounts, setFailedCounts] = useState<Record<string, number>>({});
+  const photoFor = (item: JewelryItem) => photoSources(item)[failedCounts[item.id] ?? 0];
 
   // Scroll progress through the tall section -> active piece.
   useEffect(() => {
@@ -164,19 +173,19 @@ export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({ items, onSel
               className="group relative block w-[min(58vw,15rem)] md:w-[min(26vw,26rem)] aspect-square cursor-pointer bg-stone-100"
               aria-label={`مشاهده ${activeItem.nameFa}`}
             >
-              {brokenIds[activeItem.id] && (
+              {!photoFor(activeItem) && (
                 <span className="absolute inset-0 flex items-center justify-center text-stone-400">
                   <Gem className="w-10 h-10 stroke-[1.1]" />
                 </span>
               )}
-              {pieces.map((item, index) => brokenIds[item.id] ? null : (
+              {pieces.map((item, index) => !photoFor(item) ? null : (
                 <img
-                  key={item.id}
-                  src={item.imageUrl}
+                  key={`${item.id}:${photoFor(item)}`}
+                  src={photoFor(item)}
                   alt={index === activeIndex ? item.nameFa : ''}
                   aria-hidden={index !== activeIndex}
                   loading={index < 2 ? 'eager' : 'lazy'}
-                  onError={() => setBrokenIds((prev) => ({ ...prev, [item.id]: true }))}
+                  onError={() => setFailedCounts((prev) => ({ ...prev, [item.id]: (prev[item.id] ?? 0) + 1 }))}
                   className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 motion-reduce:transition-none ${
                     index === activeIndex ? 'opacity-100' : 'opacity-0'
                   }`}

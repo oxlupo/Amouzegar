@@ -66,6 +66,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   // Form State
   const [nameFa, setNameFa] = useState('');
   const [nameEn, setNameEn] = useState('');
+  const [shortNameEn, setShortNameEn] = useState('');
   const [category, setCategory] = useState<'ring' | 'necklace' | 'earrings' | 'bracelet' | 'set'>('ring');
   
   // Gold Net Weight (وزن خالص طلا - رنگ طلا مهم نیست)
@@ -160,6 +161,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
       itemCode: itemCode.trim() || `AMZ-${Date.now().toString().slice(-4)}`,
       nameFa: nameFa.trim(),
       nameEn: nameEn.trim() || 'Amuzegar High Jewelry Creation',
+      ...(shortNameEn.trim() ? { shortNameEn: shortNameEn.trim() } : {}),
       category,
       stoneType: primaryStoneType,
       stoneNameFa: stonesListText,
@@ -190,6 +192,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     // Reset Form
     setNameFa('');
     setNameEn('');
+    setShortNameEn('');
     setDescriptionFa('');
     setImageUrl('');
     setCustomStoneNote('');
@@ -377,6 +380,24 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   dir="ltr"
                   className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-mono"
                 />
+              </div>
+
+              <div className="space-y-1.5 sm:col-span-2">
+                <label className="text-xs font-medium text-stone-400 block font-mono">
+                  SHORT NAME (HOME PAGE INDEX)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Lumina"
+                  maxLength={16}
+                  value={shortNameEn}
+                  onChange={(e) => setShortNameEn(e.target.value)}
+                  dir="ltr"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-mono"
+                />
+                <p className="text-[10px] text-stone-500">
+                  یک یا دو کلمهٔ کوتاه انگلیسی. فقط آثاری که نام کوتاه دارند در بخش سفید صفحهٔ اول نمایش داده می‌شوند.
+                </p>
               </div>
             </div>
 
