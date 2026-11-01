@@ -1,5 +1,14 @@
 # تاریخچهٔ تغییرات
 
+## 2026-11-01 — نصب Agentation برای بازخورد بصری در لوکال‌هاست
+
+- درخواست مالک: نصب Agentation (agentation.com) روی پروژه در لوکال‌هاست.
+- سایت agentation.com از محیط ابری در دسترس نبود؛ مستندات از README بستهٔ npm `agentation` نسخهٔ 3.1.2 خوانده شد (peer: React 18 به بالا).
+- `package.json`: افزودن `agentation` به devDependencies؛ esbuild به `^0.28.2` ارتقا یافت تا `npm install` بدون خطای ERESOLVE با Vite 8 اجرا شود.
+- `src/main.tsx`: بارگذاری تنبل `<Agentation appName="Amouzegar" />` فقط وقتی `import.meta.env.DEV` است؛ در build نهایی وارد نمی‌شود.
+- بررسی: lint و build موفق؛ جست‌وجوی «agentation» در `dist/assets` نتیجه نداشت؛ در `vite` dev نوار ابزار گوشهٔ پایین راست دیده شد و خطای صفحه نبود.
+- باقی‌مانده: اتصال اختیاری به عامل با `npx -y agentation-mcp server` و `endpoint="http://localhost:4747"`.
+
 ## 2026-11-01 — بخش سفید با تصاویر بدون پس‌زمینه
 
 - درخواست مالک: تصاویر بخش سفید بدون پس‌زمینه باشند؛ سه PNG شفاف در `public/index/cutouts/` (nora، astra، ruby) از `master` دریافت و در شاخه ادغام شد.
