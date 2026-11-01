@@ -1,0 +1,21 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Source image archive (both spellings on case-sensitive systems)
+/images/
+/Images/
+
+# Project-local Python tooling and caches
+/.tools/
+__pycache__/
+
+# Graphify transient state; keep graph.json, graph.html and report versionable
+/graphify-out/cache/
+/graphify-out/manifest.json
+/graphify-out/.graphify*

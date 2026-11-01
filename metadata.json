@@ -1,0 +1,6 @@
+{
+  "name": "جواهر فروشی آموزگار | Amuzegar Jewelry",
+  "description": "وبسایت رسمی گالری جواهرات آموزگار - طراحی و ساخت فاخرترین آثار جواهر، یاقوت‌های اصیل، الماس‌های شناسنامه‌دار و سفارشات اختصاصی با درخشش جاودان.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
