@@ -470,7 +470,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       
                       {/* Header */}
                       <div className="pb-2 border-b border-stone-800 flex items-center justify-between">
-                        <span className="text-xs font-bold text-white">راه‌های ارتباط و سالن‌ها</span>
+                        <span className="text-xs font-bold text-white">راه‌های ارتباط و گالری</span>
                         <span className="text-[10px] text-stone-500 font-mono">CONCIERGE</span>
                       </div>
 
@@ -528,7 +528,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         onClick={() => handleSectionClick('contact-salon')}
                         className="w-full py-2 rounded-lg bg-stone-900 hover:bg-white text-stone-300 hover:text-black text-[11px] font-bold transition-all text-center cursor-pointer"
                       >
-                        مشاهده نقشه و سالن‌های اختصاصی
+                        مشاهده نقشه و آدرس گالری
                       </button>
 
                     </div>
@@ -825,7 +825,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             
             {/* Quick Contact Header */}
             <div className="flex items-center justify-between text-xs text-stone-400 pb-2 border-b border-stone-800/80">
-              <span className="font-semibold text-white">ارتباط مستقیم و سالن‌های اختصاصی</span>
+              <span className="font-semibold text-white">ارتباط مستقیم و آدرس گالری</span>
             </div>
 
             {/* Gallery Address Button */}

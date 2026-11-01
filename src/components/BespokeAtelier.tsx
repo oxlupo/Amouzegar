@@ -1,223 +1,87 @@
-import React, { useState } from 'react';
-import { Sparkles, CheckCircle2, Compass, Feather, Hammer, Layers, Send } from 'lucide-react';
-import { BESPOKE_STEPS } from '../data/jewelryData';
+import React from 'react';
+import { Phone, ArrowLeft } from 'lucide-react';
+import { BESPOKE_STEPS, SALON_BRANCHES } from '../data/jewelryData';
 
-export const BespokeAtelier: React.FC = () => {
-  const [metal, setMetal] = useState('platinum');
-  const [stone, setStone] = useState('ruby');
-  const [category, setCategory] = useState('ring');
-  const [fullName, setFullName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [description, setDescription] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+interface BespokeAtelierProps {
+  onOpenVipBooking: () => void;
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!fullName || !phone) return;
-    setSubmitted(true);
-  };
+const toPersianDigits = (value: string) => value.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)]);
+
+/** Home page section introducing the bespoke (custom order) service. */
+export const BespokeAtelier: React.FC<BespokeAtelierProps> = ({ onOpenVipBooking }) => {
+  const gallery = SALON_BRANCHES[0];
 
   return (
-    <section id="bespoke-atelier" className="py-24 bg-[#020202] relative border-t border-stone-900 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-stone-800 bg-stone-950 text-stone-300 text-xs font-semibold">
-            <Feather className="w-3.5 h-3.5 text-amber-400" />
-            <span>آتلیه طراحی و ساخت سفارشی آموزگار</span>
-          </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white">
-            خلق اثر انحصاری مطابق رویای شما
+    <section id="bespoke-atelier" className="relative bg-black text-white font-peyda border-t border-stone-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+        {/* Text column (right side in RTL) */}
+        <div className="lg:col-span-7 order-2 lg:order-1">
+          <span className="font-cinzel text-[11px] tracking-[0.3em] uppercase text-stone-500 block">
+            Bespoke
+          </span>
+          <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+            جواهری که فقط برای شما ساخته می‌شود
           </h2>
-          <p className="text-xs sm:text-sm text-stone-400 leading-relaxed">
-            از یک ایده یا طرح اولیه تا مجلل‌ترین شاهکار جواهر؛ کارگاه تخصصی آموزگار با دستان هنرمندان زرگر، هر گوهر گرانبها را به میراثی جاودان بدل می‌سازد.
+          <p className="mt-6 text-sm sm:text-base text-stone-300 leading-loose max-w-2xl">
+            در آتلیه آموزگار، سفارش اختصاصی از یک گفت‌وگو آغاز می‌شود. ایده‌ای در ذهن دارید، طرحی قدیمی که
+            می‌خواهید دوباره جان بگیرد، یا سنگی که برایتان معنایی خاص دارد؛ طراحان و استادکاران ما آن را به اثری
+            یگانه بدل می‌کنند که نمونهٔ دیگری از آن ساخته نخواهد شد.
           </p>
-        </div>
 
-        {/* 4 Process Steps */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {BESPOKE_STEPS.map((s) => (
-            <div
-              key={s.step}
-              className="p-6 rounded-2xl bg-[#050505] border border-stone-900 hover:border-stone-700 transition-all text-right space-y-3"
+          {/* Steps */}
+          <ol className="mt-10 grid grid-cols-1 sm:grid-cols-2 border-t border-stone-800">
+            {BESPOKE_STEPS.map((s, i) => (
+              <li
+                key={s.step}
+                className={`py-6 border-b border-stone-800 ${i % 2 === 0 ? 'sm:pl-8 sm:border-l' : 'sm:pr-8'}`}
+              >
+                <div className="flex items-baseline gap-3">
+                  <span className="font-grotesk text-xs text-stone-500 tabular-nums">{s.step}</span>
+                  <h3 className="text-base font-bold">{s.titleFa}</h3>
+                </div>
+                <p className="mt-2 text-xs sm:text-[13px] text-stone-400 leading-relaxed">{s.descFa}</p>
+              </li>
+            ))}
+          </ol>
+
+          <p className="mt-6 text-xs text-stone-500 leading-relaxed">
+            زمان ساخت بسته به طرح و سنگ متفاوت است و در جلسهٔ نخست به شما اعلام می‌شود.
+          </p>
+
+          {/* Actions */}
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={onOpenVipBooking}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold hover:bg-stone-200 transition-colors cursor-pointer"
             >
-              <span className="text-2xl font-serif font-bold text-amber-400 block">
-                {s.step}
-              </span>
-              <h3 className="text-base font-bold text-white">
-                {s.titleFa}
-              </h3>
-              <p className="text-xs text-stone-400 leading-relaxed">
-                {s.descFa}
-              </p>
-            </div>
-          ))}
+              <span>رزرو جلسهٔ مشاوره</span>
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+            <a
+              href={`tel:${gallery.telLink}`}
+              className="inline-flex items-center gap-2 px-6 py-3 border border-stone-700 text-sm font-semibold text-stone-200 hover:border-white hover:text-white transition-colors"
+            >
+              <Phone className="w-4 h-4" />
+              <span>تماس با گالری</span>
+              <span dir="ltr" className="font-grotesk tabular-nums">{toPersianDigits(gallery.phone)}</span>
+            </a>
+          </div>
+          <p className="mt-4 text-[11px] text-stone-500">{gallery.addressFa}</p>
         </div>
 
-        {/* Custom Order Request Form */}
-        <div className="max-w-4xl mx-auto rounded-2xl bg-[#050505] border border-stone-800 p-6 sm:p-10 shadow-2xl">
-          {submitted ? (
-            <div className="text-center py-10 space-y-4 animate-in fade-in">
-              <div className="w-16 h-16 rounded-full bg-stone-900 border border-stone-700 flex items-center justify-center text-white mx-auto">
-                <CheckCircle2 className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold text-white">
-                درخواست طراحی اختصاصی با موفقیت ثبت شد
-              </h3>
-              <p className="text-xs text-stone-300 max-w-md mx-auto leading-relaxed">
-                جناب/سرکار <strong className="text-white">{fullName}</strong>، کارشناس ارشد آتلیه آموزگار جهت هماهنگی جلسه اسکچ و انتخاب گوهر با شما تماس خواهد گرفت.
-              </p>
-              <button
-                onClick={() => setSubmitted(false)}
-                className="mt-4 px-6 py-2.5 rounded-full bg-white text-black font-bold text-xs"
-              >
-                ثبت سفارش جدید
-              </button>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-6 text-right">
-              <div>
-                <h3 className="text-lg font-bold text-white">
-                  فرم آغاز پروژه سفارشی (Haute Bespoke Request)
-                </h3>
-                <p className="text-xs text-stone-400 mt-1">
-                  مشخصات اثر رویایی خود را تعیین فرمایید تا جلسه طراحی مفهومی برنامه‌ریزی گردد:
-                </p>
-              </div>
-
-              {/* Step 1: Category */}
-              <div>
-                <label className="text-xs font-semibold text-stone-300 block mb-2">
-                  ۱. نوع اثر مورد نظر:
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {[
-                    { id: 'ring', label: 'انگشتر سولیتر / کوکتل' },
-                    { id: 'necklace', label: 'گردنبند یا چوکر' },
-                    { id: 'earrings', label: 'گوشواره آویز / میخی' },
-                    { id: 'set', label: 'سرویس کامل اشرافی' },
-                  ].map((c) => (
-                    <button
-                      type="button"
-                      key={c.id}
-                      onClick={() => setCategory(c.id)}
-                      className={`py-2.5 px-3 rounded-xl border text-xs font-medium transition-all ${
-                        category === c.id
-                          ? 'border-white bg-stone-900 text-white font-bold'
-                          : 'border-stone-900 bg-black text-stone-400 hover:border-stone-700'
-                      }`}
-                    >
-                      {c.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Step 2: Gemstone */}
-              <div>
-                <label className="text-xs font-semibold text-stone-300 block mb-2">
-                  ۲. گوهر اصلی مد نظر:
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {[
-                    { id: 'ruby', label: 'یاقوت سرخ برمه (Unheated)' },
-                    { id: 'diamond', label: 'الماس برلیان D-Color' },
-                    { id: 'emerald', label: 'زمرد سبز موزو کلمبیا' },
-                    { id: 'sapphire', label: 'سافایر آبی سلطنتی سیلان' },
-                  ].map((s) => (
-                    <button
-                      type="button"
-                      key={s.id}
-                      onClick={() => setStone(s.id)}
-                      className={`py-2.5 px-3 rounded-xl border text-xs font-medium transition-all ${
-                        stone === s.id
-                          ? 'border-white bg-stone-900 text-white font-bold'
-                          : 'border-stone-900 bg-black text-stone-400 hover:border-stone-700'
-                      }`}
-                    >
-                      {s.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Step 3: Metal */}
-              <div>
-                <label className="text-xs font-semibold text-stone-300 block mb-2">
-                  ۳. فلز و آلیاژ بدنه:
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {[
-                    { id: 'platinum', label: 'پلاتین ۹۵۰ عیار' },
-                    { id: 'white_gold', label: 'طلای سفید ۱۸ عیار' },
-                    { id: 'yellow_rose', label: 'طلای زرد / رزگلد ۱۸ عیار' },
-                  ].map((m) => (
-                    <button
-                      type="button"
-                      key={m.id}
-                      onClick={() => setMetal(m.id)}
-                      className={`py-2.5 px-3 rounded-xl border text-xs font-medium transition-all ${
-                        metal === m.id
-                          ? 'border-white bg-stone-900 text-white font-bold'
-                          : 'border-stone-900 bg-black text-stone-400 hover:border-stone-700'
-                      }`}
-                    >
-                      {m.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Step 4: Description */}
-              <div>
-                <label className="text-xs font-semibold text-stone-300 block mb-1">
-                  توضیحات و جزئیات مد نظر:
-                </label>
-                <textarea
-                  rows={3}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="اگر سبک خاص، تراش هندسی ویژه یا مناسبتی مد نظرتان است بنویسید..."
-                  className="w-full px-4 py-2.5 rounded-xl bg-black border border-stone-800 text-xs text-stone-200 placeholder-stone-600 focus:outline-none focus:border-stone-500"
-                />
-              </div>
-
-              {/* Contact Info */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-xs text-stone-400 block mb-1">نام و نام خانوادگی:</label>
-                  <input
-                    type="text"
-                    required
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="نام کامل شما"
-                    className="w-full px-4 py-2.5 rounded-xl bg-black border border-stone-800 text-xs text-stone-200 focus:outline-none focus:border-stone-500"
-                  />
-                </div>
-                <div>
-                  <label className="text-xs text-stone-400 block mb-1">تلفن همراه جهت هماهنگی:</label>
-                  <input
-                    type="tel"
-                    required
-                    dir="ltr"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="۰۹۱۲..."
-                    className="w-full px-4 py-2.5 rounded-xl bg-black border border-stone-800 text-xs text-stone-200 focus:outline-none focus:border-stone-500"
-                  />
-                </div>
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-3.5 rounded-xl bg-white hover:bg-stone-200 text-black font-extrabold text-xs sm:text-sm tracking-wide transition-all shadow-xl"
-              >
-                ثبت و ارسال درخواست مشاوره طراحی اختصاصی
-              </button>
-            </form>
-          )}
+        {/* Image column (left side in RTL) */}
+        <div className="lg:col-span-5 order-1 lg:order-2">
+          <div className="relative aspect-[4/5] w-full max-w-md mx-auto lg:max-w-none overflow-hidden bg-stone-950">
+            <img
+              src="/s02.jpeg"
+              alt="الماس گلابی‌تراش آتلیه آموزگار"
+              loading="lazy"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
         </div>
 
       </div>

@@ -8,6 +8,7 @@ import { JewelryNameIndex } from './components/JewelryNameIndex';
 import { JewelryCategoryPage } from './components/JewelryCategoryPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
 import { AboutBrand } from './components/AboutBrand';
+import { BespokeAtelier } from './components/BespokeAtelier';
 import { Footer } from './components/Footer';
 import { ProductModal } from './components/ProductModal';
 import { VipBookingModal } from './components/VipBookingModal';
@@ -28,7 +29,13 @@ export default function App() {
   });
 
   const jewelryItems = useMemo(() => {
-    return [...customJewelryItems, ...JEWELRY_ITEMS];
+    // Older saved items may reference salons that no longer exist; there is only the Ahmadabad gallery.
+    const normalized = customJewelryItems.map((item) =>
+      item.availability === 'موجود در گالری احمدآباد' || item.availability === 'تک‌نسخه آتلیه آموزگار'
+        ? item
+        : { ...item, availability: 'موجود در گالری احمدآباد' as const }
+    );
+    return [...normalized, ...JEWELRY_ITEMS];
   }, [customJewelryItems]);
 
   const [selectedProduct, setSelectedProduct] = useState<JewelryItem | null>(null);
@@ -289,6 +296,9 @@ export default function App() {
                   onSelectCategory={setSelectedCategory}
                   onNavigateToCategory={handleNavigateToCategory}
                 />
+
+                {/* 3.5 Bespoke custom-order service */}
+                <BespokeAtelier onOpenVipBooking={() => setIsVipModalOpen(true)} />
 
                 {/* 4. Contact Us, Google Maps Location & Exclusive Salon */}
                 <AboutBrand onOpenVipBooking={() => setIsVipModalOpen(true)} />

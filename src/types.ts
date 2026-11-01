@@ -25,7 +25,7 @@ export interface JewelryItem {
   featuredInHeroVideo?: boolean;
   videoTimestamp?: string;
   tagsFa: string[];
-  availability: 'موجود در سالن فرشته' | 'کلکسیون ویژه دبی' | 'تک‌نسخه آتلیه آموزگار';
+  availability: 'موجود در گالری احمدآباد' | 'تک‌نسخه آتلیه آموزگار';
   goldNetWeight?: number | string; // وزن خالص طلا به گرم
   selectedStones?: string[]; // لیست سنگ‌ها و تراش‌های به کار رفته در اثر
 }
@@ -43,7 +43,7 @@ export interface BespokeCustomRequest {
 export interface VipBooking {
   fullName: string;
   phoneNumber: string;
-  preferredBranch: 'fereshteh' | 'samcenter' | 'dubai';
+  preferredBranch: 'mashhad-ahmadabad';
   date: string;
   timeSlot: string;
   guestCount: number;

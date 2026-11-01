@@ -8,7 +8,6 @@ interface VipBookingModalProps {
 }
 
 export const VipBookingModal: React.FC<VipBookingModalProps> = ({ isOpen, onClose }) => {
-  const [selectedBranch, setSelectedBranch] = useState('fereshteh');
   const [date, setDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('16:00 - 18:00');
   const [fullName, setFullName] = useState('');
@@ -73,33 +72,17 @@ export const VipBookingModal: React.FC<VipBookingModalProps> = ({ isOpen, onClos
               </p>
             </div>
 
-            {/* Branch Selector */}
-            <div>
-              <label className="text-xs font-semibold text-stone-300 block mb-2">
-                انتخاب شعبه و سالن:
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {SALON_BRANCHES.map((b) => (
-                  <button
-                    type="button"
-                    key={b.id}
-                    onClick={() => setSelectedBranch(b.id)}
-                    className={`p-3 rounded-xl border text-right transition-all ${
-                      selectedBranch === b.id
-                        ? 'border-white bg-stone-900 text-white shadow'
-                        : 'border-stone-900 bg-black text-stone-400 hover:border-stone-800'
-                    }`}
-                  >
-                    <div className="flex items-center gap-1.5 text-xs font-bold mb-1">
-                      <MapPin className="w-3.5 h-3.5 text-stone-300" />
-                      <span>{b.nameFa}</span>
-                    </div>
-                    <span className="text-[10px] text-stone-400 block truncate">
-                      {b.addressFa}
-                    </span>
-                  </button>
-                ))}
-              </div>
+            {/* Gallery (single location) */}
+            <div className="p-3 rounded-xl border border-stone-800 bg-stone-950 text-right">
+              {SALON_BRANCHES.map((b) => (
+                <div key={b.id}>
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-white mb-1">
+                    <MapPin className="w-3.5 h-3.5 text-stone-300" />
+                    <span>{b.nameFa}</span>
+                  </div>
+                  <span className="text-[11px] text-stone-400 block">{b.addressFa}</span>
+                </div>
+              ))}
             </div>
 
             {/* Date & Time Slot */}

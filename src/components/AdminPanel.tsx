@@ -84,7 +84,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [descriptionFa, setDescriptionFa] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [itemCode, setItemCode] = useState(() => `AMZ-${Math.floor(1000 + Math.random() * 9000)}`);
-  const [availability, setAvailability] = useState<'موجود در سالن فرشته' | 'کلکسیون ویژه دبی' | 'تک‌نسخه آتلیه آموزگار'>('تک‌نسخه آتلیه آموزگار');
+  const [availability, setAvailability] = useState<'موجود در گالری احمدآباد' | 'تک‌نسخه آتلیه آموزگار'>('تک‌نسخه آتلیه آموزگار');
 
   // Image Cropper State
   const [isCropperOpen, setIsCropperOpen] = useState(false);
