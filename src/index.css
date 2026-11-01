@@ -4,6 +4,7 @@
   --font-peyda: 'Peyda', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-cormorant: 'Cormorant Garamond', Georgia, serif;
   --font-cinzel: 'Cinzel', 'Trajan Pro', serif;
+  --font-grotesk: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
 }
 
 @layer utilities {
@@ -41,6 +42,10 @@
 
   .font-cinzel {
     font-family: 'Cinzel', 'Trajan Pro', serif;
+  }
+
+  .font-grotesk {
+    font-family: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
   }
 
   .no-scrollbar::-webkit-scrollbar {

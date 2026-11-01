@@ -4,6 +4,7 @@ import { HeroSection } from './components/HeroSection';
 import { BrandSloganSection } from './components/BrandSloganSection';
 import { HeroVideoPiecesDetail } from './components/HeroVideoPiecesDetail';
 import { CollectionSection } from './components/CollectionSection';
+import { JewelryNameIndex } from './components/JewelryNameIndex';
 import { JewelryCategoryPage } from './components/JewelryCategoryPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
 import { AboutBrand } from './components/AboutBrand';
@@ -269,6 +270,13 @@ export default function App() {
                   wishlistIds={wishlistIds}
                   onToggleWishlist={toggleWishlist}
                   onOpenVipBooking={() => setIsVipModalOpen(true)}
+                />
+
+                {/* 2.5 White typographic index: English names left, piece right */}
+                <JewelryNameIndex
+                  items={jewelryItems}
+                  onSelectItem={handleOpenProductDetail}
+                  onViewAll={() => handleNavigateToCategory('all')}
                 />
 
                 {/* 3. Catalog & Lookbook Showcase (Filterable, Searchable, No Prices) */}

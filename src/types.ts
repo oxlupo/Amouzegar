@@ -3,6 +3,8 @@ export interface JewelryItem {
   itemCode: string;
   nameFa: string;
   nameEn: string;
+  /** Short English display name used in large typographic layouts (falls back to nameEn). */
+  shortNameEn?: string;
   category: 'necklace' | 'earrings' | 'ring' | 'bracelet' | 'set';
   stoneType: 'ruby' | 'diamond' | 'emerald' | 'sapphire';
   stoneNameFa: string;
