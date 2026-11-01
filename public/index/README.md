@@ -1,18 +1,15 @@
-# عکس‌های بخش سفید صفحهٔ اول
+# تصاویر بخش سفید صفحهٔ اول
 
-هر عکس را با همین نام‌ها در این پوشه بگذارید. تا وقتی عکسی اینجا نباشد، عکس اصلی همان محصول نمایش داده می‌شود.
+بخش سفید فقط تصاویر **بدون پس‌زمینه** را نشان می‌دهد. فهرست آثار در `src/data/jewelryData.ts` و در `NAME_INDEX_PIECES` است.
 
-| نام کوتاه | فایل |
-|---|---|
-| Lumina | lumina.jpg |
-| Duet | duet.jpg |
-| Pigeon Blood | pigeon-blood.jpg |
-| Chandelier | chandelier.jpg |
-| Trilliant | trilliant.jpg |
-| Tennis Royale | tennis-royale.jpg |
-| Panjshir | panjshir.jpg |
-| Marquise | marquise.jpg |
-| Ceylon | ceylon.jpg |
-| Wave | wave.jpg |
+| نام | فایل سایت | فایل اصلی | پیوند |
+|---|---|---|---|
+| Nora | `cutouts/nora.webp` | `cutouts/nora.png` | صفحهٔ «گوشواره آویز برلیان و پلاتین لوکس» |
+| Astra | `cutouts/astra.webp` | `cutouts/astra.png` | فروشگاه، دستهٔ انگشتر |
+| Ruby | `cutouts/ruby.webp` | `cutouts/ruby.png` | فروشگاه، دستهٔ یاقوت سرخ |
 
-مشخصات: مربع ۱:۱، دست‌کم ۱۶۰۰ × ۱۶۰۰ پیکسل، JPG با رنگ sRGB، حجم کمتر از ۵۰۰ کیلوبایت، زمینهٔ یکسان برای همه، جواهر در مرکز با حدود ۱۵٪ فاصله از لبه‌ها، بدون لوگو و متن روی عکس.
+## افزودن اثر تازه
+
+1. یک PNG شفاف مربعی در `cutouts/` بگذارید (دست‌کم ۱۲۰۰ × ۱۲۰۰، جواهر در مرکز با حدود ۱۲٪ فاصلهٔ شفاف از لبه‌ها، بدون سایه، لوگو یا متن).
+2. یک نسخهٔ WebP با عرض ۱۰۰۰ پیکسل کنار آن بسازید تا صفحه سبک بماند.
+3. یک ردیف به `NAME_INDEX_PIECES` اضافه کنید: نام کوتاه انگلیسی، مسیر WebP، توضیح فارسی، و `productId` (صفحهٔ محصول) یا `category` (دستهٔ فروشگاه).

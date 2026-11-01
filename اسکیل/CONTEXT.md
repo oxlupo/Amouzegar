@@ -24,3 +24,4 @@
 - فقط یک گالری وجود دارد: مشهد، احمدآباد (`SALON_BRANCHES[0]`). به سالن دیگری اشاره نشود.
 - نصب وابستگی‌ها: `npm install --legacy-peer-deps`؛ اجرای محلی: `npm run dev` روی پورت 3000.
 - بخش سفید فقط آثار دارای `shortNameEn` را نشان می‌دهد؛ عکس‌های مربعی اختصاصی در `public/index/` با نام‌های `README.md` همان پوشه منتظر ارسال مالک‌اند.
+- بخش سفید از `NAME_INDEX_PIECES` در `jewelryData.ts` و تصاویر شفاف WebP در `public/index/cutouts/` استفاده می‌کند؛ `shortNameEn` و `indexImageUrl` دیگر وجود ندارند.

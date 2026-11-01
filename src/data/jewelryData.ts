@@ -8,8 +8,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-D-0201',
     nameFa: 'گوشواره آویز برلیان و پلاتین لوکس',
     nameEn: 'Lumina High Jewelry Diamond Drop Earring',
-    shortNameEn: 'Lumina',
-    indexImageUrl: '/index/lumina.jpg',
     category: 'earrings',
     stoneType: 'diamond',
     stoneNameFa: 'الماس طبیعی اشکی و گرد برلیان',
@@ -40,8 +38,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-D-0202',
     nameFa: 'دوگانه انگشتر سولیتر و باند الماس برلیان',
     nameEn: 'Duet Solitaire & Micro-Pavé Diamond Rings',
-    shortNameEn: 'Duet',
-    indexImageUrl: '/index/duet.jpg',
     category: 'ring',
     stoneType: 'diamond',
     stoneNameFa: 'الماس سولیتر ۳.۵ قیراطی و ردیف برلیان‌های پاوِه',
@@ -72,8 +68,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-R-0101',
     nameFa: 'گردنبند سلطنتی یاقوت خون کبوتر برمه و برلیان',
     nameEn: 'Royal Burmese Pigeon Blood Ruby & Diamond Cascading Necklace',
-    shortNameEn: 'Pigeon Blood',
-    indexImageUrl: '/index/pigeon-blood.jpg',
     category: 'necklace',
     stoneType: 'ruby',
     stoneNameFa: 'یاقوت سرخ برمه (Pigeon Blood)',
@@ -104,8 +98,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-R-0102',
     nameFa: 'گوشواره‌های آویز چلچراغی یاقوت سرخ و الماس مارکیز',
     nameEn: 'Chandelier Teardrop Ruby & Diamond Drop Earrings',
-    shortNameEn: 'Chandelier',
-    indexImageUrl: '/index/chandelier.jpg',
     category: 'earrings',
     stoneType: 'ruby',
     stoneNameFa: 'یاقوت سرخ طبیعی موگوک',
@@ -135,8 +127,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-R-0103',
     nameFa: 'انگشتر سولیتر یاقوت سرخ تراش امرالد با بال‌های الماس',
     nameEn: 'Emerald-Cut Pigeon Blood Ruby Ring with Trilliant Diamonds',
-    shortNameEn: 'Trilliant',
-    indexImageUrl: '/index/trilliant.jpg',
     category: 'ring',
     stoneType: 'ruby',
     stoneNameFa: 'یاقوت سرخ تراش چهارگوش زمردی',
@@ -166,8 +156,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-B-0201',
     nameFa: 'دستبند تنیس اشرافی الماس برلیان و یاقوت سرخ',
     nameEn: 'Royal Ruby & Diamond Alternating Tennis Bracelet',
-    shortNameEn: 'Tennis Royale',
-    indexImageUrl: '/index/tennis-royale.jpg',
     category: 'bracelet',
     stoneType: 'ruby',
     stoneNameFa: 'ترکیب یاقوت سرخ برمه و برلیان خالص',
@@ -193,8 +181,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-E-0301',
     nameFa: 'سرویس سلطنتی زمرد سبز کلمبیا و الماس مارکیز',
     nameEn: 'Panjshir & Colombian Royal Emerald High Jewelry Parure',
-    shortNameEn: 'Panjshir',
-    indexImageUrl: '/index/panjshir.jpg',
     category: 'set',
     stoneType: 'emerald',
     stoneNameFa: 'زمرد سبز زنده کلمبیا (Muzo Colombian)',
@@ -222,8 +208,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-D-0401',
     nameFa: 'انگشتر الماس مارکیز فلورال و طلای رزگلد ۱۸ عیار',
     nameEn: 'Marquise Solitaire Diamond Ring in 18K Rose Gold',
-    shortNameEn: 'Marquise',
-    indexImageUrl: '/index/marquise.jpg',
     category: 'ring',
     stoneType: 'diamond',
     stoneNameFa: 'الماس طبیعی بی‌رنگ D-Flawless',
@@ -249,8 +233,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-S-0501',
     nameFa: 'سینه ریز و گوشواره سافایر آبی سلطنتی سیلان (یاقوت کبود)',
     nameEn: 'Royal Blue Ceylon Sapphire & Diamond Haute Parure',
-    shortNameEn: 'Ceylon',
-    indexImageUrl: '/index/ceylon.jpg',
     category: 'set',
     stoneType: 'sapphire',
     stoneNameFa: 'سافایر سلطنتی سیلان (Royal Blue)',
@@ -276,8 +258,6 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     itemCode: 'AMZ-D-0402',
     nameFa: 'چوکر الماس برلیان موج‌دار طلا سفید آموزگار',
     nameEn: 'Amuzegar Wave Brilliant Diamond Haute Choker',
-    shortNameEn: 'Wave',
-    indexImageUrl: '/index/wave.jpg',
     category: 'necklace',
     stoneType: 'diamond',
     stoneNameFa: 'الماس‌های تمام برلیان قلبی و گرد',
@@ -298,6 +278,44 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     tagsFa: ['چوکر', 'الماس', 'مدرن'],
     availability: 'موجود در گالری احمدآباد',
   }
+];
+
+/**
+ * Pieces shown in the white name index on the home page.
+ * Images are transparent cutouts in public/index/cutouts/ (WebP for the site, PNG originals kept).
+ * `productId` opens that product page; otherwise `category` opens the shop filtered to it.
+ */
+export interface NameIndexPiece {
+  id: string;
+  name: string;
+  image: string;
+  altFa: string;
+  productId?: string;
+  category?: string;
+}
+
+export const NAME_INDEX_PIECES: NameIndexPiece[] = [
+  {
+    id: 'nora',
+    name: 'Nora',
+    image: '/index/cutouts/nora.webp',
+    altFa: 'گوشواره بادبزنی الماس',
+    productId: 'amuzegar-diamond-drop-earring-timeline',
+  },
+  {
+    id: 'astra',
+    name: 'Astra',
+    image: '/index/cutouts/astra.webp',
+    altFa: 'انگشتر الماس با نگین‌های مربعی',
+    category: 'ring',
+  },
+  {
+    id: 'ruby',
+    name: 'Ruby',
+    image: '/index/cutouts/ruby.webp',
+    altFa: 'انگشتر یاقوت سرخ با هاله الماس',
+    category: 'ruby',
+  },
 ];
 
 export const BESPOKE_STEPS = [

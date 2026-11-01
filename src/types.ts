@@ -3,10 +3,6 @@ export interface JewelryItem {
   itemCode: string;
   nameFa: string;
   nameEn: string;
-  /** Short English display name used in large typographic layouts (falls back to nameEn). */
-  shortNameEn?: string;
-  /** Square showcase photo for the white name index on the home page (falls back to imageUrl). */
-  indexImageUrl?: string;
   category: 'necklace' | 'earrings' | 'ring' | 'bracelet' | 'set';
   stoneType: 'ruby' | 'diamond' | 'emerald' | 'sapphire';
   stoneNameFa: string;

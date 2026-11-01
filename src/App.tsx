@@ -283,6 +283,7 @@ export default function App() {
                 <JewelryNameIndex
                   items={jewelryItems}
                   onSelectItem={handleOpenProductDetail}
+                  onNavigateToCategory={handleNavigateToCategory}
                   onViewAll={() => handleNavigateToCategory('all')}
                 />
 

@@ -1,36 +1,33 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Gem } from 'lucide-react';
 import { JewelryItem } from '../types';
+import { NAME_INDEX_PIECES, NameIndexPiece } from '../data/jewelryData';
 
 interface JewelryNameIndexProps {
   items: JewelryItem[];
   onSelectItem: (item: JewelryItem) => void;
+  onNavigateToCategory: (category: string) => void;
   onViewAll: () => void;
 }
 
 /** Vertical scroll distance (in viewport heights) spent on each piece. */
-const VH_PER_ITEM = 45;
+const VH_PER_ITEM = 60;
 /** Height of the fixed site header. */
 const HEADER_HEIGHT = 69;
-
-const shortName = (item: JewelryItem) => item.shortNameEn?.trim() ?? '';
-
-/** Photo candidates in order: dedicated square showcase photo, then the main product photo. */
-const photoSources = (item: JewelryItem) =>
-  [item.indexImageUrl, item.imageUrl].filter((src): src is string => !!src);
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
 /**
  * White, scroll-driven typographic index: English names stacked on the left
- * (active one in black, the rest in light grey), the matching piece on the right.
+ * (active one in black, the rest in light grey), the matching transparent cutout on the right.
  */
-export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({ items, onSelectItem, onViewAll }) => {
-  // Only pieces with a short English name appear here; long names do not fit the large type.
-  const pieces = useMemo(
-    () => items.filter((item) => shortName(item) && photoSources(item).length > 0),
-    [items]
-  );
+export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({
+  items,
+  onSelectItem,
+  onNavigateToCategory,
+  onViewAll,
+}) => {
+  const pieces = NAME_INDEX_PIECES;
   const count = pieces.length;
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -38,9 +35,7 @@ export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({ items, onSel
   const nameRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [listOffset, setListOffset] = useState(0);
-  // Per piece: how many photo sources have failed to load.
-  const [failedCounts, setFailedCounts] = useState<Record<string, number>>({});
-  const photoFor = (item: JewelryItem) => photoSources(item)[failedCounts[item.id] ?? 0];
+  const [brokenIds, setBrokenIds] = useState<Record<string, true>>({});
 
   // Scroll progress through the tall section -> active piece.
   useEffect(() => {
@@ -96,9 +91,20 @@ export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({ items, onSel
     window.scrollTo({ top, behavior: 'smooth' });
   };
 
+  const linkedProduct = (piece: NameIndexPiece) =>
+    piece.productId ? items.find((item) => item.id === piece.productId) : undefined;
+
+  const openPiece = (piece: NameIndexPiece) => {
+    const product = linkedProduct(piece);
+    if (product) onSelectItem(product);
+    else if (piece.category) onNavigateToCategory(piece.category);
+    else onViewAll();
+  };
+
   if (count === 0) return null;
 
-  const activeItem = pieces[activeIndex] ?? pieces[0];
+  const activePiece = pieces[activeIndex] ?? pieces[0];
+  const activeProduct = linkedProduct(activePiece);
 
   return (
     <section
@@ -132,7 +138,7 @@ export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({ items, onSel
           {/* Names column */}
           <div
             ref={listViewportRef}
-            className="relative flex-1 min-h-0 md:w-[60%] md:flex-none overflow-hidden"
+            className="relative flex-1 min-h-0 md:w-[55%] md:flex-none overflow-hidden"
             style={{
               maskImage: 'linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%)',
               WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%)',
@@ -142,22 +148,22 @@ export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({ items, onSel
               className="absolute inset-x-0 top-0 px-4 sm:px-8 lg:px-12 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none"
               style={{ transform: `translate3d(0, ${listOffset}px, 0)` }}
             >
-              {pieces.map((item, index) => {
+              {pieces.map((piece, index) => {
                 const isActive = index === activeIndex;
                 return (
-                  <li key={item.id}>
+                  <li key={piece.id}>
                     <button
                       ref={(el) => {
                         nameRefs.current[index] = el;
                       }}
                       type="button"
-                      onClick={() => (isActive ? onSelectItem(item) : scrollToIndex(index))}
+                      onClick={() => (isActive ? openPiece(piece) : scrollToIndex(index))}
                       aria-current={isActive ? 'true' : undefined}
-                      className={`block w-full text-left font-grotesk font-medium tracking-[-0.035em] leading-[1.02] whitespace-nowrap truncate cursor-pointer transition-colors duration-500 text-[clamp(2.5rem,9vw,4rem)] md:text-[clamp(3rem,6.6vw,7.5rem)] ${
+                      className={`block w-full text-left font-grotesk font-medium tracking-[-0.035em] leading-[1.02] whitespace-nowrap truncate cursor-pointer transition-colors duration-500 text-[clamp(3rem,13vw,5rem)] md:text-[clamp(4rem,9vw,9.5rem)] ${
                         isActive ? 'text-black' : 'text-[#dcdcdc] hover:text-[#a8a8a8]'
                       }`}
                     >
-                      {shortName(item)}
+                      {piece.name}
                     </button>
                   </li>
                 );
@@ -165,43 +171,46 @@ export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({ items, onSel
             </ol>
           </div>
 
-          {/* Piece column */}
-          <div className="relative shrink-0 h-[38%] md:h-auto md:flex-1 flex items-center justify-center px-4 sm:px-8">
+          {/* Piece column: transparent cutouts directly on white */}
+          <div className="relative shrink-0 h-[42%] md:h-auto md:flex-1 flex flex-col items-center justify-center px-4 sm:px-8">
             <button
               type="button"
-              onClick={() => onSelectItem(activeItem)}
-              className="group relative block w-[min(58vw,15rem)] md:w-[min(26vw,26rem)] aspect-square cursor-pointer bg-stone-100"
-              aria-label={`مشاهده ${activeItem.nameFa}`}
+              onClick={() => openPiece(activePiece)}
+              className="relative block w-[min(70vw,18rem)] md:w-[min(34vw,32rem)] aspect-square cursor-pointer"
+              aria-label={activeProduct ? `مشاهده ${activeProduct.nameFa}` : `مشاهده ${activePiece.altFa}`}
             >
-              {!photoFor(activeItem) && (
-                <span className="absolute inset-0 flex items-center justify-center text-stone-400">
-                  <Gem className="w-10 h-10 stroke-[1.1]" />
+              {brokenIds[activePiece.id] && (
+                <span className="absolute inset-0 flex items-center justify-center text-stone-300">
+                  <Gem className="w-12 h-12 stroke-[1]" />
                 </span>
               )}
-              {pieces.map((item, index) => !photoFor(item) ? null : (
-                <img
-                  key={`${item.id}:${photoFor(item)}`}
-                  src={photoFor(item)}
-                  alt={index === activeIndex ? item.nameFa : ''}
-                  aria-hidden={index !== activeIndex}
-                  loading={index < 2 ? 'eager' : 'lazy'}
-                  onError={() => setFailedCounts((prev) => ({ ...prev, [item.id]: (prev[item.id] ?? 0) + 1 }))}
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 motion-reduce:transition-none ${
-                    index === activeIndex ? 'opacity-100' : 'opacity-0'
-                  }`}
-                />
-              ))}
+              {pieces.map((piece, index) =>
+                brokenIds[piece.id] ? null : (
+                  <img
+                    key={piece.id}
+                    src={piece.image}
+                    alt={index === activeIndex ? piece.altFa : ''}
+                    aria-hidden={index !== activeIndex}
+                    loading={index < 2 ? 'eager' : 'lazy'}
+                    onError={() => setBrokenIds((prev) => ({ ...prev, [piece.id]: true }))}
+                    className={`absolute inset-0 w-full h-full object-contain drop-shadow-[0_24px_28px_rgba(0,0,0,0.12)] transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                      index === activeIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                    }`}
+                  />
+                )
+              )}
             </button>
 
             {/* Caption under the piece (desktop) */}
-            <div
-              dir="rtl"
-              className="hidden md:block absolute bottom-10 lg:bottom-14 left-1/2 -translate-x-1/2 w-[min(26vw,26rem)] text-right font-peyda"
-            >
-              <p className="text-sm font-bold text-black line-clamp-1">{activeItem.nameFa}</p>
-              <p dir="ltr" className="font-grotesk text-[11px] uppercase tracking-[0.12em] text-black/55 mt-1 truncate text-left">
-                {activeItem.nameEn}
-              </p>
+            <div dir="rtl" className="hidden md:block mt-6 text-center font-peyda">
+              <p className="text-sm font-bold text-black">{activeProduct?.nameFa ?? activePiece.altFa}</p>
+              <button
+                type="button"
+                onClick={() => openPiece(activePiece)}
+                className="mt-2 text-xs text-black/60 hover:text-black border-b border-black/20 hover:border-black pb-0.5 transition-colors cursor-pointer"
+              >
+                {activeProduct ? 'مشاهده اثر' : 'مشاهده آثار مشابه'}
+              </button>
             </div>
           </div>
         </div>
