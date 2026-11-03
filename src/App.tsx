@@ -11,7 +11,6 @@ import { JewelryNameIndex } from './components/JewelryNameIndex';
 import { JewelryCategoryPage } from './components/JewelryCategoryPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
 import { AboutBrand } from './components/AboutBrand';
-import { BespokeAtelier } from './components/BespokeAtelier';
 import { Footer } from './components/Footer';
 import { ProductModal } from './components/ProductModal';
 import { VipBookingModal } from './components/VipBookingModal';
@@ -305,8 +304,6 @@ export default function App() {
                 <JewelryCraftsmanship />
                 <JewelryCustomizer onOpenVipBooking={() => setIsVipModalOpen(true)} />
 
-                {/* 3.5 Bespoke custom-order service */}
-                <BespokeAtelier onOpenVipBooking={() => setIsVipModalOpen(true)} />
 
                 {/* 4. Contact Us, Google Maps Location & Exclusive Salon */}
                 <AboutBrand onOpenVipBooking={() => setIsVipModalOpen(true)} />

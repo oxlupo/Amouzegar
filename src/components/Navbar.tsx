@@ -428,7 +428,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 
                 {/* 3. سفارش اختصاصی */}
                 <button
-                  onClick={() => handleSectionClick('bespoke-atelier')}
+                  onClick={() => handleSectionClick('jewelry-customizer')}
                   className="hover:text-white transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform cursor-pointer font-peyda"
                   title="توضیح روند طراحی و ساخت جواهر مطابق سلیقهٔ مشتری"
                 >
@@ -784,7 +784,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* 3. سفارش اختصاصی (توضیح روند طراحی و ساخت جواهر مطابق سلیقهٔ مشتری) */}
               <button
-                onClick={() => handleSectionClick('bespoke-atelier')}
+                onClick={() => handleSectionClick('jewelry-customizer')}
                 className="group relative w-full flex items-center justify-between px-6 py-4.5 text-right transition-colors overflow-hidden cursor-pointer"
               >
                 <span className="absolute inset-0 bg-stone-100 translate-x-full group-hover:translate-x-0 group-active:translate-x-0 transition-transform duration-300 ease-out origin-right pointer-events-none" />

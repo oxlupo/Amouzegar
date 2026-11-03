@@ -318,33 +318,6 @@ export const NAME_INDEX_PIECES: NameIndexPiece[] = [
   },
 ];
 
-export const BESPOKE_STEPS = [
-  {
-    step: '۰۱',
-    titleFa: 'گفت‌وگو و ایده',
-    titleEn: 'Conversation',
-    descFa: 'در گالری احمدآباد یا تلفنی، از سلیقه، مناسبت و بودجهٔ شما می‌شنویم و نخستین طرح‌ها را با هم مرور می‌کنیم.',
-  },
-  {
-    step: '۰۲',
-    titleFa: 'انتخاب گوهر و فلز',
-    titleEn: 'Stone & Metal',
-    descFa: 'سنگ‌ها را از نزدیک می‌بینید و مقایسه می‌کنید؛ طلای ۱۸ عیار یا پلاتین، با شناسنامهٔ معتبر برای سنگ‌های اصلی.',
-  },
-  {
-    step: '۰۳',
-    titleFa: 'طراحی و نمونه',
-    titleEn: 'Design & Prototype',
-    descFa: 'طرح نهایی به‌صورت سه‌بعدی آماده می‌شود و پیش از ساخت، نمونهٔ آن را برای تأیید ابعاد و تناسب می‌بینید.',
-  },
-  {
-    step: '۰۴',
-    titleFa: 'ساخت و تحویل',
-    titleEn: 'Craft & Delivery',
-    descFa: 'استادکاران آتلیه اثر را با دست می‌سازند و پرداخت می‌کنند؛ جواهر شما همراه با شناسنامه و ضمانت اصالت تحویل داده می‌شود.',
-  },
-];
-
 export const SALON_BRANCHES = [
   {
     id: 'mashhad-ahmadabad',

@@ -61,24 +61,21 @@ export const AboutBrand: React.FC<AboutBrandProps> = ({ onOpenVipBooking }) => {
   return (
     <section 
       id="contact-salon" 
-      className="py-16 sm:py-24 bg-[#000000] relative overflow-hidden border-t border-stone-900 font-peyda" 
+      className="bg-[#000000] relative overflow-hidden border-t border-stone-900 font-peyda" 
       dir="rtl"
     >
-      {/* Anchor targets so any navbar links to about-maison or bespoke-atelier scroll cleanly here */}
+      {/* Anchor target so navbar links to about-maison scroll cleanly here */}
       <div id="about-maison" className="absolute -top-24" />
-      <div id="bespoke-atelier" className="absolute -top-24" />
 
       {/* Subtle ambient luxury backdrop glows */}
       <div className="absolute top-1/4 right-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Two-Column Layout: Text on Right, Interactive Carousel on Left */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      {/* Square, sharp-cornered gallery flush against the left edge; the section is exactly as tall as the square. */}
+      <div className="relative z-10 flex flex-col lg:flex-row">
 
           {/* Right Column (Text about Boutique Environment & Ambiance) */}
-          <div className="lg:col-span-5 text-right space-y-6">
+          <div className="order-2 lg:order-1 flex-1 self-center text-right space-y-6 px-6 sm:px-10 lg:px-16 xl:px-24 py-12 lg:py-10">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white leading-tight">
               آرامش، اصالت و تجربه‌ای متمایز در فضای اختصاصی سالن
             </h2>
@@ -92,12 +89,12 @@ export const AboutBrand: React.FC<AboutBrandProps> = ({ onOpenVipBooking }) => {
             </p>
           </div>
 
-          {/* Left Column (Flippable Images Carousel on the Left) */}
-          <div className="lg:col-span-7 flex flex-col">
+          {/* Left Column (Flippable Images Carousel, flush to the page's left edge) */}
+          <div className="order-1 lg:order-2 w-full lg:w-[min(50vw,calc(100svh-69px))] lg:shrink-0">
             
-            {/* The Main Flipping Carousel Frame */}
+            {/* The Main Flipping Carousel Frame: square with sharp corners */}
             <div 
-              className="relative w-full h-[420px] sm:h-[480px] lg:h-[520px] rounded-3xl overflow-hidden border border-stone-800 bg-stone-950 shadow-2xl group select-none"
+              className="relative w-full aspect-square overflow-hidden bg-stone-950 group select-none"
               onMouseEnter={() => setIsAutoPlaying(false)}
               onMouseLeave={() => setIsAutoPlaying(true)}
             >
@@ -183,8 +180,6 @@ export const AboutBrand: React.FC<AboutBrandProps> = ({ onOpenVipBooking }) => {
             </div>
 
           </div>
-
-        </div>
 
       </div>
 
