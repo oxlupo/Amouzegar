@@ -399,7 +399,8 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
     { ...stop1, plateauP: SCROLL_SCRUB_CONFIG.breakpoints.plateau1.snapP },
     { ...stop2, plateauP: SCROLL_SCRUB_CONFIG.breakpoints.plateau2.snapP },
   ];
-  const activePieceIndex = currentStatus.isPlateau1 ? 0 : currentStatus.isPlateau2 ? 1 : null;
+  // The panel follows the video sequence: first piece until the second movement starts, then the second.
+  const featuredIndex = scrollProgress < SCROLL_SCRUB_CONFIG.breakpoints.move2.minP ? 0 : 1;
 
   // =========================================================================
   // REDUCED MOTION FALLBACK (Single view, no pinning)
@@ -454,10 +455,10 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
           Desktop (lg+): video on the left, featured pieces with specs in the space on the right. */}
       <div
         dir="ltr"
-        className="sticky top-0 w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-black lg:flex-row lg:items-stretch lg:justify-start lg:gap-12 xl:gap-20 lg:px-12 xl:px-20"
+        className="sticky top-0 w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-black lg:flex-row lg:items-stretch lg:justify-start lg:gap-12 xl:gap-20 lg:pr-12 xl:pr-20"
       >
         {/* Mobile-first 9:16 Video / Canvas Frame Stage */}
-        <div className="relative w-full max-w-[480px] h-full max-h-[960px] mx-auto lg:mx-0 lg:shrink-0 lg:w-[min(480px,38vw)] overflow-hidden bg-black flex items-center justify-center shadow-2xl">
+        <div className="relative w-full max-w-[480px] h-full max-h-[960px] mx-auto lg:mx-0 lg:shrink-0 lg:w-[min(520px,38vw)] lg:max-h-none overflow-hidden bg-black flex items-center justify-center shadow-2xl">
           {/* Mode 1: Canvas Drawing (Fallback for iOS Safari or video jitter) */}
           <canvas
             ref={canvasRef}
@@ -753,78 +754,89 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
           </footer>
         </div>
 
-        {/* Desktop featured-pieces panel (right side) */}
+        {/* Desktop panel (right side): the piece of the current sequence, then the rest in order */}
         <aside
           dir="rtl"
           aria-label="آثار این ویدئو"
           className="hidden lg:flex flex-1 min-w-0 flex-col justify-center pt-[84px] pb-6 font-peyda"
         >
-          <span className="font-cinzel text-[11px] tracking-[0.3em] uppercase text-stone-500 [@media(max-height:760px)]:hidden">
-            Featured in the film
+          <span className="font-grotesk text-[11px] tracking-[0.14em] uppercase text-stone-500 tabular-nums">
+            {String(featuredIndex + 1).padStart(2, '0')} / {String(featuredPieces.length).padStart(2, '0')}
           </span>
-          <h2 className="mt-2 text-xl xl:text-2xl font-bold text-white">آثار این ویدئو</h2>
 
-          <div className="mt-[3vh] grid grid-cols-2 gap-6 xl:gap-10">
-            {featuredPieces.map((piece, index) => {
-              const item = getItem(piece.itemId);
-              const isActive = activePieceIndex === index;
-              const isDimmed = activePieceIndex !== null && !isActive;
-              const specs: { label: string; value: string }[] = [
-                { label: 'فلز', value: piece.materialsFa },
-                { label: 'سنگ', value: piece.stonesFa },
-              ];
-              if (item?.caratTotal) specs.push({ label: 'وزن کل سنگ‌ها', value: `${toPersianDigits(item.caratTotal)} قیراط` });
-              if (item?.certificateIssuer) specs.push({ label: 'شناسنامه', value: item.certificateIssuer });
-              return (
-                <article
-                  key={piece.id}
-                  className={`flex flex-col transition-opacity duration-500 ${isDimmed ? 'opacity-40 hover:opacity-80' : 'opacity-100'}`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => scrollToPlateau(piece.plateauP)}
-                    className="group relative w-[min(100%,30vh)] aspect-square overflow-hidden bg-stone-950 border border-stone-800 hover:border-stone-500 transition-colors cursor-pointer"
-                    aria-label={`نمایش ${piece.titleFa} در ویدئو`}
-                  >
-                    <img
-                      src={piece.image}
-                      alt={piece.titleFa}
-                      loading="lazy"
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                    />
-                    <span className="absolute top-3 right-3 font-grotesk text-[10px] tracking-[0.14em] text-white/80">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  </button>
-
-                  <h3 className="mt-[2vh] text-sm xl:text-base font-bold text-white leading-snug">{piece.titleFa}</h3>
-                  <span dir="ltr" className="block text-left font-cormorant italic text-xs xl:text-sm text-stone-400 mt-0.5 truncate">
+          {(() => {
+            const piece = featuredPieces[featuredIndex];
+            const item = getItem(piece.itemId);
+            const specs: { label: string; value: string }[] = [
+              { label: 'فلز', value: piece.materialsFa },
+              { label: 'سنگ', value: piece.stonesFa },
+            ];
+            if (item?.caratTotal) specs.push({ label: 'وزن کل سنگ‌ها', value: `${toPersianDigits(item.caratTotal)} قیراط` });
+            if (item?.certificateIssuer) specs.push({ label: 'شناسنامه', value: item.certificateIssuer });
+            return (
+              <article key={piece.id} className="animate-fade-up mt-[2vh] flex gap-8 items-start">
+                <div className="relative shrink-0 w-[min(34vh,22vw)] aspect-square overflow-hidden bg-stone-950 border border-stone-800">
+                  <img src={piece.image} alt={piece.titleFa} className="absolute inset-0 w-full h-full object-cover" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <span className="text-[11px] text-stone-500">{piece.collectionFa}</span>
+                  <h3 className="mt-1 text-lg xl:text-2xl font-bold text-white leading-snug">{piece.titleFa}</h3>
+                  <span dir="ltr" className="block text-left font-cormorant italic text-sm text-stone-400 mt-1 truncate">
                     {piece.titleEn}
                   </span>
-
-                  <dl className="mt-[1.5vh] border-t border-stone-800 text-[11px] xl:text-xs">
+                  <dl className="mt-[2vh] border-t border-stone-800 text-xs">
                     {specs.map((spec) => (
                       <div key={spec.label} className="flex gap-3 py-[0.9vh] border-b border-stone-900">
-                        <dt className="shrink-0 w-20 text-stone-500">{spec.label}</dt>
+                        <dt className="shrink-0 w-24 text-stone-500">{spec.label}</dt>
                         <dd className="text-stone-200 leading-relaxed line-clamp-2">{spec.value}</dd>
                       </div>
                     ))}
                   </dl>
-
                   {item && onSelectItem && (
                     <button
                       type="button"
                       onClick={() => onSelectItem(item)}
-                      className="mt-[2vh] self-start inline-flex items-center gap-1.5 text-xs font-semibold text-white border-b border-stone-600 hover:border-white pb-0.5 transition-colors cursor-pointer"
+                      className="mt-[2vh] inline-flex items-center gap-1.5 text-xs font-semibold text-white border-b border-stone-600 hover:border-white pb-0.5 transition-colors cursor-pointer"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       <span>مشاهده مشخصات کامل</span>
                     </button>
                   )}
-                </article>
-              );
-            })}
-          </div>
+                </div>
+              </article>
+            );
+          })()}
+
+          {/* The remaining pieces, in sequence order */}
+          {featuredPieces.length > 1 && (
+            <div className="mt-[4vh]">
+              <span className="text-[11px] text-stone-500">آثار دیگر این ویدئو</span>
+              <ol className="mt-2 border-t border-stone-800">
+                {featuredPieces.map((piece, index) =>
+                  index === featuredIndex ? null : (
+                    <li key={piece.id} className="border-b border-stone-900">
+                      <button
+                        type="button"
+                        onClick={() => scrollToPlateau(piece.plateauP)}
+                        className="group w-full flex items-center gap-4 py-[1.2vh] text-right cursor-pointer"
+                      >
+                        <span className="font-grotesk text-[11px] text-stone-600 tabular-nums w-6">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="relative shrink-0 w-[7vh] aspect-square overflow-hidden bg-stone-950 border border-stone-800">
+                          <img src={piece.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-stone-300 group-hover:text-white transition-colors truncate">{piece.titleFa}</span>
+                          <span className="block text-[11px] text-stone-500 truncate mt-0.5">{piece.materialsFa}</span>
+                        </span>
+                      </button>
+                    </li>
+                  )
+                )}
+              </ol>
+            </div>
+          )}
         </aside>
       </div>
     </section>
