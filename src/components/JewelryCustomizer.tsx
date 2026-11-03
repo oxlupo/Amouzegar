@@ -14,6 +14,11 @@ const CUSTOMIZER_CONFIG = {
   /** Share of the whole scroll each stop holds still. */
   holdShare: 0.11,
   lerp: 0.22,
+  /** Film speed while moving to the next stone (1 = real time). Lower is slower and easier to follow. */
+  stepPlaybackRate: 0.8,
+  /** Shortest and longest time one step may take, in seconds. */
+  minStepSeconds: 1.2,
+  maxStepSeconds: 3.2,
   /** Moments a stone is seated in the ring (seconds into the film). */
   stops: [
     { time: 0.3, title: 'جواهرتان را تصور کنید.', text: 'یک فرم، یک نگین، یک حس؛ جواهری که در ذهن شماست، می‌تواند فقط از آنِ شما باشد.' },
@@ -70,6 +75,10 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
   const snapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [sceneIndex, setSceneIndex] = useState(0);
+  /** A step in progress: the film moves from one stone to the next at a readable pace. */
+  const stepRef = useRef<{ start: number; from: number; to: number; duration: number; index: number; native: boolean } | null>(null);
+  /** Input is ignored until this time (ms), so one gesture moves exactly one stone. */
+  const lockedUntilRef = useRef(0);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   const segmentAt = useCallback(
@@ -95,13 +104,53 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
-  const scrollToProgress = useCallback((p: number) => {
-    const section = sectionRef.current;
-    if (!section) return;
-    const scrollable = section.offsetHeight - window.innerHeight;
-    const top = section.getBoundingClientRect().top + window.scrollY + p * scrollable;
-    window.scrollTo({ top, behavior: 'smooth' });
-  }, []);
+  const holdCentreOf = useCallback(
+    (index: number) => {
+      const h = timeline.filter((seg) => seg.hold)[index];
+      return h ? (h.from + h.to) / 2 : 0;
+    },
+    [timeline]
+  );
+
+  /**
+   * Moves to a stone as a timed step instead of a fast smooth-scroll. The pinned section's scroll
+   * position jumps at once (nothing on screen moves with it); the film then travels to the stone.
+   * Forward steps play the film natively, which is smoother than seeking every frame.
+   */
+  const goToStop = useCallback(
+    (index: number) => {
+      const section = sectionRef.current;
+      const video = videoRef.current;
+      if (!section) return;
+      const { stepPlaybackRate, minStepSeconds, maxStepSeconds } = CUSTOMIZER_CONFIG;
+      const from = video && video.readyState >= 1 ? video.currentTime : timeAt(currentP.current);
+      const to = stops[index].time;
+      const duration = Math.min(maxStepSeconds, Math.max(minStepSeconds, Math.abs(to - from) / stepPlaybackRate));
+      const p = holdCentreOf(index);
+      const scrollable = section.offsetHeight - window.innerHeight;
+      targetP.current = p;
+      currentP.current = p;
+      window.scrollTo({ top: section.getBoundingClientRect().top + window.scrollY + p * scrollable, behavior: 'instant' as ScrollBehavior });
+      lockedUntilRef.current = performance.now() + duration * 1000 + 250;
+      if (Math.abs(to - from) < 0.02) {
+        stepRef.current = null;
+        setSceneIndex(index);
+        return;
+      }
+      let native = false;
+      if (video && to > from) {
+        video.playbackRate = Math.max(0.25, (to - from) / duration);
+        native = true;
+        video.play().catch(() => {
+          if (stepRef.current) stepRef.current.native = false;
+        });
+      } else {
+        video?.pause();
+      }
+      stepRef.current = { start: performance.now(), from, to, duration, index, native };
+    },
+    [stops, timeAt, holdCentreOf]
+  );
 
   // Touch and keyboard scrolling also settle on a seated stone.
   const softSnap = useCallback(
@@ -109,20 +158,18 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
       if (p <= 0 || p >= 1) return;
       const holds = timeline.filter((seg) => seg.hold);
       if (holds.some((seg) => p >= seg.from && p <= seg.to)) return;
-      const nearest = holds.reduce((best, seg) =>
-        Math.abs(p - (seg.from + seg.to) / 2) < Math.abs(p - (best.from + best.to) / 2) ? seg : best
-      );
-      const centre = (nearest.from + nearest.to) / 2;
-      scrollToProgress(centre);
+      if (stepRef.current) return;
+      const nearest = holds.reduce((best, seg, i) =>
+        Math.abs(p - (seg.from + seg.to) / 2) < Math.abs(p - (holds[best].from + holds[best].to) / 2) ? i : best, 0);
+      goToStop(nearest);
     },
-    [timeline, scrollToProgress]
+    [timeline, goToStop]
   );
 
   // Treat one wheel/trackpad gesture as one stone, including its momentum tail.
   useEffect(() => {
     if (reducedMotion) return;
     let lastWheel = 0;
-    let lockedUntil = 0;
     let accumulated = 0;
     const onWheel = (event: WheelEvent) => {
       if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
@@ -138,6 +185,7 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
       const index = holds.reduce((best, seg, i) =>
         Math.abs(p - (seg.from + seg.to) / 2) < Math.abs(p - (holds[best].from + holds[best].to) / 2) ? i : best, 0);
       const direction = Math.sign(event.deltaY);
+      const lockedUntil = lockedUntilRef.current;
       const locked = now < lockedUntil || (lockedUntil > 0 && gap < 220);
       if (!locked && ((index === 0 && direction < 0) || (index === holds.length - 1 && direction > 0))) return;
       event.preventDefault();
@@ -145,10 +193,8 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
       if (gap > 220) accumulated = 0;
       accumulated += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1);
       if (Math.abs(accumulated) < 24) return;
-      const next = holds[Math.max(0, Math.min(holds.length - 1, index + direction))];
       accumulated = 0;
-      lockedUntil = now + 750;
-      scrollToProgress((next.from + next.to) / 2);
+      goToStop(Math.max(0, Math.min(holds.length - 1, index + direction)));
     };
     window.addEventListener('wheel', onWheel, { passive: false });
     let touchX = 0;
@@ -191,7 +237,7 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
       window.removeEventListener('touchmove', onTouchMove);
       window.removeEventListener('touchend', onTouchEnd);
     };
-  }, [reducedMotion, timeline, scrollToProgress]);
+  }, [reducedMotion, timeline, goToStop]);
 
   // Scroll -> target progress.
   useEffect(() => {
@@ -222,9 +268,31 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
     let frame = 0;
     let lastTime = -1;
     const tick = () => {
+      const video = videoRef.current;
+      const step = stepRef.current;
+      if (step) {
+        const elapsed = (performance.now() - step.start) / 1000;
+        const done = step.native && video
+          ? video.currentTime >= step.to - 0.03 || elapsed > step.duration + 0.6
+          : elapsed >= step.duration;
+        if (done) {
+          if (video) {
+            video.pause();
+            try { video.currentTime = step.to; } catch { /* metadata not ready */ }
+          }
+          lastTime = step.to;
+          stepRef.current = null;
+          setSceneIndex(step.index);
+        } else if (!step.native && video && video.readyState >= 1) {
+          const t = step.from + easeInOutCubic(Math.min(elapsed / step.duration, 1)) * (step.to - step.from);
+          try { video.currentTime = t; } catch { /* ignore */ }
+          lastTime = t;
+        }
+        frame = requestAnimationFrame(tick);
+        return;
+      }
       const diff = targetP.current - currentP.current;
       currentP.current = Math.abs(diff) > 0.0004 ? currentP.current + diff * CUSTOMIZER_CONFIG.lerp : targetP.current;
-      const video = videoRef.current;
       const t = timeAt(currentP.current);
       if (video && video.readyState >= 1 && Math.abs(t - lastTime) > 0.01) {
         try {
@@ -242,18 +310,12 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
     return () => cancelAnimationFrame(frame);
   }, [reducedMotion, timeAt, segmentAt]);
 
-  const holdCentre = (index: number) => {
-    const holds = timeline.filter((s) => s.hold);
-    const h = holds[index];
-    return h ? (h.from + h.to) / 2 : 0;
-  };
-
   const copy = (
     <div dir="rtl" className="font-peyda text-white max-w-lg">
       <span className="text-[11px] tracking-wide text-stone-400">از تصور شما تا خلق یک جواهر</span>
       <div aria-live="polite" aria-atomic="true" className="min-h-[160px] lg:min-h-[240px]">
         {(reducedMotion ? stops : [stops[sceneIndex]]).map((stop) => (
-          <div key={stop.title}>
+          <div key={stop.title} className={reducedMotion ? undefined : 'animate-fade-up'}>
             <h2 className="mt-3 text-3xl xl:text-5xl font-bold leading-tight">{stop.title}</h2>
             <p className="mt-5 text-sm xl:text-base text-stone-300 leading-loose">{stop.text}</p>
           </div>
@@ -267,7 +329,7 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
             <li key={stop.title}>
               <button
                 type="button"
-                onClick={() => (reducedMotion ? undefined : scrollToProgress(holdCentre(index)))}
+                onClick={() => (reducedMotion ? undefined : goToStop(index))}
                 aria-current={isActive ? 'true' : undefined}
                 className={`w-full border-t-2 pt-3 text-right transition-colors duration-500 cursor-pointer ${
                   isActive ? 'border-[#c9a56a] text-white' : 'border-stone-700 text-stone-500 hover:text-stone-300'
