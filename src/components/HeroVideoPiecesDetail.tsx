@@ -80,6 +80,9 @@ export const SCROLL_SCRUB_CONFIG = {
   },
 };
 
+const toPersianDigits = (value: number | string) =>
+  String(value).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)]);
+
 /**
  * Standard cubic ease-in-out easing
  */
@@ -391,6 +394,13 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
   const stop1 = SCROLL_SCRUB_CONFIG.stop1;
   const stop2 = SCROLL_SCRUB_CONFIG.stop2;
 
+  // Desktop side panel: both featured pieces; the one on screen is highlighted.
+  const featuredPieces = [
+    { ...stop1, plateauP: SCROLL_SCRUB_CONFIG.breakpoints.plateau1.snapP },
+    { ...stop2, plateauP: SCROLL_SCRUB_CONFIG.breakpoints.plateau2.snapP },
+  ];
+  const activePieceIndex = currentStatus.isPlateau1 ? 0 : currentStatus.isPlateau2 ? 1 : null;
+
   // =========================================================================
   // REDUCED MOTION FALLBACK (Single view, no pinning)
   // =========================================================================
@@ -440,10 +450,14 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
       style={{ height: `${SCROLL_SCRUB_CONFIG.viewportHeightMultiplier * 100}vh` }}
       className="relative w-full bg-black text-stone-100 select-none border-b border-stone-900"
     >
-      {/* Sticky Viewport Container (Pins to screen while p scrubs 0 -> 1) */}
-      <div className="sticky top-0 w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-black">
+      {/* Sticky Viewport Container (Pins to screen while p scrubs 0 -> 1).
+          Desktop (lg+): video on the left, featured pieces with specs in the space on the right. */}
+      <div
+        dir="ltr"
+        className="sticky top-0 w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-black lg:flex-row lg:items-stretch lg:justify-start lg:gap-12 xl:gap-20 lg:px-12 xl:px-20"
+      >
         {/* Mobile-first 9:16 Video / Canvas Frame Stage */}
-        <div className="relative w-full max-w-[480px] h-full max-h-[960px] mx-auto overflow-hidden bg-black flex items-center justify-center shadow-2xl">
+        <div className="relative w-full max-w-[480px] h-full max-h-[960px] mx-auto lg:mx-0 lg:shrink-0 lg:w-[min(480px,38vw)] overflow-hidden bg-black flex items-center justify-center shadow-2xl">
           {/* Mode 1: Canvas Drawing (Fallback for iOS Safari or video jitter) */}
           <canvas
             ref={canvasRef}
@@ -591,7 +605,7 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
                 <div
                   id="card-stop1-earring"
                   style={{ left: '50%', top: '52%' }}
-                  className="absolute -translate-x-1/2 w-[85%] max-w-[270px] sm:max-w-[290px] z-30 pointer-events-auto bg-stone-950/95 backdrop-blur-xl border border-white/30 shadow-2xl rounded-2xl p-3 text-right transition-all duration-300 box-border"
+                  className="lg:hidden absolute -translate-x-1/2 w-[85%] max-w-[270px] sm:max-w-[290px] z-30 pointer-events-auto bg-stone-950/95 backdrop-blur-xl border border-white/30 shadow-2xl rounded-2xl p-3 text-right transition-all duration-300 box-border"
                 >
                   {/* Triangular pointer pointing UP to (50%, 48%) */}
                   <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3.5 h-3.5 rotate-45 bg-stone-950 border-t border-l border-white/30" />
@@ -674,7 +688,7 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
                 <div
                   id="card-stop2-rings"
                   style={{ left: '50%', bottom: '52%' }}
-                  className="absolute -translate-x-1/2 w-[85%] max-w-[270px] sm:max-w-[290px] z-30 pointer-events-auto bg-stone-950/95 backdrop-blur-xl border border-white/30 shadow-2xl rounded-2xl p-3 text-right transition-all duration-300 box-border"
+                  className="lg:hidden absolute -translate-x-1/2 w-[85%] max-w-[270px] sm:max-w-[290px] z-30 pointer-events-auto bg-stone-950/95 backdrop-blur-xl border border-white/30 shadow-2xl rounded-2xl p-3 text-right transition-all duration-300 box-border"
                 >
                   {/* Triangular pointer pointing DOWN to (50%, 52%) */}
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3.5 h-3.5 rotate-45 bg-stone-950 border-b border-r border-white/30" />
@@ -738,6 +752,80 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
             )}
           </footer>
         </div>
+
+        {/* Desktop featured-pieces panel (right side) */}
+        <aside
+          dir="rtl"
+          aria-label="آثار این ویدئو"
+          className="hidden lg:flex flex-1 min-w-0 flex-col justify-center pt-[84px] pb-6 font-peyda"
+        >
+          <span className="font-cinzel text-[11px] tracking-[0.3em] uppercase text-stone-500 [@media(max-height:760px)]:hidden">
+            Featured in the film
+          </span>
+          <h2 className="mt-2 text-xl xl:text-2xl font-bold text-white">آثار این ویدئو</h2>
+
+          <div className="mt-[3vh] grid grid-cols-2 gap-6 xl:gap-10">
+            {featuredPieces.map((piece, index) => {
+              const item = getItem(piece.itemId);
+              const isActive = activePieceIndex === index;
+              const isDimmed = activePieceIndex !== null && !isActive;
+              const specs: { label: string; value: string }[] = [
+                { label: 'فلز', value: piece.materialsFa },
+                { label: 'سنگ', value: piece.stonesFa },
+              ];
+              if (item?.caratTotal) specs.push({ label: 'وزن کل سنگ‌ها', value: `${toPersianDigits(item.caratTotal)} قیراط` });
+              if (item?.certificateIssuer) specs.push({ label: 'شناسنامه', value: item.certificateIssuer });
+              return (
+                <article
+                  key={piece.id}
+                  className={`flex flex-col transition-opacity duration-500 ${isDimmed ? 'opacity-40 hover:opacity-80' : 'opacity-100'}`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => scrollToPlateau(piece.plateauP)}
+                    className="group relative w-[min(100%,30vh)] aspect-square overflow-hidden bg-stone-950 border border-stone-800 hover:border-stone-500 transition-colors cursor-pointer"
+                    aria-label={`نمایش ${piece.titleFa} در ویدئو`}
+                  >
+                    <img
+                      src={piece.image}
+                      alt={piece.titleFa}
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                    />
+                    <span className="absolute top-3 right-3 font-grotesk text-[10px] tracking-[0.14em] text-white/80">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  </button>
+
+                  <h3 className="mt-[2vh] text-sm xl:text-base font-bold text-white leading-snug">{piece.titleFa}</h3>
+                  <span dir="ltr" className="block text-left font-cormorant italic text-xs xl:text-sm text-stone-400 mt-0.5 truncate">
+                    {piece.titleEn}
+                  </span>
+
+                  <dl className="mt-[1.5vh] border-t border-stone-800 text-[11px] xl:text-xs">
+                    {specs.map((spec) => (
+                      <div key={spec.label} className="flex gap-3 py-[0.9vh] border-b border-stone-900">
+                        <dt className="shrink-0 w-20 text-stone-500">{spec.label}</dt>
+                        <dd className="text-stone-200 leading-relaxed line-clamp-2">{spec.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+
+                  {item && onSelectItem && (
+                    <button
+                      type="button"
+                      onClick={() => onSelectItem(item)}
+                      className="mt-[2vh] self-start inline-flex items-center gap-1.5 text-xs font-semibold text-white border-b border-stone-600 hover:border-white pb-0.5 transition-colors cursor-pointer"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>مشاهده مشخصات کامل</span>
+                    </button>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        </aside>
       </div>
     </section>
   );
