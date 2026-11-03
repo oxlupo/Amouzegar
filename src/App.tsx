@@ -6,6 +6,7 @@ import { HeroVideoPiecesDetail } from './components/HeroVideoPiecesDetail';
 import { CollectionSection } from './components/CollectionSection';
 import { JewelryCategoryEdit } from './components/JewelryCategoryEdit';
 import { JewelryCraftsmanship } from './components/JewelryCraftsmanship';
+import { JewelryCustomizer } from './components/JewelryCustomizer';
 import { JewelryNameIndex } from './components/JewelryNameIndex';
 import { JewelryCategoryPage } from './components/JewelryCategoryPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
@@ -302,6 +303,7 @@ export default function App() {
 
                 <JewelryCategoryEdit onNavigateToCategory={handleNavigateToCategory} />
                 <JewelryCraftsmanship />
+                <JewelryCustomizer onOpenVipBooking={() => setIsVipModalOpen(true)} />
 
                 {/* 3.5 Bespoke custom-order service */}
                 <BespokeAtelier onOpenVipBooking={() => setIsVipModalOpen(true)} />
