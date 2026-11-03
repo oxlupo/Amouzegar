@@ -22,6 +22,10 @@ const CUSTOMIZER_CONFIG = {
   ],
 };
 
+/** Elliptical fade around the wheel's hub, which sits just outside the film's right edge. */
+const CRESCENT_MASK =
+  'radial-gradient(ellipse 118% 60% at 100% 50%, #000 0%, #000 46%, rgba(0,0,0,0.6) 63%, transparent 84%)';
+
 const easeInOutCubic = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
 
 interface Segment {
@@ -317,7 +321,12 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
         {/* Film: right half on desktop */}
         <div className="relative flex-1 min-h-0 lg:flex-none lg:w-1/2 lg:h-full">
           {/* Keep the smaller frame flush with the top-right corner, without cropping the film. */}
-          <div className="absolute top-0 right-0 h-full lg:h-[78%] max-w-full aspect-[9/16]">
+          {/* Crescent fade: a radial mask centred on the wheel's hidden hub (right edge) dissolves the
+              film into the black section along the wheel's own arc instead of a straight edge. */}
+          <div
+            className="absolute top-0 right-0 h-full lg:h-[78%] max-w-full aspect-[9/16]"
+            style={{ maskImage: CRESCENT_MASK, WebkitMaskImage: CRESCENT_MASK }}
+          >
             <video
               ref={videoRef}
               src={CUSTOMIZER_CONFIG.videoSrc}
@@ -329,8 +338,6 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
               aria-label="نمایش مرحله‌به‌مرحلهٔ انتخاب الماس برای ساخت جواهر اختصاصی"
               className="absolute inset-0 w-full h-full object-contain object-top-right pointer-events-none"
             />
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-1/5 bg-gradient-to-r from-black to-transparent hidden lg:block" />
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
           </div>
         </div>
       </div>
