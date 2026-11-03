@@ -1,6 +1,6 @@
 # وضعیت جاری
 
-- انتشار این نوبت (2026-11-03): مالک پوش تمام تغییرات را درخواست کرد؛ مقصد origin/claude/sweet-edison-ym63cp. lint/build و diff-check موفق، گراف به‌روز. کد و رسانه‌های نهایی، مهارت Stageshow و سوابق در کامیت این نوبت قرار می‌گیرند؛ آرشیو images و .tools و node_modules طبق gitignore محلی‌اند.
+- انتشار این نوبت (2026-11-03): مالک پوش تمام تغییرات را درخواست کرد؛ مقصد origin/claude/sweet-edison-ym63cp. lint/build و diff-check موفق، گراف به‌روز. کد و رسانه‌های نهایی، مهارت Stageshow و سوابق در کامیت ac0be6e با موفقیت پوش شدند؛ آرشیو images و .tools و node_modules طبق gitignore محلی‌اند.
 
 - آخرین تنظیم عکس (2026-11-03): JewelryCraftsmanship اکنون زمینهٔ مشکی #000 دارد؛ contrast(1.08) نمای عکس را مشکی‌تر با هالهٔ بسیار ضعیف آبی نگه می‌دارد. منبع فعال inner-detail-original.jpg کپی دقیق JPG اصلی 2160×2700 با SHA256 یکسان است؛ بدون فشرده‌سازی یا کاهش ابعاد. lint/build، گراف و Chrome دسکتاپ/موبایل موفق.
 
