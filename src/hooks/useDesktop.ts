@@ -1,11 +1,12 @@
 import {useEffect, useState} from 'react';
 
-// Keep the requested presentation changes exclusive to Windows desktop browsers.
-export function useWindowsDesktop() {
-  const [enabled, setEnabled] = useState(false);
+/** True on desktop-width screens (1024px and up), on any operating system. */
+export function useDesktop() {
+  const [enabled, setEnabled] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches
+  );
 
   useEffect(() => {
-    if (!/Windows/i.test(navigator.userAgent)) return;
     const desktop = window.matchMedia('(min-width: 1024px)');
     const update = () => setEnabled(desktop.matches);
     update();

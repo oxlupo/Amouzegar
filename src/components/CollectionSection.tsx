@@ -3,7 +3,7 @@ import { Gem, ChevronLeft, X, Sparkles, Award } from 'lucide-react';
 import { JewelryItem } from '../types';
 import { JEWELRY_ITEMS } from '../data/jewelryData';
 import { toPersianDigits } from '../utils/formatters';
-import { useWindowsDesktop } from '../hooks/useWindowsDesktop';
+import { useDesktop } from '../hooks/useDesktop';
 
 interface CollectionSectionProps {
   items?: JewelryItem[];
@@ -20,7 +20,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
   onSelectItem,
   onNavigateToCategory,
 }) => {
-  const isWindowsDesktop = useWindowsDesktop();
+  const isDesktop = useDesktop();
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>('all');
 
@@ -53,13 +53,13 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
         {/* Self-contained SVG photo with a stable crop and no transform transition. */}
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <img
-            src={isWindowsDesktop ? "/assets/collections/collection-jewelry-desktop.svg" : "/assets/collections/collection-jewelry.svg"}
+            src={isDesktop ? "/assets/collections/collection-jewelry-desktop.svg" : "/assets/collections/collection-jewelry.svg"}
             alt=""
             width={2754}
-            height={isWindowsDesktop ? 1800 : 3900}
+            height={isDesktop ? 1800 : 3900}
             loading="eager"
             decoding="async"
-            className={isWindowsDesktop
+            className={isDesktop
               ? "absolute inset-x-0 bottom-0 mx-auto block w-[min(1000px,80%)] h-[65%] object-contain object-bottom"
               : "absolute inset-0 m-auto block w-[80%] h-[80%] object-cover object-center"}
           />
