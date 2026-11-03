@@ -1,5 +1,15 @@
 # وضعیت جاری
 
+- آخرین جایگزینی فیلم (2026-11-03): Scroll.mp4 اکنون در JewelryCustomizer با فایل public/customize/scroll-customizer.mp4 فعال است؛ سه توقف0.3/2.35/3.95 و سه متن روایت تصور/همراهی/ساخت. هر wheel یا سوایپ یک مرحله؛ CTA سفارش اختصاصی فقط آخر و متصل به فرم موجود. lint/build، گراف، Chrome دسکتاپ و لمسی موفق؛ localhost:3000؛ هنوز محلی و پوش‌نشده.
+
+- اصلاح جدید (2026-11-03): عنوان JewelryCategoryEdit وزن700؛ برچسب‌های روی ویدئوی JewelryCustomizer حذف؛ قاب کوچک قبلی با top/right صفر و بدون محوشدگی بالا/راست. lint/build، گراف و هندسهٔ Chrome دسکتاپ/موبایل تأیید؛ تغییرات هنوز محلی‌اند.
+
+- آخرین اصلاح فیلم (2026-11-03): JewelryCustomizer با قاب۷۸٪ و contain؛ شروع/پوستر روی نگین اول۲.۴ و پایان۸.۴، هر حرکت مستقل wheel یک نگین جلو/عقب با مهار اینرسی. lint/build، گراف و Chrome دسکتاپ/موبایل موفق؛ localhost:3000 فعال. هنوز کامیت/پوش نشده است.
+
+- اجرای محلی تأییدشده (2026-11-03): برنامهٔ Financial Mangement روی ۳۰۰۰ متوقف شد؛ آموزگار با PID35960 و strictPort روی http://localhost:3000 اجراست. صفحه و src/App.tsx با هویت آموزگار HTTP200؛ لاگ .tools/logs/amouzegar-3000.*.log. PID31332 ثبت‌شده در سوابق قبلی به‌علت اشغال پورت اجرا نشده بود.
+
+- آخرین pull (2026-11-03): شاخهٔ claude/sweet-edison-ym63cp روی527749b و همگام با upstream؛ JewelryCustomizer و ارائهٔ دسکتاپ مستقل از OS دریافت شد (useDesktop جایگزین useWindowsDesktop). نصب، lint/build و گراف موفق؛ localhost:3000 با PID31332 فعال و صفحه/ماژول جدید HTTP200. فایل قفل npm محلی ساخته شد؛ گراف و سوابق پس از بررسی تغییرات محلی‌اند.
+
 - انتشار این نوبت (2026-11-03): مالک پوش تمام تغییرات را درخواست کرد؛ مقصد origin/claude/sweet-edison-ym63cp. lint/build و diff-check موفق، گراف به‌روز. کد و رسانه‌های نهایی، مهارت Stageshow و سوابق در کامیت ac0be6e با موفقیت پوش شدند؛ آرشیو images و .tools و node_modules طبق gitignore محلی‌اند.
 
 - آخرین تنظیم عکس (2026-11-03): JewelryCraftsmanship اکنون زمینهٔ مشکی #000 دارد؛ contrast(1.08) نمای عکس را مشکی‌تر با هالهٔ بسیار ضعیف آبی نگه می‌دارد. منبع فعال inner-detail-original.jpg کپی دقیق JPG اصلی 2160×2700 با SHA256 یکسان است؛ بدون فشرده‌سازی یا کاهش ابعاد. lint/build، گراف و Chrome دسکتاپ/موبایل موفق.

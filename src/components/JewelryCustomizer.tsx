@@ -6,22 +6,19 @@ import { ArrowLeft } from 'lucide-react';
  * scroll eases into a soft stop there; copy on the left invites visitors to personalise.
  */
 const CUSTOMIZER_CONFIG = {
-  videoSrc: '/customize/ring-builder-scrub.mp4',
-  posterSrc: '/customize/ring-builder-poster.jpg',
-  duration: 9.3,
+  videoSrc: '/customize/scroll-customizer.mp4',
+  posterSrc: '/customize/scroll-customizer-poster.jpg',
+  duration: 4.208333,
   /** Viewport heights of scrolling while the section is pinned. */
-  scrollVh: 420,
+  scrollVh: 300,
   /** Share of the whole scroll each stop holds still. */
   holdShare: 0.11,
-  lerp: 0.16,
-  /** Ease into the nearest stop when scrolling ends this close to it (share of total scroll). */
-  snapDistance: 0.05,
+  lerp: 0.22,
   /** Moments a stone is seated in the ring (seconds into the film). */
   stops: [
-    { time: 2.4, nameFa: 'گرد', nameEn: 'Round' },
-    { time: 4.4, nameFa: 'بیضی', nameEn: 'Oval' },
-    { time: 6.15, nameFa: 'گلابی', nameEn: 'Pear' },
-    { time: 8.4, nameFa: 'مارکیز', nameEn: 'Marquise' },
+    { time: 0.3, title: 'جواهرتان را تصور کنید.', text: 'یک فرم، یک نگین، یک حس؛ جواهری که در ذهن شماست، می‌تواند فقط از آنِ شما باشد.' },
+    { time: 2.35, title: 'تصورتان را با ما در میان بگذارید.', text: 'از ایده‌تان بگویید یا تصویری برایمان بفرستید. با هم، جزئیات جواهر دلخواهتان را شکل می‌دهیم.' },
+    { time: 3.95, title: 'ما برایتان می‌سازیم.', text: 'از انتخاب نگین تا آخرین پرداخت، جواهرتان را مطابق سلیقه و خواستهٔ شما طراحی و می‌سازیم.' },
   ],
 };
 
@@ -38,22 +35,23 @@ interface Segment {
 
 /** Splits scroll progress 0..1 into eased moves between stops and still holds at each stop. */
 function buildTimeline(): Segment[] {
-  const { stops, duration, holdShare } = CUSTOMIZER_CONFIG;
+  const { stops, holdShare } = CUSTOMIZER_CONFIG;
+  const duration = stops[stops.length - 1].time - stops[0].time;
   const holdTotal = holdShare * stops.length;
   const moveTotal = 1 - holdTotal;
   // Moves get scroll distance in proportion to the film time they cover.
   const segments: Segment[] = [];
   let p = 0;
-  let t = 0;
+  let t = stops[0].time;
   stops.forEach((stop, i) => {
     const moveLen = ((stop.time - t) / duration) * moveTotal;
-    segments.push({ from: p, to: p + moveLen, t0: t, t1: stop.time, hold: false, stopIndex: i });
+    if (moveLen > 0) segments.push({ from: p, to: p + moveLen, t0: t, t1: stop.time, hold: false, stopIndex: i });
     p += moveLen;
     segments.push({ from: p, to: p + holdShare, t0: stop.time, t1: stop.time, hold: true, stopIndex: i });
     p += holdShare;
     t = stop.time;
   });
-  segments.push({ from: p, to: 1, t0: t, t1: duration, hold: false, stopIndex: stops.length - 1 });
+  segments[segments.length - 1].to = 1;
   return segments;
 }
 
@@ -67,7 +65,7 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
   const currentP = useRef(0);
   const snapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [progress, setProgress] = useState(0);
+  const [sceneIndex, setSceneIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   const segmentAt = useCallback(
@@ -101,24 +99,95 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
     window.scrollTo({ top, behavior: 'smooth' });
   }, []);
 
-  // Soft stop: when scrolling settles just outside a hold, ease into its centre.
+  // Touch and keyboard scrolling also settle on a seated stone.
   const softSnap = useCallback(
     (p: number) => {
-      const { snapDistance } = CUSTOMIZER_CONFIG;
       if (p <= 0 || p >= 1) return;
-      for (const seg of timeline) {
-        if (!seg.hold) continue;
-        const centre = (seg.from + seg.to) / 2;
-        const inside = p >= seg.from && p <= seg.to;
-        const near = p > seg.from - snapDistance && p < seg.to + snapDistance;
-        if (!inside && near) {
-          scrollToProgress(centre);
-          return;
-        }
-      }
+      const holds = timeline.filter((seg) => seg.hold);
+      if (holds.some((seg) => p >= seg.from && p <= seg.to)) return;
+      const nearest = holds.reduce((best, seg) =>
+        Math.abs(p - (seg.from + seg.to) / 2) < Math.abs(p - (best.from + best.to) / 2) ? seg : best
+      );
+      const centre = (nearest.from + nearest.to) / 2;
+      scrollToProgress(centre);
     },
     [timeline, scrollToProgress]
   );
+
+  // Treat one wheel/trackpad gesture as one stone, including its momentum tail.
+  useEffect(() => {
+    if (reducedMotion) return;
+    let lastWheel = 0;
+    let lockedUntil = 0;
+    let accumulated = 0;
+    const onWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      const section = sectionRef.current;
+      if (!section || !event.deltaY) return;
+      const bounds = section.getBoundingClientRect();
+      if (bounds.top > 1 || bounds.bottom < window.innerHeight - 1) return;
+      const now = performance.now();
+      const gap = now - lastWheel;
+      lastWheel = now;
+      const holds = timeline.filter((seg) => seg.hold);
+      const p = targetP.current;
+      const index = holds.reduce((best, seg, i) =>
+        Math.abs(p - (seg.from + seg.to) / 2) < Math.abs(p - (holds[best].from + holds[best].to) / 2) ? i : best, 0);
+      const direction = Math.sign(event.deltaY);
+      const locked = now < lockedUntil || (lockedUntil > 0 && gap < 220);
+      if (!locked && ((index === 0 && direction < 0) || (index === holds.length - 1 && direction > 0))) return;
+      event.preventDefault();
+      if (locked) return;
+      if (gap > 220) accumulated = 0;
+      accumulated += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1);
+      if (Math.abs(accumulated) < 24) return;
+      const next = holds[Math.max(0, Math.min(holds.length - 1, index + direction))];
+      accumulated = 0;
+      lockedUntil = now + 750;
+      scrollToProgress((next.from + next.to) / 2);
+    };
+    window.addEventListener('wheel', onWheel, { passive: false });
+    let touchX = 0;
+    let touchY = 0;
+    let touchDelta = 0;
+    let capturedTouch = false;
+    const onTouchStart = (event: TouchEvent) => {
+      capturedTouch = false;
+      touchDelta = 0;
+      if (event.touches.length !== 1) return;
+      touchX = event.touches[0].clientX;
+      touchY = event.touches[0].clientY;
+    };
+    const onTouchMove = (event: TouchEvent) => {
+      if (event.touches.length !== 1) return;
+      const bounds = sectionRef.current?.getBoundingClientRect();
+      if (!bounds || bounds.top > 1 || bounds.bottom < window.innerHeight - 1) return;
+      const dy = touchY - event.touches[0].clientY;
+      if (Math.abs(dy) < 12 || Math.abs(dy) < Math.abs(touchX - event.touches[0].clientX)) return;
+      const holds = timeline.filter((seg) => seg.hold);
+      const atFirst = targetP.current <= holds[0].to;
+      const atLast = targetP.current >= holds[holds.length - 1].from;
+      if ((atFirst && dy < 0) || (atLast && dy > 0)) return;
+      event.preventDefault();
+      capturedTouch = true;
+      touchDelta = dy;
+    };
+    const onTouchEnd = () => {
+      if (!capturedTouch || Math.abs(touchDelta) < 24) return;
+      // Reuse the same one-step and transition lock as wheel input.
+      lastWheel = 0;
+      onWheel({ deltaX: 0, deltaY: touchDelta, deltaMode: 0, ctrlKey: false, preventDefault() {} } as WheelEvent);
+    };
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchend', onTouchEnd);
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+      window.removeEventListener('touchend', onTouchEnd);
+    };
+  }, [reducedMotion, timeline, scrollToProgress]);
 
   // Scroll -> target progress.
   useEffect(() => {
@@ -161,17 +230,13 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
           // Ignore seek errors while metadata loads.
         }
       }
-      setProgress((prev) => (Math.abs(prev - currentP.current) > 0.0005 ? currentP.current : prev));
+      const segment = segmentAt(currentP.current);
+      if (segment.hold && Math.abs(diff) < 0.008) setSceneIndex(segment.stopIndex);
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [reducedMotion, timeAt]);
-
-  const seg = segmentAt(progress);
-  const holdingIndex = seg.hold ? seg.stopIndex : null;
-  // Highlight the stone the film is resting on or heading to.
-  const activeIndex = seg.stopIndex;
+  }, [reducedMotion, timeAt, segmentAt]);
 
   const holdCentre = (index: number) => {
     const holds = timeline.filter((s) => s.hold);
@@ -181,22 +246,21 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
 
   const copy = (
     <div dir="rtl" className="font-peyda text-white max-w-lg">
-      <span className="font-grotesk text-[11px] tracking-[0.2em] uppercase text-[#c9a56a]">Personalise</span>
-      <h2 className="mt-3 text-3xl xl:text-5xl font-bold leading-tight">
-        نگین خود را انتخاب کنید،
-        <br />
-        جواهرتان را شخصی کنید.
-      </h2>
-      <p className="mt-5 text-sm xl:text-base text-stone-300 leading-loose">
-        تراش الماس، فرم نشیمن و رنگ طلا را خودتان برگزینید. آتلیه آموزگار هر انتخاب را به حلقه‌ای بدل می‌کند که
-        فقط از آنِ شماست.
-      </p>
+      <span className="text-[11px] tracking-wide text-stone-400">از تصور شما تا خلق یک جواهر</span>
+      <div aria-live="polite" aria-atomic="true" className="min-h-[160px] lg:min-h-[240px]">
+        {(reducedMotion ? stops : [stops[sceneIndex]]).map((stop) => (
+          <div key={stop.title}>
+            <h2 className="mt-3 text-3xl xl:text-5xl font-bold leading-tight">{stop.title}</h2>
+            <p className="mt-5 text-sm xl:text-base text-stone-300 leading-loose">{stop.text}</p>
+          </div>
+        ))}
+      </div>
 
-      <ol className="mt-8 grid grid-cols-4 gap-2" aria-label="تراش‌های نمونه">
+      {!reducedMotion && <ol className="mt-6 grid grid-cols-3 gap-3" aria-label="مراحل سفارش اختصاصی">
         {stops.map((stop, index) => {
-          const isActive = index === activeIndex;
+          const isActive = index === sceneIndex;
           return (
-            <li key={stop.nameEn}>
+            <li key={stop.title}>
               <button
                 type="button"
                 onClick={() => (reducedMotion ? undefined : scrollToProgress(holdCentre(index)))}
@@ -205,24 +269,23 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
                   isActive ? 'border-[#c9a56a] text-white' : 'border-stone-700 text-stone-500 hover:text-stone-300'
                 }`}
               >
-                <span className="block text-sm font-bold">{stop.nameFa}</span>
-                <span dir="ltr" className="block text-right font-grotesk text-[10px] uppercase tracking-[0.14em] mt-0.5">
-                  {stop.nameEn}
-                </span>
+                <span className="block text-xs font-bold">{['تصور شما', 'همراهی ما', 'خلق جواهر'][index]}</span>
               </button>
             </li>
           );
         })}
-      </ol>
+      </ol>}
 
-      <button
+      <div className="mt-8 min-h-12">
+      {(reducedMotion || sceneIndex === stops.length - 1) && <button
         type="button"
         onClick={onOpenVipBooking}
-        className="mt-10 inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold hover:bg-stone-200 transition-colors cursor-pointer"
+        className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold hover:bg-stone-200 transition-colors cursor-pointer"
       >
-        <span>شروع شخصی‌سازی</span>
+        <span>سفارش اختصاصی</span>
         <ArrowLeft className="w-4 h-4" />
-      </button>
+      </button>}
+      </div>
     </div>
   );
 
@@ -253,8 +316,8 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
 
         {/* Film: right half on desktop */}
         <div className="relative flex-1 min-h-0 lg:flex-none lg:w-1/2 lg:h-full">
-          {/* Mobile: film fills the area. Desktop: a frame at the film's own aspect ratio, faded into black on every edge. */}
-          <div className="absolute inset-0 lg:inset-auto lg:top-0 lg:bottom-0 lg:left-1/2 lg:-translate-x-1/2 lg:h-full lg:aspect-[600/734]">
+          {/* Keep the smaller frame flush with the top-right corner, without cropping the film. */}
+          <div className="absolute top-0 right-0 h-full lg:h-[78%] max-w-full aspect-[9/16]">
             <video
               ref={videoRef}
               src={CUSTOMIZER_CONFIG.videoSrc}
@@ -262,29 +325,12 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
               muted
               playsInline
               preload="auto"
-              aria-label="الماس‌هایی با تراش گرد، بیضی، گلابی و مارکیز که یکی‌یکی روی حلقه می‌نشینند"
-              className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+              onLoadedMetadata={(event) => { event.currentTarget.currentTime = timeAt(targetP.current); }}
+              aria-label="نمایش مرحله‌به‌مرحلهٔ انتخاب الماس برای ساخت جواهر اختصاصی"
+              className="absolute inset-0 w-full h-full object-contain object-top-right pointer-events-none"
             />
             <div className="pointer-events-none absolute inset-y-0 left-0 w-1/5 bg-gradient-to-r from-black to-transparent hidden lg:block" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-1/5 bg-gradient-to-l from-black to-transparent hidden lg:block" />
-            <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black to-transparent" />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
-          </div>
-
-          {/* Stone label shown while the scroll rests on a stop */}
-          <div
-            dir="rtl"
-            className={`absolute bottom-8 right-8 lg:bottom-auto lg:top-[100px] lg:right-12 font-peyda text-right transition-opacity duration-500 ${
-              holdingIndex !== null ? 'opacity-100' : 'opacity-0'
-            }`}
-            aria-live="polite"
-          >
-            {holdingIndex !== null && (
-              <>
-                <span className="block text-[11px] text-stone-400">تراش</span>
-                <span className="block text-xl font-bold text-white">{stops[holdingIndex].nameFa}</span>
-              </>
-            )}
           </div>
         </div>
       </div>

@@ -19,9 +19,9 @@
     "semantic_hash": "f1139523ae475664de5b6edff3f72255"
   },
   "src/App.tsx": {
-    "mtime": 1793710363.4338758,
-    "seen": 1793710438.0641243,
-    "ast_hash": "b02e2e8aadd12ed55908e604cb4ac6ae",
+    "mtime": 1793713703.9211223,
+    "seen": 1793713712.440492,
+    "ast_hash": "9574eba0dd517784ff1be467a866477c",
     "semantic_hash": ""
   },
   "src/components/AboutBrand.tsx": {
@@ -49,9 +49,9 @@
     "semantic_hash": "d23196651bd9c523cbff1421b38faa92"
   },
   "src/components/CollectionSection.tsx": {
-    "mtime": 1793696387.051562,
-    "seen": 1793696406.0229993,
-    "ast_hash": "c4a98de8a5c59c7cb0f87fd528195230",
+    "mtime": 1793713703.9211223,
+    "seen": 1793713712.440502,
+    "ast_hash": "a192bff6d167a02eeebe5b7642c1e743",
     "semantic_hash": ""
   },
   "src/components/Footer.tsx": {
@@ -67,9 +67,9 @@
     "semantic_hash": "fa2f14d8fa9bb6d8eb95bf2f3cd961b2"
   },
   "src/components/HeroVideoPiecesDetail.tsx": {
-    "mtime": 1793696387.063078,
-    "seen": 1793696406.0230122,
-    "ast_hash": "00313f60abfc43bdcd78f17c4b3c48ae",
+    "mtime": 1793713703.9221234,
+    "seen": 1793713712.4405072,
+    "ast_hash": "b92832f4477e026bdc968055def5e3ed",
     "semantic_hash": ""
   },
   "src/components/ImageCropperModal.tsx": {
@@ -205,15 +205,15 @@
     "semantic_hash": ""
   },
   "\u0627\u0633\u06a9\u06cc\u0644/CHANGES.md": {
-    "mtime": 1793710570.7571406,
-    "seen": 1793710823.7325964,
-    "ast_hash": "5ddbe3acca31fb6dcd56b07fa57279e6",
+    "mtime": 1793717560.2531157,
+    "seen": 1793717699.1255295,
+    "ast_hash": "a527d71500c531398187b088d7ded50a",
     "semantic_hash": ""
   },
   "\u0627\u0633\u06a9\u06cc\u0644/CONTEXT.md": {
-    "mtime": 1793710570.7581398,
-    "seen": 1793710823.7326014,
-    "ast_hash": "2aebeee0750398bcec7e8df732f85380",
+    "mtime": 1793717560.2531157,
+    "seen": 1793717699.1255326,
+    "ast_hash": "c349e7540ceec4bdb59d05df20c7b969",
     "semantic_hash": ""
   },
   "\u0627\u0633\u06a9\u06cc\u0644/SKILL.md": {
@@ -1128,12 +1128,6 @@
     "ast_hash": "cf50c9027991070104f477e02861a474",
     "semantic_hash": ""
   },
-  "src/hooks/useWindowsDesktop.ts": {
-    "mtime": 1793696387.046566,
-    "seen": 1793696406.0230477,
-    "ast_hash": "817cc2ec0d6ff57b3b5043761a184189",
-    "semantic_hash": ""
-  },
   "src/components/JewelryCategoryEdit.tsx": {
     "mtime": 1793708887.306314,
     "seen": 1793708907.967189,
@@ -1141,9 +1135,45 @@
     "semantic_hash": ""
   },
   "src/components/JewelryCraftsmanship.tsx": {
-    "mtime": 1793710363.4308674,
-    "seen": 1793710438.0641701,
-    "ast_hash": "d4a3c62d760908eb5a35e2dfbe2c6ebf",
+    "mtime": 1793711209.5120008,
+    "seen": 1793711226.7370462,
+    "ast_hash": "ff5eebcb827bc629b2497ebd7fb21327",
+    "semantic_hash": ""
+  },
+  "src/components/JewelryCustomizer.tsx": {
+    "mtime": 1793717691.371089,
+    "seen": 1793717699.1254659,
+    "ast_hash": "21488154c2daa55cc2daea86ed27d388",
+    "semantic_hash": ""
+  },
+  "src/hooks/useDesktop.ts": {
+    "mtime": 1793713703.92313,
+    "seen": 1793713712.44053,
+    "ast_hash": "42616842b051bda99d7efa3382983cd4",
+    "semantic_hash": ""
+  },
+  "public/customize/README.md": {
+    "mtime": 1793717530.5672674,
+    "seen": 1793717699.125518,
+    "ast_hash": "bf5e6a860e6c7369f30da856ca041e6d",
+    "semantic_hash": ""
+  },
+  "public/customize/ring-builder-poster.jpg": {
+    "mtime": 1793717396.9668617,
+    "seen": 1793717467.1848469,
+    "ast_hash": "c29cf91037a26ed55f06f19ae197004c",
+    "semantic_hash": ""
+  },
+  "public/customize/ring-builder-scrub.mp4": {
+    "mtime": 1793713703.920116,
+    "seen": 1793713712.4407835,
+    "ast_hash": "5cff35fa70cb650c9d527826f84825d5",
+    "semantic_hash": ""
+  },
+  "package-lock.json": {
+    "mtime": 1793713705.639353,
+    "seen": 1793713712.4407902,
+    "ast_hash": "ca4d4deefbc1b2ad99c0c1c610421620",
     "semantic_hash": ""
   }
 }
