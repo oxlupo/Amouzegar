@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { JewelryItem } from '../types';
+import { useWindowsDesktop } from '../hooks/useWindowsDesktop';
 import { Eye, X, Sparkles, ChevronDown, Compass } from 'lucide-react';
 
 /**
@@ -156,6 +157,9 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
   items = [],
   onSelectItem,
 }) => {
+  const isWindowsDesktop = useWindowsDesktop();
+  const [lastPlateauIndex, setLastPlateauIndex] = useState(0);
+
   // Container & DOM refs
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -399,8 +403,16 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
     { ...stop1, plateauP: SCROLL_SCRUB_CONFIG.breakpoints.plateau1.snapP },
     { ...stop2, plateauP: SCROLL_SCRUB_CONFIG.breakpoints.plateau2.snapP },
   ];
-  // The panel follows the video sequence: first piece until the second movement starts, then the second.
-  const featuredIndex = scrollProgress < SCROLL_SCRUB_CONFIG.breakpoints.move2.minP ? 0 : 1;
+  // Match the Windows panel to the exact visibility window used by the hotspot.
+  const plateauIndex = currentStatus.isPlateau1 ? 0 : currentStatus.isPlateau2 ? 1 : null;
+  const showDesktopProduct = !isWindowsDesktop || plateauIndex !== null;
+  useEffect(() => {
+    if (plateauIndex !== null) setLastPlateauIndex(plateauIndex);
+  }, [plateauIndex]);
+  // Retain the outgoing piece during its fade rather than switching it in mid-motion.
+  const featuredIndex = isWindowsDesktop
+    ? plateauIndex ?? lastPlateauIndex
+    : scrollProgress < SCROLL_SCRUB_CONFIG.breakpoints.move2.minP ? 0 : 1;
 
   // =========================================================================
   // REDUCED MOTION FALLBACK (Single view, no pinning)
@@ -758,7 +770,10 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
         <aside
           dir="rtl"
           aria-label="آثار این ویدئو"
-          className="hidden lg:flex flex-1 min-w-0 flex-col justify-center pt-[84px] pb-6 font-peyda"
+          aria-hidden={!showDesktopProduct}
+          inert={!showDesktopProduct}
+          data-product-visible={showDesktopProduct}
+          className={`hidden lg:flex flex-1 min-w-0 flex-col justify-center pt-[84px] pb-6 font-peyda ${isWindowsDesktop ? "transition-opacity duration-300 ease-out motion-reduce:transition-none" : ""} ${showDesktopProduct ? "opacity-100" : "opacity-0 pointer-events-none"}`}
         >
           <span className="font-grotesk text-[11px] tracking-[0.14em] uppercase text-stone-500 tabular-nums">
             {String(featuredIndex + 1).padStart(2, '0')} / {String(featuredPieces.length).padStart(2, '0')}
@@ -774,7 +789,7 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
             if (item?.caratTotal) specs.push({ label: 'وزن کل سنگ‌ها', value: `${toPersianDigits(item.caratTotal)} قیراط` });
             if (item?.certificateIssuer) specs.push({ label: 'شناسنامه', value: item.certificateIssuer });
             return (
-              <article key={piece.id} className="animate-fade-up mt-[2vh] flex gap-8 items-start">
+              <article key={piece.id} className={`${isWindowsDesktop ? "" : "animate-fade-up"} mt-[2vh] flex gap-8 items-start`}>
                 <div className="relative shrink-0 w-[min(34vh,22vw)] aspect-square overflow-hidden bg-stone-950 border border-stone-800">
                   <img src={piece.image} alt={piece.titleFa} className="absolute inset-0 w-full h-full object-cover" />
                 </div>

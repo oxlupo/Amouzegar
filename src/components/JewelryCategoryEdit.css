@@ -1,0 +1,19 @@
+.jewelry-category-edit {
+  background: #fff; color: #26231f; padding: 30px max(28px, 6vw) 28px; scroll-margin-top: 69px; font-family: 'Peyda', sans-serif;
+  & .jewelry-category-edit__heading { text-align: center; max-width: 900px; margin: 0 auto; }
+  & .jewelry-category-edit__eyebrow { display: block; font-family: 'Inter Tight', sans-serif; font-size: 11px; letter-spacing: .22em; color: #79736a; }
+  & h2 { margin: 10px 0 7px; font-size: clamp(23px, 2vw, 31px); font-weight: 400; line-height: 1.65; }
+  & .jewelry-category-edit__heading p { margin: 0; font-size: 14px; line-height: 1.9; color: #666057; }
+  & .jewelry-category-edit__grid { display: grid; direction: ltr; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 56px); max-width: 1400px; margin: 12px auto 0; }
+  & .jewelry-category-edit__item { direction: rtl; min-width: 0; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  & .jewelry-category-edit__image { display: block; overflow: hidden; width: 100%; height: clamp(155px, 13vw, 200px); }
+  & .jewelry-category-edit__label { display: inline-block; border-bottom: 1px solid currentColor; padding-bottom: 4px; font-size: 14px; line-height: 1.8; white-space: nowrap; }
+  & .jewelry-category-edit__item:focus-visible { outline: 2px solid #726548; outline-offset: 6px; border-radius: 2px; }
+  @media (max-width: 767px) {
+    padding: 28px 20px;
+    & .jewelry-category-edit__heading p { font-size: 12px; }
+    & .jewelry-category-edit__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; margin-top: 16px; }
+    & .jewelry-category-edit__image { height: 140px; }
+    & .jewelry-category-edit__label { font-size: 12px; }
+  }
+}

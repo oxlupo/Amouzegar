@@ -40,10 +40,13 @@ const GROUP_LABELS: Record<TabGroup, string> = {
 const CATEGORY_TABS: CategoryTab[] = [
   { id: 'all', titleFa: 'همه جواهرات', titleEn: 'All Creations', group: 'type' },
   { id: 'ring', titleFa: 'انگشتر', titleEn: 'Rings', group: 'type' },
+  { id: 'engagement', titleFa: 'انگشتر نامزدی', titleEn: 'Engagement', group: 'type' },
+  { id: 'wedding-bands', titleFa: 'حلقه‌های ازدواج', titleEn: 'Wedding Bands', group: 'type' },
   { id: 'necklace', titleFa: 'گردنبند و مدال', titleEn: 'Necklaces', group: 'type' },
   { id: 'earrings', titleFa: 'گوشواره', titleEn: 'Earrings', group: 'type' },
   { id: 'stud-earrings', titleFa: 'گوشواره میخی', titleEn: 'Studs', group: 'type' },
   { id: 'bracelet', titleFa: 'دستبند و النگو', titleEn: 'Bracelets', group: 'type' },
+  { id: 'tennis-bracelets', titleFa: 'دستبند تنیس', titleEn: 'Tennis Bracelets', group: 'type' },
   { id: 'watches', titleFa: 'ساعت‌های جواهرنشان', titleEn: 'Watches', group: 'type' },
   { id: 'men', titleFa: 'جواهرات مردانه', titleEn: "Men's", group: 'type' },
   { id: 'set', titleFa: 'سرویس‌های جواهر', titleEn: 'Sets', group: 'type' },
@@ -92,6 +95,12 @@ const matchesCategory = (item: JewelryItem, category: string, index: number): bo
     case 'bracelet':
     case 'set':
       return item.category === category;
+    case 'engagement':
+      return item.category === 'ring' && (textHas(item.nameFa, 'سولیتر') || textHas(item.nameEn?.toLowerCase(), 'solitaire') || listHas(item.tagsFa, 'نامزدی'));
+    case 'wedding-bands':
+      return item.category === 'ring' && (textHas(item.nameFa, 'حلقه') || textHas(item.nameFa, 'باند') || textHas(item.nameEn?.toLowerCase(), 'band'));
+    case 'tennis-bracelets':
+      return item.category === 'bracelet' && (textHas(item.nameFa, 'تنیس') || textHas(item.nameEn?.toLowerCase(), 'tennis'));
     case 'stud-earrings':
       return item.category === 'earrings' && (textHas(item.nameFa, 'میخی') || listHas(item.tagsFa, 'میخی'));
     case 'watches':

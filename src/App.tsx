@@ -4,6 +4,8 @@ import { HeroSection } from './components/HeroSection';
 import { BrandSloganSection } from './components/BrandSloganSection';
 import { HeroVideoPiecesDetail } from './components/HeroVideoPiecesDetail';
 import { CollectionSection } from './components/CollectionSection';
+import { JewelryCategoryEdit } from './components/JewelryCategoryEdit';
+import { JewelryCraftsmanship } from './components/JewelryCraftsmanship';
 import { JewelryNameIndex } from './components/JewelryNameIndex';
 import { JewelryCategoryPage } from './components/JewelryCategoryPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
@@ -297,6 +299,9 @@ export default function App() {
                   onSelectCategory={setSelectedCategory}
                   onNavigateToCategory={handleNavigateToCategory}
                 />
+
+                <JewelryCategoryEdit onNavigateToCategory={handleNavigateToCategory} />
+                <JewelryCraftsmanship />
 
                 {/* 3.5 Bespoke custom-order service */}
                 <BespokeAtelier onOpenVipBooking={() => setIsVipModalOpen(true)} />

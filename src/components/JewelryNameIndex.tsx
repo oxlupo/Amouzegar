@@ -200,18 +200,6 @@ export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({
                 )
               )}
             </button>
-
-            {/* Caption under the piece (desktop) */}
-            <div dir="rtl" className="hidden md:block mt-6 text-center font-peyda">
-              <p className="text-sm font-bold text-black">{activeProduct?.nameFa ?? activePiece.altFa}</p>
-              <button
-                type="button"
-                onClick={() => openPiece(activePiece)}
-                className="mt-2 text-xs text-black/60 hover:text-black border-b border-black/20 hover:border-black pb-0.5 transition-colors cursor-pointer"
-              >
-                {activeProduct ? 'مشاهده اثر' : 'مشاهده آثار مشابه'}
-              </button>
-            </div>
           </div>
         </div>
 
@@ -223,7 +211,7 @@ export const JewelryNameIndex: React.FC<JewelryNameIndexProps> = ({
             onClick={onViewAll}
             className="inline-flex items-center gap-1.5 bg-black text-white px-3 py-1.5 hover:bg-stone-800 transition-colors cursor-pointer ms-auto"
           >
-            <span>View all creations</span>
+            <span className="font-peyda tracking-normal" dir="rtl">مشاهده آثار مشابه</span>
             <ArrowUpRight className="w-3 h-3" />
           </button>
         </div>

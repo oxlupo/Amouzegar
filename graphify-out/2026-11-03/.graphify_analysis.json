@@ -1,0 +1,367 @@
+{
+  "communities": {
+    "0": [
+      "src_app",
+      "src_app_app",
+      "src_components_brandslogansection",
+      "src_components_brandslogansection_brandslogansection",
+      "src_components_brandslogansection_brandslogansectionprops",
+      "src_components_collectionsection",
+      "src_components_collectionsection_collectionsection",
+      "src_components_collectionsection_collectionsectionprops",
+      "src_components_footer_footer",
+      "src_components_herosection",
+      "src_components_herosection_herosection",
+      "src_components_herosection_herosectionprops",
+      "src_components_herovideopiecesdetail",
+      "src_components_herovideopiecesdetail_easeinoutcubic",
+      "src_components_herovideopiecesdetail_herovideopiecesdetail",
+      "src_components_herovideopiecesdetail_herovideopiecesdetailprops",
+      "src_components_herovideopiecesdetail_mapprogresstotime",
+      "src_components_herovideopiecesdetail_scroll_scrub_config",
+      "src_components_jewelrycategorypage",
+      "src_components_jewelrycategorypage_category_tabs",
+      "src_components_jewelrycategorypage_jewelrycategorypage",
+      "src_components_jewelrycategorypage_jewelrycategorypageprops",
+      "src_components_productdetailpage",
+      "src_components_productdetailpage_productdetailpage",
+      "src_components_productdetailpage_productdetailpageprops",
+      "src_components_vipbookingmodal",
+      "src_components_vipbookingmodal_vipbookingmodal",
+      "src_components_vipbookingmodal_vipbookingmodalprops",
+      "src_data_jewelrydata",
+      "src_data_jewelrydata_hero_video_src",
+      "src_data_jewelrydata_jewelry_items",
+      "src_data_jewelrydata_salon_branches",
+      "src_types",
+      "src_types_bespokecustomrequest",
+      "src_types_jewelryitem",
+      "src_types_vipbooking"
+    ],
+    "1": [
+      "src_components_aboutbrand",
+      "src_components_aboutbrand_aboutbrand",
+      "src_components_aboutbrand_aboutbrandprops",
+      "src_components_aboutbrand_store_gallery_images",
+      "src_components_navbar",
+      "src_components_navbar_jewelry_sections",
+      "src_components_navbar_jewelrymenusection",
+      "src_components_navbar_navbar",
+      "src_components_navbar_navbarprops",
+      "src_components_navbar_submenulink",
+      "src_components_productmodal",
+      "src_components_productmodal_productmodal",
+      "src_components_productmodal_productmodalprops",
+      "src_components_wishlistdrawer",
+      "src_components_wishlistdrawer_wishlistdrawer",
+      "src_components_wishlistdrawer_wishlistdrawerprops",
+      "src_utils_formatters",
+      "src_utils_formatters_formattoman",
+      "src_utils_formatters_formatusd",
+      "src_utils_formatters_topersiandigits"
+    ],
+    "2": [
+      "ref_lucide_react",
+      "ref_react",
+      "src_components_adminpanel",
+      "src_components_adminpanel_adminpanel",
+      "src_components_adminpanel_adminpanel_categorynamefa",
+      "src_components_adminpanel_adminpanelprops",
+      "src_components_adminpanel_available_stones_and_cuts",
+      "src_components_adminpanel_category_options",
+      "src_components_adminpanel_certificate_issuers",
+      "src_components_bespokeatelier",
+      "src_components_bespokeatelier_bespokeatelier",
+      "src_components_footer",
+      "src_components_footer_footer_location",
+      "src_components_footer_footerprops",
+      "src_components_imagecroppermodal",
+      "src_components_imagecroppermodal_imagecroppermodal",
+      "src_components_imagecroppermodal_imagecroppermodalprops",
+      "src_data_jewelrydata_bespoke_steps"
+    ],
+    "3": [
+      "tsconfig",
+      "tsconfig_compileroptions",
+      "tsconfig_compileroptions_allowimportingtsextensions",
+      "tsconfig_compileroptions_allowjs",
+      "tsconfig_compileroptions_experimentaldecorators",
+      "tsconfig_compileroptions_isolatedmodules",
+      "tsconfig_compileroptions_jsx",
+      "tsconfig_compileroptions_lib",
+      "tsconfig_compileroptions_module",
+      "tsconfig_compileroptions_moduledetection",
+      "tsconfig_compileroptions_moduleresolution",
+      "tsconfig_compileroptions_noemit",
+      "tsconfig_compileroptions_paths",
+      "tsconfig_compileroptions_skiplibcheck",
+      "tsconfig_compileroptions_target",
+      "tsconfig_compileroptions_types",
+      "tsconfig_compileroptions_usedefineforclassfields"
+    ],
+    "4": [
+      "package_dependencies",
+      "package_dependencies_dotenv",
+      "package_dependencies_express",
+      "package_dependencies_google_genai",
+      "package_dependencies_lucide_react",
+      "package_dependencies_motion",
+      "package_dependencies_react",
+      "ref_dotenv",
+      "ref_express",
+      "ref_google_genai",
+      "ref_motion"
+    ],
+    "5": [
+      "package_devdependencies",
+      "package_devdependencies_autoprefixer",
+      "package_devdependencies_esbuild",
+      "package_devdependencies_types_express",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "ref_autoprefixer",
+      "ref_esbuild",
+      "ref_types_express",
+      "ref_types_react",
+      "ref_types_react_dom"
+    ],
+    "6": [
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_clean",
+      "package_scripts_dev",
+      "package_scripts_graph_build",
+      "package_scripts_graph_explain",
+      "package_scripts_graph_query",
+      "package_scripts_graph_setup",
+      "package_scripts_graph_update",
+      "package_scripts_lint",
+      "package_scripts_preview"
+    ],
+    "7": [
+      "agents",
+      "agents_amouzegar_project_workflow",
+      "agents_graphify",
+      "اسکیل_skill",
+      "اسکیل_skill_ابزار_و_محدوده",
+      "اسکیل_skill_انجام_تغییرات",
+      "اسکیل_skill_راهنمای_کار_روی_پروژه_آموزگار",
+      "اسکیل_skill_شروع_یا_بازیابی_کانتکست"
+    ],
+    "8": [
+      "package_dependencies_tailwindcss_vite",
+      "package_dependencies_vite",
+      "package_dependencies_vitejs_plugin_react",
+      "ref_path",
+      "ref_tailwindcss_vite",
+      "ref_vite",
+      "ref_vitejs_plugin_react",
+      "vite_config"
+    ],
+    "9": [
+      "package",
+      "package_devdependencies_tailwindcss",
+      "package_name",
+      "package_private",
+      "package_type",
+      "package_version",
+      "ref_tailwindcss"
+    ],
+    "10": [
+      "package_dependencies_react_dom",
+      "ref_react_dom",
+      "src_index",
+      "src_main"
+    ],
+    "11": [
+      "readme",
+      "readme_run_and_deploy_your_ai_studio_app",
+      "readme_run_locally"
+    ],
+    "12": [
+      "اسکیل_changes",
+      "اسکیل_changes_2026_11_01_راه_اندازی_git_و_graphify",
+      "اسکیل_changes_تاریخچه_تغییرات"
+    ],
+    "13": [
+      "package_devdependencies_tsx",
+      "ref_tsx"
+    ],
+    "14": [
+      "package_devdependencies_types_node",
+      "ref_types_node"
+    ],
+    "15": [
+      "package_devdependencies_typescript",
+      "ref_typescript"
+    ],
+    "16": [
+      "اسکیل_context",
+      "اسکیل_context_وضعیت_جاری"
+    ],
+    "17": [
+      "scripts_setup_graphify"
+    ]
+  },
+  "cohesion": {
+    "0": 0.12222222222222222,
+    "1": 0.14210526315789473,
+    "2": 0.1503267973856209,
+    "3": 0.11764705882352941,
+    "4": 0.18181818181818182,
+    "5": 0.18181818181818182,
+    "6": 0.18181818181818182,
+    "7": 0.25,
+    "8": 0.25,
+    "9": 0.2857142857142857,
+    "10": 0.5,
+    "11": 0.6666666666666666,
+    "12": 0.6666666666666666,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0
+  },
+  "gods": [
+    {
+      "id": "src_types_jewelryitem",
+      "label": "JewelryItem",
+      "degree": 19
+    },
+    {
+      "id": "ref_react",
+      "label": "react",
+      "degree": 19
+    },
+    {
+      "id": "ref_lucide_react",
+      "label": "lucide-react",
+      "degree": 16
+    },
+    {
+      "id": "tsconfig_compileroptions",
+      "label": "compilerOptions",
+      "degree": 16
+    },
+    {
+      "id": "src_app_app",
+      "label": "App()",
+      "degree": 15
+    },
+    {
+      "id": "src_utils_formatters_topersiandigits",
+      "label": "toPersianDigits()",
+      "degree": 13
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 11
+    },
+    {
+      "id": "src_components_adminpanel_adminpanel",
+      "label": "AdminPanel()",
+      "degree": 5
+    },
+    {
+      "id": "src_components_collectionsection_collectionsection",
+      "label": "CollectionSection()",
+      "degree": 4
+    },
+    {
+      "id": "src_components_herovideopiecesdetail_herovideopiecesdetail",
+      "label": "HeroVideoPiecesDetail()",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "AdminPanelProps",
+      "target": "JewelryItem",
+      "source_files": [
+        "src/components/AdminPanel.tsx",
+        "src/types.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities; peripheral node `AdminPanelProps` unexpectedly reaches hub `JewelryItem`"
+    },
+    {
+      "source": "ProductModalProps",
+      "target": "JewelryItem",
+      "source_files": [
+        "src/components/ProductModal.tsx",
+        "src/types.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities; peripheral node `ProductModalProps` unexpectedly reaches hub `JewelryItem`"
+    },
+    {
+      "source": "WishlistDrawerProps",
+      "target": "JewelryItem",
+      "source_files": [
+        "src/components/WishlistDrawer.tsx",
+        "src/types.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities; peripheral node `WishlistDrawerProps` unexpectedly reaches hub `JewelryItem`"
+    },
+    {
+      "source": "CollectionSectionProps",
+      "target": "JewelryItem",
+      "source_files": [
+        "src/components/CollectionSection.tsx",
+        "src/types.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "peripheral node `CollectionSectionProps` unexpectedly reaches hub `JewelryItem`"
+    },
+    {
+      "source": "HeroSectionProps",
+      "target": "JewelryItem",
+      "source_files": [
+        "src/components/HeroSection.tsx",
+        "src/types.ts"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "peripheral node `HeroSectionProps` unexpectedly reaches hub `JewelryItem`"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `react` connect `react` to `App.tsx`, `toPersianDigits`, `dependencies`, `package.json`, `main.tsx`?",
+      "why": "High betweenness centrality (0.198) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `App.tsx` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.12222222222222222 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `lucide-react` connect `react` to `App.tsx`, `package.json`, `dependencies`, `toPersianDigits`?",
+      "why": "High betweenness centrality (0.146) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `toPersianDigits` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.14210526315789473 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `scripts` connect `scripts` to `package.json`?",
+      "why": "High betweenness centrality (0.093) - this node is a cross-community bridge."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `compilerOptions` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.11764705882352941 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
