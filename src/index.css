@@ -5,6 +5,11 @@
   --font-cormorant: 'Cormorant Garamond', Georgia, serif;
   --font-cinzel: 'Cinzel', 'Trajan Pro', serif;
   --font-grotesk: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+
+  /* shadcn-style colour tokens used by components in src/components/ui (the site is black-first). */
+  --color-background: #000000;
+  --color-foreground: #fafaf9;
+  --color-muted-foreground: #a8a29e;
 }
 
 @layer utilities {
