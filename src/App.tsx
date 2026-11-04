@@ -165,12 +165,6 @@ export default function App() {
     showToast('اثر مورد نظر حذف شد.');
   };
 
-  const handleOpenAdmin = () => {
-    window.history.pushState(null, '', '/admin');
-    setActiveView('admin');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleExitAdmin = () => {
     window.history.pushState(null, '', '/');
     setActiveView('home');
@@ -365,7 +359,7 @@ export default function App() {
           </main>
 
           {/* Luxury Minimalist Footer */}
-          <Footer onOpenAdmin={handleOpenAdmin} />
+          <Footer />
         </>
       )}
 

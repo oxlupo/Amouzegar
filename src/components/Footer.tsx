@@ -11,11 +11,9 @@ const FOOTER_LOCATION = {
   embedUrl: `https://maps.google.com/maps?q=${encodeURIComponent('Ahmadabad blvd, before reza 2, Mashhad, Iran')}&t=&z=16&ie=UTF8&iwloc=B&output=embed`,
 };
 
-interface FooterProps {
-  onOpenAdmin?: () => void;
-}
+const toPersianDigits = (value: string) => value.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)]);
 
-export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
+export const Footer: React.FC = () => {
   return (
     <footer className="bg-[#000000] text-stone-300 border-t border-stone-900 pt-16 pb-12 font-peyda" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,7 +57,7 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                 <p className="leading-relaxed text-stone-300">
                   {FOOTER_LOCATION.addressFa}
                 </p>
-                <p className="text-[11px] text-stone-500 font-mono mt-0.5" dir="ltr">
+                <p className="text-[11px] text-stone-500 mt-0.5 text-right" dir="ltr">
                   {FOOTER_LOCATION.addressEn}
                 </p>
               </div>
@@ -68,10 +66,10 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
                 <span className="font-semibold text-stone-200 block mb-1">شماره تماس:</span>
                 <a 
                   href={`tel:${FOOTER_LOCATION.telLink}`}
-                  className="text-stone-300 hover:text-white font-mono transition-colors block text-sm"
+                  className="text-stone-300 hover:text-white transition-colors inline-block text-sm"
                   dir="ltr"
                 >
-                  {FOOTER_LOCATION.phone}
+                  {toPersianDigits(FOOTER_LOCATION.phone)}
                 </a>
               </div>
 
@@ -86,21 +84,12 @@ export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
 
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-14 pt-8 border-t border-stone-900 flex flex-col items-center justify-center gap-2.5 text-[11px] text-stone-500 text-center">
-          <p className="text-center">
-            © ۲۰۲۶ کاتالوگ رسمی و نمایشگاه گالری جواهر داود آموزگار • تمامی حقوق محفوظ است.
+        {/* Bottom Bar: one short line — copyright on the right, brand and city on the left */}
+        <div className="mt-14 pt-8 border-t border-stone-900 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-stone-500">
+          <p>© ۱۴۰۵ گالری جواهر داود آموزگار</p>
+          <p dir="ltr" className="tracking-[0.2em] uppercase text-[10px]">
+            Amouzegar Jewellery · Mashhad
           </p>
-          <p className="font-serif text-center" dir="ltr">
-            Davood Amoozegar Haute Joaillerie • Ahmadabad blvd, Mashhad, Iran 91220
-          </p>
-          <button
-            onClick={onOpenAdmin}
-            className="text-stone-700 hover:text-stone-400 transition-colors text-[10px] font-mono tracking-widest uppercase cursor-pointer pt-1"
-            title="ورود به پنل مدیریت (/admin)"
-          >
-            /admin
-          </button>
         </div>
 
       </div>
