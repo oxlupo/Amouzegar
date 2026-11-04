@@ -113,7 +113,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar: one short line — copyright on the right, brand and city on the left */}
-        <div className="mt-14 pt-8 border-t border-stone-900 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-stone-500">
+        <div className="mt-14 pt-8 border-t border-stone-900 flex flex-col items-center justify-center gap-2 text-center text-[11px] text-stone-500">
           <p>© ۱۴۰۵ گالری جواهر داود آموزگار</p>
           <p dir="ltr" className="tracking-[0.2em] uppercase text-[10px]">
             Amouzegar Jewellery · Mashhad
