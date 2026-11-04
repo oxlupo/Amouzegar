@@ -70,7 +70,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               onClick={onBackToCategory}
               className="hover:text-black transition-colors font-semibold cursor-pointer"
             >
-              جواهرات ({categoryNameFa[item.category] || 'آثار فاخر'})
+              {categoryNameFa[item.category] || 'جواهرات'}
             </button>
             <span className="text-stone-300">/</span>
             <span className="text-stone-900 font-bold truncate max-w-[150px] sm:max-w-[260px]">
@@ -88,33 +88,19 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
           {/* Column A: Gallery & Imagery (7 cols on large desktop) */}
           <div className="lg:col-span-7 flex flex-col gap-4">
             
-            {/* Primary Display Frame with hairline border and luxury white background */}
-            <div className="relative w-full aspect-square sm:aspect-[4/3] lg:aspect-square bg-stone-50 border border-stone-200 rounded-2xl overflow-hidden flex items-center justify-center p-6 sm:p-10 select-none group">
-              
-
-
-              {/* Fullscreen Zoom Trigger Button */}
-              <button
-                onClick={() => setIsFullscreenZoom(true)}
-                className="absolute top-4 left-4 z-10 px-3 py-1.5 rounded-full bg-white/90 hover:bg-white text-stone-700 hover:text-black border border-stone-200 shadow-sm transition-all cursor-pointer opacity-90 group-hover:opacity-100"
-                aria-label="مشاهده در اندازه بزرگ"
-                title="مشاهده جزئیات با کیفیت اصلی"
-              >
-                <span className="text-[11px] font-bold">بزرگ‌نمایی</span>
-              </button>
-
-              {/* Main Image */}
+            {/* Primary display: black like the photos, sharp corners; click the image to zoom */}
+            <button
+              type="button"
+              onClick={() => setIsFullscreenZoom(true)}
+              aria-label={`مشاهده بزرگ ${item.nameFa}`}
+              className="relative w-full aspect-square sm:aspect-[4/3] lg:aspect-square bg-black overflow-hidden flex items-center justify-center select-none cursor-zoom-in"
+            >
               <img
                 src={activeImage}
                 alt={item.nameFa}
-                className="max-h-full max-w-full object-contain filter drop-shadow-md transition-transform duration-700 ease-out group-hover:scale-105"
+                className="w-full h-full object-contain"
               />
-
-              {/* Certificate Watermark Stamp in Corner */}
-              <div className="absolute bottom-4 left-4 z-10 px-2.5 py-1 rounded-md bg-white/80 border border-stone-200 text-[10px] font-cinzel text-stone-600 tracking-wider">
-                {item.certificateIssuer} CERTIFIED
-              </div>
-            </div>
+            </button>
 
             {/* Gallery Thumbnails (if multiple images available) */}
             {images.length > 1 && (
@@ -123,7 +109,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                   <button
                     key={idx}
                     onClick={() => setActiveImageIndex(idx)}
-                    className={`relative w-20 h-20 rounded-xl overflow-hidden border p-1.5 transition-all cursor-pointer shrink-0 bg-stone-50 ${
+                    className={`relative w-20 h-20 overflow-hidden border p-1.5 transition-all cursor-pointer shrink-0 bg-black ${
                       activeImageIndex === idx
                         ? 'border-black ring-1 ring-black shadow-sm'
                         : 'border-stone-200 opacity-70 hover:opacity-100 hover:border-stone-400'
@@ -147,32 +133,26 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
             
             {/* 1. Header Information with Gorgeous Typography matching Home */}
             <div className="space-y-2 border-b border-stone-200 pb-5">
-              <div className="flex items-center justify-between">
-                <span className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.2em] text-stone-500 uppercase">
-                  ITEM CODE: {item.itemCode}
-                </span>
-              </div>
-
               {/* Title Persian with Peyda font */}
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-peyda font-bold text-stone-900 leading-snug tracking-normal">
                 {item.nameFa}
               </h1>
 
               {/* Title Latin with Cormorant Garamond */}
-              <p className="font-cormorant text-base sm:text-lg text-stone-500 tracking-wide font-normal italic mt-1">
+              <p className="text-base sm:text-lg text-stone-500 tracking-wide font-normal mt-1">
                 {item.nameEn}
               </p>
 
               {/* Quick Specs Badges: Gold Net Weight & Stones */}
               <div className="flex flex-wrap items-center gap-2 pt-2">
                 {item.goldNetWeight && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-stone-100 border border-stone-200 text-stone-900 text-xs font-bold font-peyda">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-stone-100 border border-stone-200 text-stone-900 text-xs font-bold font-peyda">
                     <span>وزن خالص طلا:</span>
                     <span>{toPersianDigits(item.goldNetWeight)} گرم</span>
                   </span>
                 )}
                 {item.selectedStones && item.selectedStones.length > 0 && item.selectedStones.map((st, i) => (
-                  <span key={i} className="inline-flex items-center px-2.5 py-1 rounded-lg bg-stone-50 border border-stone-200 text-stone-700 text-xs font-medium font-peyda">
+                  <span key={i} className="inline-flex items-center px-2.5 py-1 bg-stone-50 border border-stone-200 text-stone-700 text-xs font-medium font-peyda">
                     {st}
                   </span>
                 ))}
@@ -195,7 +175,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               {/* Primary: VIP Private Salon Reservation */}
               <button
                 onClick={onOpenVipBooking}
-                className="w-full py-3.5 px-6 rounded-xl bg-black hover:bg-stone-800 text-white font-peyda font-bold text-xs sm:text-sm tracking-wide transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2.5 cursor-pointer"
+                className="w-full py-3.5 px-6 bg-black hover:bg-stone-800 text-white font-peyda font-bold text-xs sm:text-sm tracking-wide transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2.5 cursor-pointer"
               >
                 <span>هماهنگی پرو و بازدید اختصاصی در سالن VIP</span>
               </button>
@@ -205,7 +185,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-3 px-6 rounded-xl bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C7E] border border-[#25D366]/30 font-peyda font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 px-6 bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C7E] border border-[#25D366]/30 font-peyda font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>مشاوره و استعلام مستقیم در واتساپ آتلیه</span>
               </a>
@@ -213,7 +193,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               {/* Direct Callback Form */}
               <div className="pt-2">
                 {inquirySubmitted ? (
-                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-peyda text-xs sm:text-sm font-medium flex items-center gap-2 animate-in fade-in">
+                  <div className="p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 font-peyda text-xs sm:text-sm font-medium flex items-center gap-2 animate-in fade-in">
                     <span>شماره شما با موفقیت ثبت شد؛ مشاور ارشد گالری با شما تماس خواهد گرفت.</span>
                   </div>
                 ) : (
@@ -223,12 +203,12 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                       placeholder="شماره تماس جهت دریافت کاتالوگ و قیمت..."
                       value={inquiryPhone}
                       onChange={(e) => setInquiryPhone(e.target.value)}
-                      className="flex-1 px-3.5 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs sm:text-sm font-peyda text-stone-800 placeholder-stone-400 focus:outline-none focus:border-black transition-colors"
+                      className="flex-1 px-3.5 py-2.5 bg-stone-50 border border-stone-200 text-xs sm:text-sm font-peyda text-stone-800 placeholder-stone-400 focus:outline-none focus:border-black transition-colors"
                       dir="ltr"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs sm:text-sm font-peyda font-bold shrink-0 transition-colors cursor-pointer"
+                      className="px-4 py-2.5 bg-stone-900 hover:bg-black text-white text-xs sm:text-sm font-peyda font-bold shrink-0 transition-colors cursor-pointer"
                     >
                       ثبت درخواست تماس
                     </button>
@@ -246,18 +226,18 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                     شناسنامه گوهرشناسی (Gemological Passport)
                   </h3>
                 </div>
-                <span className="font-cinzel text-[11px] text-stone-600 bg-stone-100 px-2 py-0.5 rounded border border-stone-200">
+                <span className="text-[11px] text-stone-600 bg-stone-100 px-2 py-0.5 border border-stone-200">
                   {item.certificateNumber}
                 </span>
               </div>
 
               {/* Clean Luxury Specification Table with Divider Lines (Van Cleef style) */}
-              <div className="border border-stone-200 rounded-xl overflow-hidden bg-white divide-y divide-stone-200 text-xs font-peyda">
+              <div className="border border-stone-200 overflow-hidden bg-white divide-y divide-stone-200 text-xs font-peyda">
                 
                 <div className="grid grid-cols-2 divide-x divide-x-reverse divide-stone-200">
                   <div className="p-3 bg-stone-50/50">
                     <span className="text-[11px] text-stone-500 font-peyda block mb-0.5">مرجع صادرکننده:</span>
-                    <span className="font-cinzel font-bold text-stone-900 text-xs sm:text-sm">{item.certificateIssuer} International</span>
+                    <span className="font-bold text-stone-900 text-xs sm:text-sm">{item.certificateIssuer} International</span>
                   </div>
                   <div className="p-3 bg-stone-50/50">
                     <span className="text-[11px] text-stone-500 font-peyda block mb-0.5">
@@ -319,7 +299,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
         >
           <button
             onClick={() => setIsFullscreenZoom(false)}
-            className="absolute top-6 left-6 p-3 rounded-full bg-stone-900 hover:bg-white text-stone-300 hover:text-black transition-colors border border-stone-800 cursor-pointer z-10"
+            className="absolute top-6 left-6 p-3 bg-stone-900 hover:bg-white text-stone-300 hover:text-black transition-colors border border-stone-800 cursor-pointer z-10"
             aria-label="بستن"
           >
             <span className="text-sm font-bold px-1">بستن</span>
@@ -335,7 +315,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 
           <div className="text-center text-white space-y-1 mt-2">
             <h3 className="text-base font-peyda font-bold">{item.nameFa}</h3>
-            <span className="text-xs font-cinzel text-stone-400 tracking-wider">{item.certificateIssuer} Verified</span>
+            <span className="text-xs text-stone-400 tracking-wider">شناسنامهٔ {item.certificateIssuer}</span>
           </div>
         </div>
       )}

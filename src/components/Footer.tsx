@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navigation, ExternalLink } from 'lucide-react';
 
 const FOOTER_LOCATION = {
   title: 'گالری جواهر داود آموزگار',
@@ -7,7 +6,6 @@ const FOOTER_LOCATION = {
   addressEn: 'Ahmadabad blvd, before reza 2, Mashhad, Iran 91220',
   phone: '051-38437395',
   telLink: '+985138437395',
-  mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Ahmadabad blvd, before reza 2, Mashhad, Iran')}`,
   embedUrl: `https://maps.google.com/maps?q=${encodeURIComponent('Ahmadabad blvd, before reza 2, Mashhad, Iran')}&t=&z=16&ie=UTF8&iwloc=B&output=embed`,
 };
 
@@ -30,19 +28,7 @@ export const Footer: React.FC = () => {
               loading="lazy"
               allowFullScreen
             />
-            {/* Direct Open in Google Maps Floating Button */}
-            <div className="absolute top-3.5 right-3.5 z-10">
-              <a
-                href={FOOTER_LOCATION.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-black/85 hover:bg-white text-white hover:text-black backdrop-blur-md border border-white/20 text-xs font-semibold transition-all shadow-lg active:scale-95 cursor-pointer"
-              >
-                <Navigation className="w-3.5 h-3.5 text-amber-400" />
-                <span>Open in Maps</span>
-                <ExternalLink className="w-3 h-3 opacity-60" />
-              </a>
-            </div>
+
           </div>
 
           {/* LEFT SIDE in RTL (ستون سمت چپ): تماس با ما */}
