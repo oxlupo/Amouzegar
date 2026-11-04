@@ -10,7 +10,6 @@ export function JewelryCraftsmanship() {
         <span className="jewelry-craftsmanship__eyebrow">امضای آموزگار</span>
         <h2 id="jewelry-craftsmanship-title">زیبایی،<br />از درون آغاز می‌شود.</h2>
         <p>ظرافت، حتی در نادیدنی‌ترین جزئیات.<br />جواهری که از هر زاویه، روایتگر زیبایی شماست.</p>
-        <span className="jewelry-craftsmanship__signature" lang="en" dir="ltr">AMOUZEGAR JEWELLERY</span>
       </div>
     </section>
   );
