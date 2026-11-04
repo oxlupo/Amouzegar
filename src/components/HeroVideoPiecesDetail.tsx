@@ -578,7 +578,7 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
                   className="group flex flex-col items-center gap-1 focus:outline-none transition-transform active:scale-95 cursor-pointer"
                   aria-label="Scroll Down"
                 >
-                  <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-sans font-medium text-stone-400 group-hover:text-stone-300 transition-colors">
+                  <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-grotesk font-medium text-stone-400 group-hover:text-stone-300 transition-colors">
                     SCROLL DOWN
                   </span>
                   <ChevronDown className="w-4 h-4 text-stone-400 group-hover:text-stone-300 animate-bounce transition-colors" />
@@ -625,13 +625,13 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
 
                   <div className="flex items-start justify-between border-b border-stone-800/80 pb-2 mb-2">
                     <div>
-                      <span className="text-[9px] tracking-wider uppercase text-white/80 font-mono block">
+                      <span className="text-[9px] tracking-wider uppercase text-white/80 font-grotesk block">
                         HIGH JEWELRY PIECE 01
                       </span>
-                      <h3 className="text-xs sm:text-sm font-semibold text-white font-serif mt-0.5">
+                      <h3 className="text-xs sm:text-sm font-semibold text-white font-grotesk mt-0.5">
                         {stop1.titleFa}
                       </h3>
-                      <span className="text-[9px] text-stone-300 font-mono">
+                      <span className="text-[9px] text-stone-300 font-grotesk">
                         {stop1.titleEn}
                       </span>
                     </div>
@@ -708,13 +708,13 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
 
                   <div className="flex items-start justify-between border-b border-stone-800/80 pb-2 mb-2">
                     <div>
-                      <span className="text-[9px] tracking-wider uppercase text-white/80 font-mono block">
+                      <span className="text-[9px] tracking-wider uppercase text-white/80 font-grotesk block">
                         HIGH JEWELRY PIECE 02
                       </span>
-                      <h3 className="text-xs sm:text-sm font-semibold text-white font-serif mt-0.5">
+                      <h3 className="text-xs sm:text-sm font-semibold text-white font-grotesk mt-0.5">
                         {stop2.titleFa}
                       </h3>
-                      <span className="text-[9px] text-stone-300 font-mono">
+                      <span className="text-[9px] text-stone-300 font-grotesk">
                         {stop2.titleEn}
                       </span>
                     </div>
@@ -757,7 +757,7 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
           <footer className="absolute bottom-6 sm:bottom-8 inset-x-0 z-20 flex flex-col items-center justify-center pointer-events-none">
             {currentStatus.isMoving && (
               <div className="flex flex-col items-center gap-1 animate-in fade-in duration-300">
-                <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-sans font-medium text-stone-400">
+                <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-grotesk font-medium text-stone-400">
                   SCROLL DOWN
                 </span>
                 <ChevronDown className="w-4 h-4 text-stone-400 animate-bounce" />
@@ -796,7 +796,7 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
                 <div className="min-w-0 flex-1">
                   <span className="text-[11px] text-stone-500">{piece.collectionFa}</span>
                   <h3 className="mt-1 text-lg xl:text-2xl font-bold text-white leading-snug">{piece.titleFa}</h3>
-                  <span dir="ltr" className="block text-left font-cormorant italic text-sm text-stone-400 mt-1 truncate">
+                  <span dir="ltr" className="block text-left font-grotesk italic text-sm text-stone-400 mt-1 truncate">
                     {piece.titleEn}
                   </span>
                   <dl className="mt-[2vh] border-t border-stone-800 text-xs">

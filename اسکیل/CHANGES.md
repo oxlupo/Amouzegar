@@ -1,5 +1,13 @@
 # تاریخچهٔ تغییرات
 
+## 2026-11-04 — فونت Peyda برای کل سایت و یکدست‌سازی فونت‌ها
+
+- درخواست مالک: فایل‌های Peyda (۹ وزن، woff2/woff/eot/ttf) در `public/Peyda` push شدند؛ مالک گفت لایسنس دارد.
+- `index.css`: نُه `@font-face` برای Peyda از Thin (100) تا Black (900) با woff2 و woff، `font-display: swap`؛ کروشه‌های نام فایل URL-encode شدند (`%5BEC%5D`). `--font-sans` هم Peyda شد تا متن بدون کلاس به فونت سیستم نیفتد. `--font-grotesk` اکنون `'Inter Tight', 'Peyda', …` است تا حروف فارسی داخل برچسب‌های انگلیسی هم با Peyda نمایش داده شوند. ابزار و توکن Cinzel حذف شد.
+- `index.html` و `App.tsx`: پایهٔ صفحه از Vazirmatn به font-peyda؛ preload وزن‌های Regular و Bold؛ Cinzel از پیوند Google Fonts حذف شد (Vazirmatn فقط پشتیبان).
+- مؤلفه‌ها (AboutBrand، AdminPanel، BrandSloganSection، CollectionSection، HeroSection، HeroVideoPiecesDetail، ImageCropperModal، JewelryCategoryPage، Navbar، ProductModal، WishlistDrawer): font-mono، font-serif، font-sans و font-cinzel به font-grotesk؛ font-cormorant هم به‌جز شعار BrandSloganSection.
+- بررسی: lint و build موفق؛ Playwright در ۱۵۳۶×۶۹۵: همهٔ فایل‌های Peyda درخواستی پاسخ 200؛ در صفحهٔ اول ۱۱۱ متن Peyda، ۶۶ متن Inter Tight و ۱ متن Cormorant (شعار) و هیچ فونت سیستم/سریف/ماشین‌تحریری؛ صفحهٔ رزرو فقط Peyda و Inter Tight؛ بخش دسته‌بندی سفید و «زیبایی از درون» که پیش‌تر فونت سیستم داشتند اکنون Peyda؛ بدون خطا.
+
 ## 2026-11-04 — افزودن فونت‌های Peyda به گیت‌هاب
 
 - درخواست مالک: ارسال فونت‌های موجود در public/Peyda به GitHub.

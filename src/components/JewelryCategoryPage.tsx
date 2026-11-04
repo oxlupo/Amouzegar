@@ -342,7 +342,7 @@ export const JewelryCategoryPage: React.FC<JewelryCategoryPageProps> = ({
 
       {/* 3. Category heading */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6 text-center">
-        <span className="font-cinzel text-[10px] sm:text-[11px] tracking-[0.25em] uppercase text-stone-500 block mb-1">
+        <span className="font-grotesk text-[10px] sm:text-[11px] tracking-[0.25em] uppercase text-stone-500 block mb-1">
           AMOZEGAR HAUTE JOAILLERIE
         </span>
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-stone-900">
@@ -489,7 +489,7 @@ export const JewelryCategoryPage: React.FC<JewelryCategoryPageProps> = ({
                       </button>
                     </h3>
 
-                    <span dir="ltr" className="block w-full font-cormorant text-xs sm:text-sm text-stone-600 tracking-wide truncate italic px-1">
+                    <span dir="ltr" className="block w-full font-grotesk text-xs sm:text-sm text-stone-600 tracking-wide truncate italic px-1">
                       {item.nameEn}
                     </span>
 

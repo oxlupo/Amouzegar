@@ -124,7 +124,7 @@ export const AboutBrand: React.FC<AboutBrandProps> = ({ onOpenVipBooking }) => {
               {/* Slide counter */}
               <div className="absolute top-4 inset-x-4 flex items-center justify-between z-20 pointer-events-none">
                 {/* Slide Counter Badge */}
-                <span className="px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white text-xs font-bold font-mono">
+                <span className="px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white text-xs font-bold font-grotesk">
                   {toPersianDigits(currentSlide + 1)} / {toPersianDigits(STORE_GALLERY_IMAGES.length)}
                 </span>
 

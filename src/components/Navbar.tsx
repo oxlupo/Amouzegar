@@ -333,7 +333,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                               <span className="text-[12.5px] font-bold text-white block">
                                 {sec.titleFa}
                               </span>
-                              <span className="text-[9px] text-stone-400 font-sans tracking-widest uppercase block mt-0.5">
+                              <span className="text-[9px] text-stone-400 font-grotesk tracking-widest uppercase block mt-0.5">
                                 {sec.titleEn}
                               </span>
                             </div>
@@ -349,7 +349,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                   <span className="text-xs font-medium group-hover:text-amber-300 transition-colors">
                                     {it.titleFa}
                                   </span>
-                                  <span className="text-[9px] text-stone-400 font-sans tracking-wider uppercase group-hover:text-stone-300 transition-colors">
+                                  <span className="text-[9px] text-stone-400 font-grotesk tracking-wider uppercase group-hover:text-stone-300 transition-colors">
                                     {it.titleEn}
                                   </span>
                                 </button>
@@ -362,7 +362,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       {/* Dropdown Footer: Guarantee & Atelier stamp */}
                       <div className="mt-5 pt-3 border-t border-stone-800/80 flex items-center justify-between px-2 text-[11px] text-stone-400">
                         <span>تمام آثار به همراه شناسنامه معتبر GIA و شناسنامه رسمی آتلیه آموزگار عرضه می‌گردند.</span>
-                        <span className="font-sans text-[10px] text-stone-500 uppercase tracking-widest">AMOUZEGAR ATELIER</span>
+                        <span className="font-grotesk text-[10px] text-stone-500 uppercase tracking-widest">AMOUZEGAR ATELIER</span>
                       </div>
 
                     </div>
@@ -783,7 +783,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             {/* Bottom Maison Monogram Quote */}
-            <div className="pt-2 flex items-center justify-center gap-2 text-[10px] text-stone-500 font-serif tracking-widest uppercase border-t border-stone-900">
+            <div className="pt-2 flex items-center justify-center gap-2 text-[10px] text-stone-500 font-grotesk tracking-widest uppercase border-t border-stone-900">
               <span>AMOUZEGAR HAUTE JOAILLERIE</span>
             </div>
 

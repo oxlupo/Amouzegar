@@ -119,7 +119,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="relative w-16 h-16 flex items-center justify-center">
               <div className="absolute inset-0 rounded-full border border-stone-800" />
               <div className="absolute inset-0 rounded-full border-t border-amber-400 animate-spin" />
-              <div className="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center text-amber-300 font-serif font-bold text-sm">
+              <div className="w-8 h-8 rounded-full bg-stone-900 flex items-center justify-center text-amber-300 font-grotesk font-bold text-sm">
                 آ
               </div>
             </div>
@@ -168,7 +168,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             aria-label="Scroll Down"
             id="hero-scroll-now-btn"
           >
-            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-sans font-medium text-stone-400 group-hover:text-stone-300 transition-colors">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-grotesk font-medium text-stone-400 group-hover:text-stone-300 transition-colors">
               SCROLL DOWN
             </span>
             <ChevronDown className="w-4 h-4 text-stone-400 group-hover:text-stone-300 animate-bounce transition-colors" />

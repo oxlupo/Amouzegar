@@ -76,7 +76,7 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                   />
 
                   <div className="flex-1 min-w-0 text-right">
-                    <span className="text-[10px] font-mono text-stone-500 block">
+                    <span className="text-[10px] font-grotesk text-stone-500 block">
                       {item.itemCode}
                     </span>
                     <h4 

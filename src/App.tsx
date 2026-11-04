@@ -239,7 +239,7 @@ export default function App() {
   const wishlistedItems = jewelryItems.filter((i) => wishlistIds.includes(i.id));
 
   return (
-    <div className="min-h-screen bg-[#000000] text-stone-100 flex flex-col font-['Vazirmatn',sans-serif] selection:bg-rose-900/40 selection:text-rose-200">
+    <div className="min-h-screen bg-[#000000] text-stone-100 flex flex-col font-peyda selection:bg-rose-900/40 selection:text-rose-200">
       
       {/* Toast Notification */}
       {toastMessage && (

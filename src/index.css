@@ -1,10 +1,93 @@
 @import "tailwindcss";
 
+/* Peyda (licensed by the owner), self-hosted from public/Peyda. Brackets in the file names are URL-encoded. */
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Thin.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Thin.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DpeydaWeb-extralight.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DpeydaWeb-extralight.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DpeydaWeb-light.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DpeydaWeb-light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Regular.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Medium.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-SemiBold.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-SemiBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Bold.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-ExtraBold.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Black.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Black.woff') format('woff');
+}
+
+
 @theme {
   --font-peyda: 'Peyda', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Peyda', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-cormorant: 'Cormorant Garamond', Georgia, serif;
-  --font-cinzel: 'Cinzel', 'Trajan Pro', serif;
-  --font-grotesk: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --font-grotesk: 'Inter Tight', 'Peyda', 'Vazirmatn', 'Helvetica Neue', Arial, sans-serif;
 
   /* shadcn-style colour tokens used by components in src/components/ui (the site is black-first). */
   --color-background: #000000;
@@ -45,12 +128,9 @@
     font-family: 'Cormorant Garamond', Georgia, serif;
   }
 
-  .font-cinzel {
-    font-family: 'Cinzel', 'Trajan Pro', serif;
-  }
 
   .font-grotesk {
-    font-family: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Inter Tight', 'Peyda', 'Vazirmatn', 'Helvetica Neue', Arial, sans-serif;
   }
 
   .no-scrollbar::-webkit-scrollbar {

@@ -174,7 +174,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
                   {/* Details */}
                   <div className="space-y-1.5 text-right flex-1 flex flex-col justify-between">
                     <div>
-                      <span className="text-[10px] text-stone-500 font-mono block" dir="ltr">
+                      <span className="text-[10px] text-stone-500 font-grotesk block" dir="ltr">
                         {item.itemCode}
                       </span>
                       <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-1 mt-0.5">
@@ -190,7 +190,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
                         <Award className="w-3.5 h-3.5 text-amber-400" />
                         <span>{item.certificateIssuer}</span>
                       </div>
-                      <span className="text-amber-400/90 font-mono text-[10.5px]">
+                      <span className="text-amber-400/90 font-grotesk text-[10.5px]">
                         {toPersianDigits(item.caratTotal)} قیراط
                       </span>
                     </div>

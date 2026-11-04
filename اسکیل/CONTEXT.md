@@ -93,3 +93,4 @@
 - بخش سفید فقط آثار دارای `shortNameEn` را نشان می‌دهد؛ عکس‌های مربعی اختصاصی در `public/index/` با نام‌های `README.md` همان پوشه منتظر ارسال مالک‌اند.
 - بخش سفید از `NAME_INDEX_PIECES` در `jewelryData.ts` و تصاویر شفاف WebP در `public/index/cutouts/` استفاده می‌کند؛ `shortNameEn` و `indexImageUrl` دیگر وجود ندارند.
 - Agentation فقط در حالت توسعه (`npm run dev`) در `src/main.tsx` بارگذاری می‌شود؛ esbuild روی `^0.28.2` است.
+- فونت‌ها: Peyda (خودمیزبان، public/Peyda) برای همهٔ فارسی؛ Inter Tight برای برچسب‌ها و اعداد انگلیسی؛ Cormorant فقط برای شعار. از font-mono/serif/sans/cinzel استفاده نشود.
