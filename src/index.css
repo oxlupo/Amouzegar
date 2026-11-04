@@ -82,6 +82,36 @@
   }
 }
 
+/* Booking date picker: month grid zooms into the days of the chosen month, and back out. */
+@keyframes pickerIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pickerBack {
+  0% { opacity: 0; transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes dayIn {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-picker-in {
+    animation: pickerIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform-origin: center;
+  }
+  .animate-picker-back {
+    animation: pickerBack 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform-origin: center;
+  }
+  .animate-day-in {
+    animation: dayIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
 @keyframes slideInFromLeft {
   0% {
     opacity: 0;

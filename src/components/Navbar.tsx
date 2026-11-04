@@ -3,13 +3,11 @@ import {
   Heart, 
   Menu, 
   X, 
-  Clock, 
   ChevronLeft, 
   ChevronDown, 
   MapPin, 
   Phone, 
   ShieldCheck, 
-  Gem, 
   Sparkles, 
   CircleDot, 
   Instagram, 
@@ -332,7 +330,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                       {/* Submenu Header */}
                       <div className="px-2 pb-3 mb-4 border-b border-stone-800/80 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Gem className="w-4 h-4 text-amber-400" />
                           <span className="text-xs font-bold text-white tracking-wide">
                             مجموعه جواهرات فاخر آموزگار | HAUTE JOAILLERIE
                           </span>
@@ -885,14 +882,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="group flex items-center justify-between w-full text-right text-stone-300 hover:text-white transition-colors pt-2 border-t border-stone-800/80 cursor-pointer"
             >
               <div className="flex items-center gap-3">
-                <Clock className="w-4 h-4 text-stone-400 group-hover:text-white shrink-0 transition-colors" />
                 <span className="text-xs font-medium tracking-wide">رزرو وقت بازدید خصوصی VIP</span>
               </div>
             </button>
 
             {/* Bottom Maison Monogram Quote */}
             <div className="pt-2 flex items-center justify-center gap-2 text-[10px] text-stone-500 font-serif tracking-widest uppercase border-t border-stone-900">
-              <Gem className="w-3 h-3 text-stone-500" />
               <span>AMOUZEGAR HAUTE JOAILLERIE</span>
             </div>
 
