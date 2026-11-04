@@ -19,27 +19,21 @@
     "semantic_hash": "f1139523ae475664de5b6edff3f72255"
   },
   "src/App.tsx": {
-    "mtime": 1793713703.9211223,
-    "seen": 1793713712.440492,
-    "ast_hash": "9574eba0dd517784ff1be467a866477c",
+    "mtime": 1793736620.2427893,
+    "seen": 1793736704.8397658,
+    "ast_hash": "64868a76a009fbcff0de08665a5ef1ca",
     "semantic_hash": ""
   },
   "src/components/AboutBrand.tsx": {
-    "mtime": 1793561291.7617402,
-    "seen": 1793561363.3810177,
-    "ast_hash": "19b6bf6d7352bee427877cf43b2d1d84",
+    "mtime": 1793769612.429952,
+    "seen": 1793769626.077287,
+    "ast_hash": "5c9eb9f6c20f05ae0f1ab8a7a7422d1f",
     "semantic_hash": ""
   },
   "src/components/AdminPanel.tsx": {
     "mtime": 1793561291.7628174,
     "seen": 1793561363.3810215,
     "ast_hash": "cc4bba6f4792657ba4da22921b598a23",
-    "semantic_hash": ""
-  },
-  "src/components/BespokeAtelier.tsx": {
-    "mtime": 1793561291.7628174,
-    "seen": 1793561363.3810253,
-    "ast_hash": "23d3f7f628009e6443822cdcca98823a",
     "semantic_hash": ""
   },
   "src/components/BrandSloganSection.tsx": {
@@ -85,9 +79,9 @@
     "semantic_hash": ""
   },
   "src/components/Navbar.tsx": {
-    "mtime": 1793561291.7638254,
-    "seen": 1793561363.3810601,
-    "ast_hash": "445f78f3db31aed3c026cab8e15fab02",
+    "mtime": 1793736620.2437892,
+    "seen": 1793736704.8397868,
+    "ast_hash": "16cce677c8d5c65211711221291384df",
     "semantic_hash": ""
   },
   "src/components/ProductDetailPage.tsx": {
@@ -115,9 +109,9 @@
     "semantic_hash": "c5f60ba7b89026c9197640213a76bb10"
   },
   "src/data/jewelryData.ts": {
-    "mtime": 1793561291.7648287,
-    "seen": 1793561363.3810778,
-    "ast_hash": "d77b6d17a5ee8d424cd29baf1a444743",
+    "mtime": 1793736620.2447891,
+    "seen": 1793736704.839794,
+    "ast_hash": "522c6581483a76670ff888b926557656",
     "semantic_hash": ""
   },
   "src/main.tsx": {
@@ -205,15 +199,15 @@
     "semantic_hash": ""
   },
   "\u0627\u0633\u06a9\u06cc\u0644/CHANGES.md": {
-    "mtime": 1793717560.2531157,
-    "seen": 1793717699.1255295,
-    "ast_hash": "a527d71500c531398187b088d7ded50a",
+    "mtime": 1793769855.051228,
+    "seen": 1793770048.9003258,
+    "ast_hash": "d8649bb593c98be3c6d5dc222b2e7247",
     "semantic_hash": ""
   },
   "\u0627\u0633\u06a9\u06cc\u0644/CONTEXT.md": {
-    "mtime": 1793717560.2531157,
-    "seen": 1793717699.1255326,
-    "ast_hash": "c349e7540ceec4bdb59d05df20c7b969",
+    "mtime": 1793769855.0522313,
+    "seen": 1793770048.9003277,
+    "ast_hash": "c10aaec41206059b61ed3ec13f9a8e95",
     "semantic_hash": ""
   },
   "\u0627\u0633\u06a9\u06cc\u0644/SKILL.md": {
@@ -1141,9 +1135,9 @@
     "semantic_hash": ""
   },
   "src/components/JewelryCustomizer.tsx": {
-    "mtime": 1793717691.371089,
-    "seen": 1793717699.1254659,
-    "ast_hash": "21488154c2daa55cc2daea86ed27d388",
+    "mtime": 1793770024.5944405,
+    "seen": 1793770048.9002886,
+    "ast_hash": "4f36f3ef157436e7aa766b1467bd86f1",
     "semantic_hash": ""
   },
   "src/hooks/useDesktop.ts": {
@@ -1153,9 +1147,9 @@
     "semantic_hash": ""
   },
   "public/customize/README.md": {
-    "mtime": 1793717530.5672674,
-    "seen": 1793717699.125518,
-    "ast_hash": "bf5e6a860e6c7369f30da856ca041e6d",
+    "mtime": 1793736620.3480153,
+    "seen": 1793736704.8398066,
+    "ast_hash": "c22589de59b44b8c4120212d0176fcf6",
     "semantic_hash": ""
   },
   "public/customize/ring-builder-poster.jpg": {
@@ -1168,6 +1162,42 @@
     "mtime": 1793713703.920116,
     "seen": 1793713712.4407835,
     "ast_hash": "5cff35fa70cb650c9d527826f84825d5",
+    "semantic_hash": ""
+  },
+  "public/customize/scroll-customizer-poster.jpg": {
+    "mtime": 1793730222.9610984,
+    "seen": 1793730504.0102866,
+    "ast_hash": "0cf580335dacad855757a46fdb91ae0a",
+    "semantic_hash": ""
+  },
+  "public/customize/scroll-customizer.mp4": {
+    "mtime": 1793730222.7361083,
+    "seen": 1793730504.0106623,
+    "ast_hash": "80c28c206e9adb23f9b0471ace819002",
+    "semantic_hash": ""
+  },
+  "public/customize/scroll2-customizer-poster.jpg": {
+    "mtime": 1793736620.41235,
+    "seen": 1793736704.8398497,
+    "ast_hash": "bbefcfbfb13d336e9b52dadd4b06dc2f",
+    "semantic_hash": ""
+  },
+  "Scroll2.mp4": {
+    "mtime": 1793736620.4113364,
+    "seen": 1793736704.8399994,
+    "ast_hash": "c7ca258ca4ec57f396a276a8c1e7236f",
+    "semantic_hash": ""
+  },
+  "public/customize/scroll2-customizer.mp4": {
+    "mtime": 1793736620.4403453,
+    "seen": 1793736704.8400078,
+    "ast_hash": "4bbaa4478ac041d6dd410ea31f5b4521",
+    "semantic_hash": ""
+  },
+  "Scroll.mp4": {
+    "mtime": 1793729638.6418645,
+    "seen": 1793733599.5320785,
+    "ast_hash": "58b25621f22ce5ea2b8dde876844d44c",
     "semantic_hash": ""
   },
   "package-lock.json": {

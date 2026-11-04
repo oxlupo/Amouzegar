@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Maximize2, 
   X
 } from 'lucide-react';
 import { toPersianDigits } from '../utils/formatters';
@@ -122,21 +121,13 @@ export const AboutBrand: React.FC<AboutBrandProps> = ({ onOpenVipBooking }) => {
                 ))}
               </div>
 
-              {/* Top Controls: Slide Counter & Fullscreen Zoom Button */}
+              {/* Slide counter */}
               <div className="absolute top-4 inset-x-4 flex items-center justify-between z-20 pointer-events-none">
                 {/* Slide Counter Badge */}
                 <span className="px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/20 text-white text-xs font-bold font-mono">
                   {toPersianDigits(currentSlide + 1)} / {toPersianDigits(STORE_GALLERY_IMAGES.length)}
                 </span>
 
-                {/* Fullscreen Button */}
-                <button
-                  onClick={() => setActiveModalImage(STORE_GALLERY_IMAGES[currentSlide].src)}
-                  className="p-2.5 rounded-full bg-black/70 hover:bg-white text-white hover:text-black backdrop-blur-md border border-white/20 transition-all pointer-events-auto cursor-pointer shadow-lg"
-                  title="مشاهده تصویر بزرگ"
-                >
-                  <Maximize2 className="w-4 h-4" />
-                </button>
               </div>
 
               {/* Flipping Buttons (ورق زدن با دکمه‌های ناوبری) */}

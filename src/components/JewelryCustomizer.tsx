@@ -10,7 +10,7 @@ const CUSTOMIZER_CONFIG = {
   posterSrc: '/customize/scroll-customizer-poster.jpg',
   duration: 4.208333,
   /** Viewport heights of scrolling while the section is pinned. */
-  scrollVh: 300,
+  scrollVh: 200,
   /** Share of the whole scroll each stop holds still. */
   holdShare: 0.11,
   lerp: 0.22,
@@ -23,9 +23,15 @@ const CUSTOMIZER_CONFIG = {
   stops: [
     { time: 0.3, title: 'جواهرتان را تصور کنید.', text: 'یک فرم، یک نگین، یک حس؛ جواهری که در ذهن شماست، می‌تواند فقط از آنِ شما باشد.' },
     { time: 2.35, title: 'تصورتان را با ما در میان بگذارید.', text: 'از ایده‌تان بگویید یا تصویری برایمان بفرستید. با هم، جزئیات جواهر دلخواهتان را شکل می‌دهیم.' },
-    { time: 3.95, title: 'ما برایتان می‌سازیم.', text: 'از انتخاب نگین تا آخرین پرداخت، جواهرتان را مطابق سلیقه و خواستهٔ شما طراحی و می‌سازیم.' },
+    { time: 4.15, title: 'ما برایتان می‌سازیم.', text: 'از انتخاب نگین تا آخرین پرداخت، جواهرتان را مطابق سلیقه و خواستهٔ شما طراحی و می‌سازیم.' },
   ],
 };
+
+const MOBILE_STORIES = [
+  { title: 'جواهرتان را تصور کنید.', lines: ['یک نگین، یک فرم، یک حس؛', 'آغاز جواهری فقط برای شما.'] },
+  { title: 'ایده‌تان را به ما بسپارید.', lines: ['تصویر یا طرح دلخواهتان را بفرستید؛', 'جزئیاتش را با هم شکل می‌دهیم.'] },
+  { title: 'خیالتان را جواهر می‌کنیم.', lines: ['با نگین و طرحی که دوست دارید،', 'فقط برای شما می‌سازیم.'] },
+];
 
 /** Elliptical fade around the wheel's hub, which sits just outside the film's right edge. */
 const CRESCENT_MASK =
@@ -75,11 +81,29 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
   const snapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [sceneIndex, setSceneIndex] = useState(0);
+  const [displayedScene, setDisplayedScene] = useState(0);
+  const [copyVisible, setCopyVisible] = useState(true);
   /** A step in progress: the film moves from one stone to the next at a readable pace. */
   const stepRef = useRef<{ start: number; from: number; to: number; duration: number; index: number; native: boolean } | null>(null);
   /** Input is ignored until this time (ms), so one gesture moves exactly one stone. */
   const lockedUntilRef = useRef(0);
   const [reducedMotion, setReducedMotion] = useState(false);
+
+  // Keep the outgoing copy mounted until it has faded, then reveal the next scene.
+  useEffect(() => {
+    if (reducedMotion) {
+      setDisplayedScene(sceneIndex);
+      setCopyVisible(true);
+      return;
+    }
+    if (sceneIndex === displayedScene) return;
+    setCopyVisible(false);
+    const timer = window.setTimeout(() => {
+      setDisplayedScene(sceneIndex);
+      setCopyVisible(true);
+    }, 150);
+    return () => window.clearTimeout(timer);
+  }, [sceneIndex, displayedScene, reducedMotion]);
 
   const segmentAt = useCallback(
     (p: number) => timeline.find((s) => p <= s.to) ?? timeline[timeline.length - 1],
@@ -106,10 +130,13 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
 
   const holdCentreOf = useCallback(
     (index: number) => {
+      // The story starts and ends at the section boundaries, with no empty scroll tail.
+      if (index === 0) return 0;
+      if (index === stops.length - 1) return 1;
       const h = timeline.filter((seg) => seg.hold)[index];
       return h ? (h.from + h.to) / 2 : 0;
     },
-    [timeline]
+    [timeline, stops.length]
   );
 
   /**
@@ -311,18 +338,24 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
   }, [reducedMotion, timeAt, segmentAt]);
 
   const copy = (
-    <div dir="rtl" className="font-peyda text-white max-w-lg">
+    <div dir="rtl" className="font-peyda text-white w-full max-w-lg">
       <span className="text-[11px] tracking-wide text-stone-400">از تصور شما تا خلق یک جواهر</span>
-      <div aria-live="polite" aria-atomic="true" className="min-h-[160px] lg:min-h-[240px]">
-        {(reducedMotion ? stops : [stops[sceneIndex]]).map((stop) => (
-          <div key={stop.title} className={reducedMotion ? undefined : 'animate-fade-up'}>
-            <h2 className="mt-3 text-3xl xl:text-5xl font-bold leading-tight">{stop.title}</h2>
-            <p className="mt-5 text-sm xl:text-base text-stone-300 leading-loose">{stop.text}</p>
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        data-scene-copy
+        className="min-h-[144px] sm:min-h-[160px] lg:min-h-[240px] transition-opacity duration-150 ease-in-out motion-reduce:transition-none"
+        style={{ opacity: copyVisible ? 1 : 0 }}
+      >
+        {(reducedMotion ? stops : [stops[displayedScene]]).map((stop) => (
+          <div key={stop.title}>
+            <h2 className="mt-2 lg:mt-3 text-[22px] sm:text-3xl xl:text-5xl font-bold leading-tight">{stop.title}</h2>
+            <p className="mt-2 lg:mt-5 text-[13px] lg:text-sm xl:text-base text-stone-300 leading-[1.8] lg:leading-loose">{stop.text}</p>
           </div>
         ))}
       </div>
 
-      {!reducedMotion && <ol className="mt-6 grid grid-cols-3 gap-3" aria-label="مراحل سفارش اختصاصی">
+      {!reducedMotion && <ol className="mt-2 lg:mt-6 grid grid-cols-3 gap-3" aria-label="مراحل سفارش اختصاصی">
         {stops.map((stop, index) => {
           const isActive = index === sceneIndex;
           return (
@@ -331,7 +364,7 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
                 type="button"
                 onClick={() => (reducedMotion ? undefined : goToStop(index))}
                 aria-current={isActive ? 'true' : undefined}
-                className={`w-full border-t-2 pt-3 text-right transition-colors duration-500 cursor-pointer ${
+                className={`w-full min-h-11 lg:min-h-0 border-t-2 pt-2 lg:pt-3 text-right transition-colors duration-500 cursor-pointer ${
                   isActive ? 'border-[#c9a56a] text-white' : 'border-stone-700 text-stone-500 hover:text-stone-300'
                 }`}
               >
@@ -342,11 +375,14 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
         })}
       </ol>}
 
-      <div className="mt-8 min-h-12">
-      {(reducedMotion || sceneIndex === stops.length - 1) && <button
+      <div
+        className="mt-2 lg:mt-8 min-h-12 transition-opacity duration-150 ease-in-out motion-reduce:transition-none"
+        style={{ opacity: copyVisible ? 1 : 0 }}
+      >
+      {(reducedMotion || displayedScene === stops.length - 1) && <button
         type="button"
         onClick={onOpenVipBooking}
-        className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold hover:bg-stone-200 transition-colors cursor-pointer"
+        className="inline-flex w-full sm:w-auto items-center justify-center gap-2 px-6 py-3 bg-white text-black text-sm font-bold hover:bg-stone-200 transition-colors cursor-pointer"
       >
         <span>سفارش اختصاصی</span>
         <ArrowLeft className="w-4 h-4" />
@@ -374,19 +410,19 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
       className="relative bg-black"
       style={{ height: `${CUSTOMIZER_CONFIG.scrollVh}vh` }}
     >
-      <div dir="ltr" className="sticky top-0 h-[100svh] overflow-hidden flex flex-col-reverse lg:flex-row">
-        {/* Copy: left on desktop, below the film on mobile */}
-        <div className="relative z-10 shrink-0 lg:flex-1 flex items-center px-6 sm:px-10 lg:px-16 xl:px-24 py-8 lg:pt-[69px] lg:py-0">
+      <div dir="ltr" className="sticky top-0 h-[100svh] overflow-hidden lg:flex lg:flex-row">
+        {/* Desktop copy; mobile uses a compact story in the upper-left space. */}
+        <div className="relative z-10 hidden lg:flex lg:flex-1 items-center px-16 xl:px-24 pt-[69px]">
           {copy}
         </div>
 
         {/* Film: right half on desktop */}
-        <div className="relative flex-1 min-h-0 lg:flex-none lg:w-1/2 lg:h-full">
-          {/* Keep the smaller frame flush with the top-right corner, without cropping the film. */}
+        <div className="absolute inset-x-0 top-[69px] bottom-0 lg:relative lg:inset-auto lg:flex-none lg:w-1/2 lg:h-full">
+          {/* Fill the section height so no unused black area remains below the film. */}
           {/* Crescent fade: a radial mask centred on the wheel's hidden hub (right edge) dissolves the
               film into the black section along the wheel's own arc instead of a straight edge. */}
           <div
-            className="absolute top-0 right-0 h-full lg:h-[78%] max-w-full aspect-[9/16]"
+            className="absolute top-0 right-0 h-[92%] lg:h-full max-w-full aspect-[9/16]"
             style={{ maskImage: CRESCENT_MASK, WebkitMaskImage: CRESCENT_MASK }}
           >
             <video
@@ -400,6 +436,44 @@ export const JewelryCustomizer: React.FC<{ onOpenVipBooking: () => void }> = ({ 
               aria-label="نمایش مرحله‌به‌مرحلهٔ انتخاب الماس برای ساخت جواهر اختصاصی"
               className="absolute inset-0 w-full h-full object-contain object-top-right pointer-events-none"
             />
+          </div>
+        </div>
+
+        <div className="absolute inset-0 z-20 lg:hidden font-peyda text-white pointer-events-none">
+          <div
+            data-mobile-story
+            aria-live="polite"
+            aria-atomic="true"
+            className="absolute top-[calc(69px+7svh)] left-[9%] w-[42%] max-w-[220px] text-right pointer-events-auto transition-opacity duration-150 ease-in-out motion-reduce:transition-none"
+            style={{ opacity: copyVisible ? 1 : 0 }}
+          >
+            <div dir="rtl">
+              <h2 className="text-[18px] font-bold leading-relaxed">{MOBILE_STORIES[displayedScene].title}</h2>
+              <p className="mt-2 text-[13px] leading-[1.9] text-stone-300">{MOBILE_STORIES[displayedScene].lines.join(' ')}</p>
+            </div>
+          </div>
+          <div dir="rtl" className="absolute inset-x-0 bottom-0 px-4 pb-3 pt-4 pointer-events-auto bg-gradient-to-t from-black via-black/95 to-transparent">
+            <ol className="grid grid-cols-3 gap-3" aria-label="مراحل سفارش اختصاصی">
+              {stops.map((stop, index) => (
+                <li key={stop.title}>
+                  <button
+                    type="button"
+                    onClick={() => goToStop(index)}
+                    aria-current={sceneIndex === index ? 'step' : undefined}
+                    className={`w-full min-h-11 border-t text-[11px] cursor-pointer ${sceneIndex === index ? 'border-white text-white' : 'border-stone-700 text-stone-400'}`}
+                  >
+                    {['تصور شما', 'همراهی ما', 'خلق جواهر'][index]}
+                  </button>
+                </li>
+              ))}
+            </ol>
+            <div className="mt-1 h-11 transition-opacity duration-150 motion-reduce:transition-none" style={{ opacity: copyVisible ? 1 : 0 }}>
+              {displayedScene === stops.length - 1 && (
+                <button type="button" onClick={onOpenVipBooking} className="flex w-full h-11 items-center justify-center gap-2 bg-white text-black text-xs font-bold cursor-pointer">
+                  سفارش اختصاصی <ArrowLeft className="w-4 h-4" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
