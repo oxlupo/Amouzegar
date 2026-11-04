@@ -248,12 +248,17 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   // Hover handlers for Desktop Contact popover
+  // After a click jumps to the footer, keep the popover shut until the pointer leaves the link.
+  const contactClickedRef = useRef(false);
+
   const handleContactMouseEnter = () => {
     if (contactTimeoutRef.current) clearTimeout(contactTimeoutRef.current);
+    if (contactClickedRef.current) return;
     setDesktopContactOpen(true);
   };
 
   const handleContactMouseLeave = () => {
+    contactClickedRef.current = false;
     contactTimeoutRef.current = setTimeout(() => {
       setDesktopContactOpen(false);
     }, 200);
@@ -425,7 +430,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 
                 {/* 3. سفارش اختصاصی */}
                 <button
-                  onClick={() => handleSectionClick('jewelry-customizer')}
+                  onClick={() => {
+                    setDesktopJewelryOpen(false);
+                    setDesktopContactOpen(false);
+                    onOpenVipBooking();
+                  }}
                   className="hover:text-white transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform cursor-pointer font-peyda"
                   title="توضیح روند طراحی و ساخت جواهر مطابق سلیقهٔ مشتری"
                 >
@@ -444,7 +453,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                       e.preventDefault();
                       e.stopPropagation();
                       if (contactTimeoutRef.current) clearTimeout(contactTimeoutRef.current);
-                      setDesktopContactOpen((prev) => !prev);
+                      contactClickedRef.current = true;
+                      setDesktopContactOpen(false);
+                      document.getElementById('site-contact')?.scrollIntoView({ behavior: 'smooth' });
                     }}
                     className={`hover:text-white transition-colors py-1 flex items-center gap-1 cursor-pointer font-peyda group ${
                       desktopContactOpen ? 'text-white' : 'text-stone-300'
@@ -781,7 +792,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* 3. سفارش اختصاصی (توضیح روند طراحی و ساخت جواهر مطابق سلیقهٔ مشتری) */}
               <button
-                onClick={() => handleSectionClick('jewelry-customizer')}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenVipBooking();
+                }}
                 className="group relative w-full flex items-center justify-between px-6 py-4.5 text-right transition-colors overflow-hidden cursor-pointer"
               >
                 <span className="absolute inset-0 bg-stone-100 translate-x-full group-hover:translate-x-0 group-active:translate-x-0 transition-transform duration-300 ease-out origin-right pointer-events-none" />
@@ -799,7 +813,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* 4. ارتباط با ما (آدرس گالری، شماره تماس، واتساپ و اینستاگرام) */}
               <button
-                onClick={() => handleSectionClick('contact-salon')}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setTimeout(() => document.getElementById('site-contact')?.scrollIntoView({ behavior: 'smooth' }), 50);
+                }}
                 className="group relative w-full flex items-center justify-between px-6 py-4.5 text-right transition-colors overflow-hidden cursor-pointer"
               >
                 <span className="absolute inset-0 bg-stone-100 translate-x-full group-hover:translate-x-0 group-active:translate-x-0 transition-transform duration-300 ease-out origin-right pointer-events-none" />

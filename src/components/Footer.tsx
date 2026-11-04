@@ -15,7 +15,7 @@ const toPersianDigits = (value: string) => value.replace(/\d/g, (d) => '۰۱۲۳
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#000000] text-stone-300 border-t border-stone-900 pt-16 pb-12 font-peyda" dir="rtl">
+    <footer id="site-contact" className="bg-[#000000] text-stone-300 border-t border-stone-900 pt-16 pb-12 font-peyda scroll-mt-[69px]" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Full Footer Space: Map on Right, Contact Info on Left (No enclosing board/card) */}
