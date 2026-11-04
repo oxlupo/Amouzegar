@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { JewelryItem } from '../types';
+import { useDesktop } from '../hooks/useDesktop';
 import { Eye, X, Sparkles, ChevronDown, Compass } from 'lucide-react';
 
 /**
@@ -80,6 +81,9 @@ export const SCROLL_SCRUB_CONFIG = {
   },
 };
 
+const toPersianDigits = (value: number | string) =>
+  String(value).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)]);
+
 /**
  * Standard cubic ease-in-out easing
  */
@@ -153,6 +157,9 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
   items = [],
   onSelectItem,
 }) => {
+  const isDesktop = useDesktop();
+  const [lastPlateauIndex, setLastPlateauIndex] = useState(0);
+
   // Container & DOM refs
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -391,6 +398,22 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
   const stop1 = SCROLL_SCRUB_CONFIG.stop1;
   const stop2 = SCROLL_SCRUB_CONFIG.stop2;
 
+  // Desktop side panel: both featured pieces; the one on screen is highlighted.
+  const featuredPieces = [
+    { ...stop1, plateauP: SCROLL_SCRUB_CONFIG.breakpoints.plateau1.snapP },
+    { ...stop2, plateauP: SCROLL_SCRUB_CONFIG.breakpoints.plateau2.snapP },
+  ];
+  // Match the desktop panel to the exact visibility window used by the hotspot.
+  const plateauIndex = currentStatus.isPlateau1 ? 0 : currentStatus.isPlateau2 ? 1 : null;
+  const showDesktopProduct = !isDesktop || plateauIndex !== null;
+  useEffect(() => {
+    if (plateauIndex !== null) setLastPlateauIndex(plateauIndex);
+  }, [plateauIndex]);
+  // Retain the outgoing piece during its fade rather than switching it in mid-motion.
+  const featuredIndex = isDesktop
+    ? plateauIndex ?? lastPlateauIndex
+    : scrollProgress < SCROLL_SCRUB_CONFIG.breakpoints.move2.minP ? 0 : 1;
+
   // =========================================================================
   // REDUCED MOTION FALLBACK (Single view, no pinning)
   // =========================================================================
@@ -440,10 +463,14 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
       style={{ height: `${SCROLL_SCRUB_CONFIG.viewportHeightMultiplier * 100}vh` }}
       className="relative w-full bg-black text-stone-100 select-none border-b border-stone-900"
     >
-      {/* Sticky Viewport Container (Pins to screen while p scrubs 0 -> 1) */}
-      <div className="sticky top-0 w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-black">
+      {/* Sticky Viewport Container (Pins to screen while p scrubs 0 -> 1).
+          Desktop (lg+): video on the left, featured pieces with specs in the space on the right. */}
+      <div
+        dir="ltr"
+        className="sticky top-0 w-full h-[100dvh] flex flex-col items-center justify-center overflow-hidden bg-black lg:flex-row lg:items-stretch lg:justify-start lg:gap-12 xl:gap-20 lg:pr-12 xl:pr-20"
+      >
         {/* Mobile-first 9:16 Video / Canvas Frame Stage */}
-        <div className="relative w-full max-w-[480px] h-full max-h-[960px] mx-auto overflow-hidden bg-black flex items-center justify-center shadow-2xl">
+        <div className="relative w-full max-w-[480px] h-full max-h-[960px] mx-auto lg:mx-0 lg:shrink-0 lg:w-[min(520px,38vw)] lg:max-h-none overflow-hidden bg-black flex items-center justify-center shadow-2xl">
           {/* Mode 1: Canvas Drawing (Fallback for iOS Safari or video jitter) */}
           <canvas
             ref={canvasRef}
@@ -551,7 +578,7 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
                   className="group flex flex-col items-center gap-1 focus:outline-none transition-transform active:scale-95 cursor-pointer"
                   aria-label="Scroll Down"
                 >
-                  <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-sans font-medium text-stone-400 group-hover:text-stone-300 transition-colors">
+                  <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-grotesk font-medium text-stone-400 group-hover:text-stone-300 transition-colors">
                     SCROLL DOWN
                   </span>
                   <ChevronDown className="w-4 h-4 text-stone-400 group-hover:text-stone-300 animate-bounce transition-colors" />
@@ -591,20 +618,20 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
                 <div
                   id="card-stop1-earring"
                   style={{ left: '50%', top: '52%' }}
-                  className="absolute -translate-x-1/2 w-[85%] max-w-[270px] sm:max-w-[290px] z-30 pointer-events-auto bg-stone-950/95 backdrop-blur-xl border border-white/30 shadow-2xl rounded-2xl p-3 text-right transition-all duration-300 box-border"
+                  className="lg:hidden absolute -translate-x-1/2 w-[85%] max-w-[270px] sm:max-w-[290px] z-30 pointer-events-auto bg-stone-950/95 backdrop-blur-xl border border-white/30 shadow-2xl rounded-2xl p-3 text-right transition-all duration-300 box-border"
                 >
                   {/* Triangular pointer pointing UP to (50%, 48%) */}
                   <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-3.5 h-3.5 rotate-45 bg-stone-950 border-t border-l border-white/30" />
 
                   <div className="flex items-start justify-between border-b border-stone-800/80 pb-2 mb-2">
                     <div>
-                      <span className="text-[9px] tracking-wider uppercase text-white/80 font-mono block">
+                      <span className="text-[9px] tracking-wider uppercase text-white/80 font-grotesk block">
                         HIGH JEWELRY PIECE 01
                       </span>
-                      <h3 className="text-xs sm:text-sm font-semibold text-white font-serif mt-0.5">
+                      <h3 className="text-xs sm:text-sm font-semibold text-white font-grotesk mt-0.5">
                         {stop1.titleFa}
                       </h3>
-                      <span className="text-[9px] text-stone-300 font-mono">
+                      <span className="text-[9px] text-stone-300 font-grotesk">
                         {stop1.titleEn}
                       </span>
                     </div>
@@ -674,20 +701,20 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
                 <div
                   id="card-stop2-rings"
                   style={{ left: '50%', bottom: '52%' }}
-                  className="absolute -translate-x-1/2 w-[85%] max-w-[270px] sm:max-w-[290px] z-30 pointer-events-auto bg-stone-950/95 backdrop-blur-xl border border-white/30 shadow-2xl rounded-2xl p-3 text-right transition-all duration-300 box-border"
+                  className="lg:hidden absolute -translate-x-1/2 w-[85%] max-w-[270px] sm:max-w-[290px] z-30 pointer-events-auto bg-stone-950/95 backdrop-blur-xl border border-white/30 shadow-2xl rounded-2xl p-3 text-right transition-all duration-300 box-border"
                 >
                   {/* Triangular pointer pointing DOWN to (50%, 52%) */}
                   <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-3.5 h-3.5 rotate-45 bg-stone-950 border-b border-r border-white/30" />
 
                   <div className="flex items-start justify-between border-b border-stone-800/80 pb-2 mb-2">
                     <div>
-                      <span className="text-[9px] tracking-wider uppercase text-white/80 font-mono block">
+                      <span className="text-[9px] tracking-wider uppercase text-white/80 font-grotesk block">
                         HIGH JEWELRY PIECE 02
                       </span>
-                      <h3 className="text-xs sm:text-sm font-semibold text-white font-serif mt-0.5">
+                      <h3 className="text-xs sm:text-sm font-semibold text-white font-grotesk mt-0.5">
                         {stop2.titleFa}
                       </h3>
-                      <span className="text-[9px] text-stone-300 font-mono">
+                      <span className="text-[9px] text-stone-300 font-grotesk">
                         {stop2.titleEn}
                       </span>
                     </div>
@@ -730,7 +757,7 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
           <footer className="absolute bottom-6 sm:bottom-8 inset-x-0 z-20 flex flex-col items-center justify-center pointer-events-none">
             {currentStatus.isMoving && (
               <div className="flex flex-col items-center gap-1 animate-in fade-in duration-300">
-                <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-sans font-medium text-stone-400">
+                <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] font-grotesk font-medium text-stone-400">
                   SCROLL DOWN
                 </span>
                 <ChevronDown className="w-4 h-4 text-stone-400 animate-bounce" />
@@ -738,6 +765,94 @@ export const HeroVideoPiecesDetail: React.FC<HeroVideoPiecesDetailProps> = ({
             )}
           </footer>
         </div>
+
+        {/* Desktop panel (right side): the piece of the current sequence, then the rest in order */}
+        <aside
+          dir="rtl"
+          aria-label="آثار این ویدئو"
+          aria-hidden={!showDesktopProduct}
+          inert={!showDesktopProduct}
+          data-product-visible={showDesktopProduct}
+          className={`hidden lg:flex flex-1 min-w-0 flex-col justify-center pt-[84px] pb-6 font-peyda ${isDesktop ? "transition-opacity duration-300 ease-out motion-reduce:transition-none" : ""} ${showDesktopProduct ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+        >
+          <span className="font-grotesk text-[11px] tracking-[0.14em] uppercase text-stone-500 tabular-nums">
+            {String(featuredIndex + 1).padStart(2, '0')} / {String(featuredPieces.length).padStart(2, '0')}
+          </span>
+
+          {(() => {
+            const piece = featuredPieces[featuredIndex];
+            const item = getItem(piece.itemId);
+            const specs: { label: string; value: string }[] = [
+              { label: 'فلز', value: piece.materialsFa },
+              { label: 'سنگ', value: piece.stonesFa },
+            ];
+            if (item?.caratTotal) specs.push({ label: 'وزن کل سنگ‌ها', value: `${toPersianDigits(item.caratTotal)} قیراط` });
+            if (item?.certificateIssuer) specs.push({ label: 'شناسنامه', value: item.certificateIssuer });
+            return (
+              <article key={piece.id} className={`${isDesktop ? "" : "animate-fade-up"} mt-[2vh] flex gap-8 items-start`}>
+                <div className="relative shrink-0 w-[min(34vh,22vw)] aspect-square overflow-hidden bg-stone-950 border border-stone-800">
+                  <img src={piece.image} alt={piece.titleFa} className="absolute inset-0 w-full h-full object-cover" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <span className="text-[11px] text-stone-500">{piece.collectionFa}</span>
+                  <h3 className="mt-1 text-lg xl:text-2xl font-bold text-white leading-snug">{piece.titleFa}</h3>
+                  <span dir="ltr" className="block text-left font-grotesk italic text-sm text-stone-400 mt-1 truncate">
+                    {piece.titleEn}
+                  </span>
+                  <dl className="mt-[2vh] border-t border-stone-800 text-xs">
+                    {specs.map((spec) => (
+                      <div key={spec.label} className="flex gap-3 py-[0.9vh] border-b border-stone-900">
+                        <dt className="shrink-0 w-24 text-stone-500">{spec.label}</dt>
+                        <dd className="text-stone-200 leading-relaxed line-clamp-2">{spec.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  {item && onSelectItem && (
+                    <button
+                      type="button"
+                      onClick={() => onSelectItem(item)}
+                      className="mt-[2vh] inline-flex items-center gap-1.5 text-xs font-semibold text-white border-b border-stone-600 hover:border-white pb-0.5 transition-colors cursor-pointer"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>مشاهده مشخصات کامل</span>
+                    </button>
+                  )}
+                </div>
+              </article>
+            );
+          })()}
+
+          {/* The remaining pieces, in sequence order */}
+          {featuredPieces.length > 1 && (
+            <div className="mt-[4vh]">
+              <span className="text-[11px] text-stone-500">آثار دیگر این ویدئو</span>
+              <ol className="mt-2 border-t border-stone-800">
+                {featuredPieces.map((piece, index) =>
+                  index === featuredIndex ? null : (
+                    <li key={piece.id} className="border-b border-stone-900">
+                      <button
+                        type="button"
+                        onClick={() => scrollToPlateau(piece.plateauP)}
+                        className="group w-full flex items-center gap-4 py-[1.2vh] text-right cursor-pointer"
+                      >
+                        <span className="font-grotesk text-[11px] text-stone-600 tabular-nums w-6">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="relative shrink-0 w-[7vh] aspect-square overflow-hidden bg-stone-950 border border-stone-800">
+                          <img src={piece.image} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold text-stone-300 group-hover:text-white transition-colors truncate">{piece.titleFa}</span>
+                          <span className="block text-[11px] text-stone-500 truncate mt-0.5">{piece.materialsFa}</span>
+                        </span>
+                      </button>
+                    </li>
+                  )
+                )}
+              </ol>
+            </div>
+          )}
+        </aside>
       </div>
     </section>
   );

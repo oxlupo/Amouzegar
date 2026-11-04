@@ -73,7 +73,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 />
 
                 {item.featuredInHeroVideo && (
-                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-stone-800 text-xs font-mono text-stone-200 flex items-center gap-1.5">
+                  <div className="absolute top-3 right-3 px-3 py-1 rounded-full bg-black/80 backdrop-blur-md border border-stone-800 text-xs font-grotesk text-stone-200 flex items-center gap-1.5">
                     <Play className="w-3.5 h-3.5 fill-rose-400 text-rose-400" />
                     <span>نمایش در هیرو ({toPersianDigits(item.videoTimestamp || '')})</span>
                   </div>
@@ -113,7 +113,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   <span className="text-xs text-stone-300 font-semibold px-2.5 py-1 rounded-md bg-stone-900 border border-stone-800">
                     {item.stoneNameFa}
                   </span>
-                  <span className="text-xs font-mono text-stone-400">
+                  <span className="text-xs font-grotesk text-stone-400">
                     کد اثر: {item.itemCode}
                   </span>
                 </div>
@@ -136,7 +136,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-snug">
                   {item.nameFa}
                 </h2>
-                <p className="text-sm text-stone-400 font-cormorant tracking-wide italic mt-1">
+                <p className="text-sm text-stone-400 font-grotesk tracking-wide italic mt-1">
                   {item.nameEn}
                 </p>
               </div>
@@ -154,7 +154,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                     </span>
                   )}
                   {item.caratTotal > 0 && (
-                    <span className="text-xs text-stone-400 font-mono">
+                    <span className="text-xs text-stone-400 font-grotesk">
                       {toPersianDigits(item.caratTotal)} Carats Total
                     </span>
                   )}
@@ -213,7 +213,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                   شناسنامه بین‌المللی و کارشناسی گوهر (Gemological Passport)
                 </h3>
               </div>
-              <span className="text-xs font-mono text-stone-300 px-2.5 py-1 rounded bg-stone-950 border border-stone-800">
+              <span className="text-xs font-grotesk text-stone-300 px-2.5 py-1 rounded bg-stone-950 border border-stone-800">
                 کد گواهی: {item.certificateNumber}
               </span>
             </div>

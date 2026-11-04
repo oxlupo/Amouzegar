@@ -32,8 +32,8 @@ export const BrandSloganSection: React.FC<BrandSloganSectionProps> = () => {
 
         {/* Primary English Luxury Slogan */}
         <h2 
-          className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-stone-100 tracking-wide sm:tracking-wider leading-snug sm:leading-tight mb-5 select-none"
-          style={{ fontFamily: "'Cormorant Garamond', 'Cinzel', serif" }}
+          className="font-grotesk text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-stone-100 tracking-wide sm:tracking-wider leading-snug sm:leading-tight mb-5 select-none"
+          style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
         >
           Where light learns to stay.
         </h2>

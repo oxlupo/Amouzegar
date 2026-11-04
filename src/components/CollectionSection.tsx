@@ -3,6 +3,7 @@ import { Gem, ChevronLeft, X, Sparkles, Award } from 'lucide-react';
 import { JewelryItem } from '../types';
 import { JEWELRY_ITEMS } from '../data/jewelryData';
 import { toPersianDigits } from '../utils/formatters';
+import { useDesktop } from '../hooks/useDesktop';
 
 interface CollectionSectionProps {
   items?: JewelryItem[];
@@ -19,6 +20,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
   onSelectItem,
   onNavigateToCategory,
 }) => {
+  const isDesktop = useDesktop();
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState<string>('all');
 
@@ -46,13 +48,21 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
     <>
       <section 
         id="collections" 
-        className="relative min-h-[85vh] sm:min-h-[95vh] w-full flex flex-col justify-start overflow-hidden border-t border-stone-900 bg-black"
+        className="relative min-h-[85svh] sm:min-h-[95svh] w-full flex flex-col justify-start overflow-hidden border-t border-stone-900 bg-black"
       >
-        {/* 78.jpg as the Full-Cover Background Image */}
-        <div 
-          className="absolute inset-0 w-full h-full bg-cover bg-center sm:bg-top bg-no-repeat transition-transform duration-1000 ease-out"
-          style={{ backgroundImage: `url('/78.jpg')` }}
-        >
+        {/* Self-contained SVG photo with a stable crop and no transform transition. */}
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          <img
+            src={isDesktop ? "/assets/collections/collection-jewelry-desktop.svg" : "/assets/collections/collection-jewelry.svg"}
+            alt=""
+            width={2754}
+            height={isDesktop ? 1800 : 3900}
+            loading="eager"
+            decoding="async"
+            className={isDesktop
+              ? "absolute inset-x-0 bottom-0 mx-auto block w-[min(1000px,80%)] h-[65%] object-contain object-bottom"
+              : "absolute inset-0 m-auto block w-[80%] h-[80%] object-cover object-center"}
+          />
           {/* Cinematic Vignette & Luxury Gradient Overlays for Crisp Text Contrast */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/20 to-black/90 pointer-events-none" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50 pointer-events-none" />
@@ -164,7 +174,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
                   {/* Details */}
                   <div className="space-y-1.5 text-right flex-1 flex flex-col justify-between">
                     <div>
-                      <span className="text-[10px] text-stone-500 font-mono block" dir="ltr">
+                      <span className="text-[10px] text-stone-500 font-grotesk block" dir="ltr">
                         {item.itemCode}
                       </span>
                       <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-amber-300 transition-colors line-clamp-1 mt-0.5">
@@ -180,7 +190,7 @@ export const CollectionSection: React.FC<CollectionSectionProps> = ({
                         <Award className="w-3.5 h-3.5 text-amber-400" />
                         <span>{item.certificateIssuer}</span>
                       </div>
-                      <span className="text-amber-400/90 font-mono text-[10.5px]">
+                      <span className="text-amber-400/90 font-grotesk text-[10.5px]">
                         {toPersianDigits(item.caratTotal)} قیراط
                       </span>
                     </div>

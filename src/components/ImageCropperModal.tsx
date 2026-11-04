@@ -209,7 +209,7 @@ export const ImageCropperModal: React.FC<ImageCropperModalProps> = ({
         {/* Info Banner */}
         <div className="px-5 py-2.5 bg-stone-900/60 border-b border-stone-800/60 text-[11px] text-stone-400 flex items-center justify-between">
           <span>مقیاس: ۱:۱ (مربع استاندارد کاتالوگ و کارت‌های وب‌سایت)</span>
-          <span className="font-mono text-stone-500">1:1 ASPECT RATIO</span>
+          <span className="font-grotesk text-stone-500">1:1 ASPECT RATIO</span>
         </div>
 
         {/* Crop Area */}
@@ -279,7 +279,7 @@ export const ImageCropperModal: React.FC<ImageCropperModalProps> = ({
                   <ZoomIn className="w-3.5 h-3.5 text-stone-400" />
                   <span>بزرگ‌نمایی</span>
                 </span>
-                <span className="font-mono text-[11px] text-stone-400">
+                <span className="font-grotesk text-[11px] text-stone-400">
                   {Math.round(zoom * 100)}%
                 </span>
               </div>

@@ -4,16 +4,23 @@ import { HeroSection } from './components/HeroSection';
 import { BrandSloganSection } from './components/BrandSloganSection';
 import { HeroVideoPiecesDetail } from './components/HeroVideoPiecesDetail';
 import { CollectionSection } from './components/CollectionSection';
+import { JewelryCategoryEdit } from './components/JewelryCategoryEdit';
+import { JewelryCraftsmanship } from './components/JewelryCraftsmanship';
+import { JewelryCustomizer } from './components/JewelryCustomizer';
+import { JewelryNameIndex } from './components/JewelryNameIndex';
 import { JewelryCategoryPage } from './components/JewelryCategoryPage';
 import { ProductDetailPage } from './components/ProductDetailPage';
 import { AboutBrand } from './components/AboutBrand';
 import { Footer } from './components/Footer';
 import { ProductModal } from './components/ProductModal';
-import { VipBookingModal } from './components/VipBookingModal';
+import { BookingPage } from './components/BookingPage';
 import { WishlistDrawer } from './components/WishlistDrawer';
 import { AdminPanel } from './components/AdminPanel';
 import { JEWELRY_ITEMS } from './data/jewelryData';
 import { JewelryItem } from './types';
+
+/** URL hash of the dedicated booking page. */
+const BOOKING_HASH = '#/booking';
 
 export default function App() {
   // Custom added items persisted in localStorage
@@ -27,26 +34,76 @@ export default function App() {
   });
 
   const jewelryItems = useMemo(() => {
-    return [...customJewelryItems, ...JEWELRY_ITEMS];
+    // Older saved items may reference salons that no longer exist; there is only the Ahmadabad gallery.
+    const normalized = customJewelryItems.map((item) =>
+      item.availability === 'موجود در گالری احمدآباد' || item.availability === 'تک‌نسخه آتلیه آموزگار'
+        ? item
+        : { ...item, availability: 'موجود در گالری احمدآباد' as const }
+    );
+    return [...normalized, ...JEWELRY_ITEMS];
   }, [customJewelryItems]);
 
   const [selectedProduct, setSelectedProduct] = useState<JewelryItem | null>(null);
   const [viewedProduct, setViewedProduct] = useState<JewelryItem | null>(null);
-  const [isVipModalOpen, setIsVipModalOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   
   // Navigation view: Home full experience vs Dedicated Jewelry Products Category Page vs Product Detail Full Page vs Admin
-  const [activeView, setActiveView] = useState<'home' | 'jewelry-catalog' | 'product-detail' | 'admin'>(() => {
+  const [activeView, setActiveView] = useState<'home' | 'jewelry-catalog' | 'product-detail' | 'admin' | 'booking'>(() => {
     if (typeof window !== 'undefined') {
       const path = window.location.pathname.toLowerCase();
       const hash = window.location.hash.toLowerCase();
       if (path === '/admin' || path.startsWith('/admin/') || hash === '#/admin' || hash === '#admin') {
         return 'admin';
       }
+      if (hash === BOOKING_HASH) return 'booking';
     }
     return 'home';
   });
+  /** Where to return when leaving the booking page, and the scroll position there. */
+  const bookingReturnRef = React.useRef<{ view: 'home' | 'jewelry-catalog' | 'product-detail'; scrollY: number }>({ view: 'home', scrollY: 0 });
+
+  // The booking page is a page of its own (#/booking), so the browser's back button leaves it.
+  const openBooking = () => {
+    if (activeView !== 'booking' && activeView !== 'admin') {
+      bookingReturnRef.current = { view: activeView, scrollY: window.scrollY };
+    }
+    setSelectedProduct(null);
+    setIsWishlistOpen(false);
+    if (window.location.hash !== BOOKING_HASH) window.history.pushState(null, '', BOOKING_HASH);
+    setActiveView('booking');
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  };
+
+  const clearBookingHash = () => {
+    if (window.location.hash === BOOKING_HASH) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  };
+
+  const leaveBooking = () => {
+    const { view, scrollY } = bookingReturnRef.current;
+    clearBookingHash();
+    setActiveView(view);
+    requestAnimationFrame(() => window.scrollTo({ top: scrollY, behavior: 'instant' as ScrollBehavior }));
+  };
+
+  useEffect(() => {
+    const onPop = () => {
+      const isBooking = window.location.hash === BOOKING_HASH;
+      setActiveView((current) => {
+        if (isBooking) return 'booking';
+        if (current === 'booking') {
+          const { view, scrollY } = bookingReturnRef.current;
+          requestAnimationFrame(() => window.scrollTo({ top: scrollY, behavior: 'instant' as ScrollBehavior }));
+          return view;
+        }
+        return current;
+      });
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
   const [catalogCategory, setCatalogCategory] = useState<string>('all');
 
   // URL listener for /admin route
@@ -108,12 +165,6 @@ export default function App() {
     showToast('اثر مورد نظر حذف شد.');
   };
 
-  const handleOpenAdmin = () => {
-    window.history.pushState(null, '', '/admin');
-    setActiveView('admin');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const handleExitAdmin = () => {
     window.history.pushState(null, '', '/');
     setActiveView('home');
@@ -157,6 +208,7 @@ export default function App() {
   };
 
   const handleNavigateToCategory = (category: string) => {
+    clearBookingHash();
     if (activeView === 'admin') {
       window.history.pushState(null, '', '/');
     }
@@ -166,6 +218,7 @@ export default function App() {
   };
 
   const handleOpenProductDetail = (item: JewelryItem) => {
+    clearBookingHash();
     if (activeView === 'admin') {
       window.history.pushState(null, '', '/');
     }
@@ -175,6 +228,7 @@ export default function App() {
   };
 
   const handleGoHome = () => {
+    clearBookingHash();
     if (activeView === 'admin') {
       window.history.pushState(null, '', '/');
     }
@@ -185,7 +239,7 @@ export default function App() {
   const wishlistedItems = jewelryItems.filter((i) => wishlistIds.includes(i.id));
 
   return (
-    <div className="min-h-screen bg-[#000000] text-stone-100 flex flex-col font-['Vazirmatn',sans-serif] selection:bg-rose-900/40 selection:text-rose-200">
+    <div className="min-h-screen bg-[#000000] text-stone-100 flex flex-col font-peyda selection:bg-rose-900/40 selection:text-rose-200">
       
       {/* Toast Notification */}
       {toastMessage && (
@@ -209,16 +263,19 @@ export default function App() {
           <Navbar
             wishlistCount={wishlistIds.length}
             onOpenWishlist={() => setIsWishlistOpen(true)}
-            onOpenVipBooking={() => setIsVipModalOpen(true)}
+            onOpenVipBooking={() => openBooking()}
             onScrollToSection={handleScrollToSection}
             onSelectCategory={handleSelectCategory}
             onNavigateToCategory={handleNavigateToCategory}
-            isCategoryPageActive={activeView === 'jewelry-catalog' || activeView === 'product-detail'}
+            isCategoryPageActive={activeView === 'jewelry-catalog' || activeView === 'product-detail' || activeView === 'booking'}
             onGoHome={handleGoHome}
           />
 
           <main className="flex-1">
-            {activeView === 'product-detail' && viewedProduct ? (
+            {activeView === 'booking' ? (
+              /* Dedicated booking page (#/booking) */
+              <BookingPage onBack={leaveBooking} />
+            ) : activeView === 'product-detail' && viewedProduct ? (
               /* Dedicated Full Product Showcase Page */
               <ProductDetailPage
                 item={viewedProduct}
@@ -232,7 +289,7 @@ export default function App() {
                 onBackToHome={handleGoHome}
                 wishlistIds={wishlistIds}
                 onToggleWishlist={toggleWishlist}
-                onOpenVipBooking={() => setIsVipModalOpen(true)}
+                onOpenVipBooking={() => openBooking()}
               />
             ) : activeView === 'jewelry-catalog' ? (
               /* Dedicated Jewelry Products Page with lines dividing items (Van Cleef & Arpels style) */
@@ -244,14 +301,14 @@ export default function App() {
                 wishlistIds={wishlistIds}
                 onToggleWishlist={toggleWishlist}
                 onBackToHome={handleGoHome}
-                onOpenVipBooking={() => setIsVipModalOpen(true)}
+                onOpenVipBooking={() => openBooking()}
               />
             ) : (
               /* Home View with all immersive sections */
               <>
                 {/* 1. Hero Section with User's Uploaded Video (hero.webm) looping & lazy loaded */}
                 <HeroSection
-                  onOpenVipBooking={() => setIsVipModalOpen(true)}
+                  onOpenVipBooking={() => openBooking()}
                   onSelectJewelryItem={handleOpenProductDetail}
                   onExploreCatalog={() => handleScrollToSection('brand-slogan')}
                   heroItems={jewelryItems}
@@ -268,7 +325,15 @@ export default function App() {
                   onSelectItem={handleOpenProductDetail}
                   wishlistIds={wishlistIds}
                   onToggleWishlist={toggleWishlist}
-                  onOpenVipBooking={() => setIsVipModalOpen(true)}
+                  onOpenVipBooking={() => openBooking()}
+                />
+
+                {/* 2.5 White typographic index: English names left, piece right */}
+                <JewelryNameIndex
+                  items={jewelryItems}
+                  onSelectItem={handleOpenProductDetail}
+                  onNavigateToCategory={handleNavigateToCategory}
+                  onViewAll={() => handleNavigateToCategory('all')}
                 />
 
                 {/* 3. Catalog & Lookbook Showcase (Filterable, Searchable, No Prices) */}
@@ -282,14 +347,19 @@ export default function App() {
                   onNavigateToCategory={handleNavigateToCategory}
                 />
 
+                <JewelryCategoryEdit onNavigateToCategory={handleNavigateToCategory} />
+                <JewelryCraftsmanship />
+                <JewelryCustomizer onOpenVipBooking={() => openBooking()} />
+
+
                 {/* 4. Contact Us, Google Maps Location & Exclusive Salon */}
-                <AboutBrand onOpenVipBooking={() => setIsVipModalOpen(true)} />
+                <AboutBrand onOpenVipBooking={() => openBooking()} />
               </>
             )}
           </main>
 
           {/* Luxury Minimalist Footer */}
-          <Footer onOpenAdmin={handleOpenAdmin} />
+          <Footer />
         </>
       )}
 
@@ -301,14 +371,8 @@ export default function App() {
         onToggleWishlist={toggleWishlist}
         onOpenVipBooking={() => {
           setSelectedProduct(null);
-          setIsVipModalOpen(true);
+          openBooking();
         }}
-      />
-
-      {/* VIP Private Salon Reservation Modal */}
-      <VipBookingModal
-        isOpen={isVipModalOpen}
-        onClose={() => setIsVipModalOpen(false)}
       />
 
       {/* Wishlist Drawer */}
@@ -329,7 +393,7 @@ export default function App() {
         }}
         onOpenVipBooking={() => {
           setIsWishlistOpen(false);
-          setIsVipModalOpen(true);
+          openBooking();
         }}
       />
 

@@ -1,9 +1,98 @@
 @import "tailwindcss";
 
+/* Peyda (licensed by the owner), self-hosted from public/Peyda. Brackets in the file names are URL-encoded. */
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Thin.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Thin.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DpeydaWeb-extralight.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DpeydaWeb-extralight.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DpeydaWeb-light.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DpeydaWeb-light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Regular.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Medium.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-SemiBold.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-SemiBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Bold.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-ExtraBold.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/Peyda/PeydaWeb/woff2/%5BEC%5DPeydaWeb-Black.woff2') format('woff2'),
+    url('/Peyda/PeydaWeb/woff/%5BEC%5DPeydaWeb-Black.woff') format('woff');
+}
+
+
 @theme {
   --font-peyda: 'Peyda', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Peyda', 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-cormorant: 'Cormorant Garamond', Georgia, serif;
-  --font-cinzel: 'Cinzel', 'Trajan Pro', serif;
+  --font-grotesk: 'Inter Tight', 'Peyda', 'Vazirmatn', 'Helvetica Neue', Arial, sans-serif;
+
+  /* shadcn-style colour tokens used by components in src/components/ui (the site is black-first). */
+  --color-background: #000000;
+  --color-foreground: #fafaf9;
+  --color-muted-foreground: #a8a29e;
 }
 
 @layer utilities {
@@ -39,8 +128,9 @@
     font-family: 'Cormorant Garamond', Georgia, serif;
   }
 
-  .font-cinzel {
-    font-family: 'Cinzel', 'Trajan Pro', serif;
+
+  .font-grotesk {
+    font-family: 'Inter Tight', 'Peyda', 'Vazirmatn', 'Helvetica Neue', Arial, sans-serif;
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -57,6 +147,53 @@
 
   .animate-slide-in-right {
     animation: slideInFromRight 0.36s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-up {
+    animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+/* Booking date picker: month grid zooms into the days of the chosen month, and back out. */
+@keyframes pickerIn {
+  0% { opacity: 0; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pickerBack {
+  0% { opacity: 0; transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes dayIn {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-picker-in {
+    animation: pickerIn 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform-origin: center;
+  }
+  .animate-picker-back {
+    animation: pickerBack 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+    transform-origin: center;
+  }
+  .animate-day-in {
+    animation: dayIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 }
 

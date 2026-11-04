@@ -3,13 +3,11 @@ import {
   Heart, 
   Menu, 
   X, 
-  Clock, 
   ChevronLeft, 
   ChevronDown, 
   MapPin, 
   Phone, 
   ShieldCheck, 
-  Gem, 
   Sparkles, 
   CircleDot, 
   Instagram, 
@@ -127,12 +125,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuSubPage, setMobileMenuSubPage] = useState<'main' | 'jewelry' | 'category' | 'gemstone' | 'metal' | 'curated'>('main');
   const [slideDirection, setSlideDirection] = useState<'forward' | 'back'>('forward');
   const [desktopJewelryOpen, setDesktopJewelryOpen] = useState(false);
-  const [desktopContactOpen, setDesktopContactOpen] = useState(false);
 
   const jewelryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const contactTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const jewelryContainerRef = useRef<HTMLDivElement>(null);
-  const contactContainerRef = useRef<HTMLDivElement>(null);
 
   // Close desktop dropdowns on outside click or Escape key
   useEffect(() => {
@@ -144,18 +139,11 @@ export const Navbar: React.FC<NavbarProps> = ({
       ) {
         setDesktopJewelryOpen(false);
       }
-      if (
-        contactContainerRef.current &&
-        !contactContainerRef.current.contains(target)
-      ) {
-        setDesktopContactOpen(false);
-      }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setDesktopJewelryOpen(false);
-        setDesktopContactOpen(false);
       }
     };
 
@@ -234,7 +222,6 @@ export const Navbar: React.FC<NavbarProps> = ({
     onScrollToSection(sectionId);
     setMobileMenuOpen(false);
     setDesktopJewelryOpen(false);
-    setDesktopContactOpen(false);
   };
 
   // Hover handlers for Desktop Jewelry dropdown
@@ -246,18 +233,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleJewelryMouseLeave = () => {
     jewelryTimeoutRef.current = setTimeout(() => {
       setDesktopJewelryOpen(false);
-    }, 200);
-  };
-
-  // Hover handlers for Desktop Contact popover
-  const handleContactMouseEnter = () => {
-    if (contactTimeoutRef.current) clearTimeout(contactTimeoutRef.current);
-    setDesktopContactOpen(true);
-  };
-
-  const handleContactMouseLeave = () => {
-    contactTimeoutRef.current = setTimeout(() => {
-      setDesktopContactOpen(false);
     }, 200);
   };
 
@@ -332,7 +307,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                       {/* Submenu Header */}
                       <div className="px-2 pb-3 mb-4 border-b border-stone-800/80 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Gem className="w-4 h-4 text-amber-400" />
                           <span className="text-xs font-bold text-white tracking-wide">
                             مجموعه جواهرات فاخر آموزگار | HAUTE JOAILLERIE
                           </span>
@@ -359,7 +333,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                               <span className="text-[12.5px] font-bold text-white block">
                                 {sec.titleFa}
                               </span>
-                              <span className="text-[9px] text-stone-400 font-sans tracking-widest uppercase block mt-0.5">
+                              <span className="text-[9px] text-stone-400 font-grotesk tracking-widest uppercase block mt-0.5">
                                 {sec.titleEn}
                               </span>
                             </div>
@@ -375,7 +349,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                   <span className="text-xs font-medium group-hover:text-amber-300 transition-colors">
                                     {it.titleFa}
                                   </span>
-                                  <span className="text-[9px] text-stone-400 font-sans tracking-wider uppercase group-hover:text-stone-300 transition-colors">
+                                  <span className="text-[9px] text-stone-400 font-grotesk tracking-wider uppercase group-hover:text-stone-300 transition-colors">
                                     {it.titleEn}
                                   </span>
                                 </button>
@@ -388,7 +362,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       {/* Dropdown Footer: Guarantee & Atelier stamp */}
                       <div className="mt-5 pt-3 border-t border-stone-800/80 flex items-center justify-between px-2 text-[11px] text-stone-400">
                         <span>تمام آثار به همراه شناسنامه معتبر GIA و شناسنامه رسمی آتلیه آموزگار عرضه می‌گردند.</span>
-                        <span className="font-sans text-[10px] text-stone-500 uppercase tracking-widest">AMOUZEGAR ATELIER</span>
+                        <span className="font-grotesk text-[10px] text-stone-500 uppercase tracking-widest">AMOUZEGAR ATELIER</span>
                       </div>
 
                     </div>
@@ -428,113 +402,26 @@ export const Navbar: React.FC<NavbarProps> = ({
                 
                 {/* 3. سفارش اختصاصی */}
                 <button
-                  onClick={() => handleSectionClick('bespoke-atelier')}
+                  onClick={() => {
+                    setDesktopJewelryOpen(false);
+                    onOpenVipBooking();
+                  }}
                   className="hover:text-white transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform cursor-pointer font-peyda"
                   title="توضیح روند طراحی و ساخت جواهر مطابق سلیقهٔ مشتری"
                 >
                   سفارش اختصاصی
                 </button>
 
-                {/* 4. ارتباط با ما (آدرس گالری، شماره تماس، واتساپ، اینستاگرام) */}
-                <div 
-                  ref={contactContainerRef}
-                  className="relative"
-                  onMouseEnter={handleContactMouseEnter}
-                  onMouseLeave={handleContactMouseLeave}
+                {/* 4. ارتباط با ما: scrolls to the contact block in the footer */}
+                <button
+                  onClick={() => {
+                    setDesktopJewelryOpen(false);
+                    document.getElementById('site-contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="hover:text-white transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[1px] after:bg-white after:scale-x-0 hover:after:scale-x-100 after:transition-transform cursor-pointer font-peyda"
                 >
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      if (contactTimeoutRef.current) clearTimeout(contactTimeoutRef.current);
-                      setDesktopContactOpen((prev) => !prev);
-                    }}
-                    className={`hover:text-white transition-colors py-1 flex items-center gap-1 cursor-pointer font-peyda group ${
-                      desktopContactOpen ? 'text-white' : 'text-stone-300'
-                    }`}
-                    title="آدرس گالری، شماره تماس، واتساپ و اینستاگرام"
-                  >
-                    <span>ارتباط با ما</span>
-                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 text-stone-400 group-hover:text-white ${desktopContactOpen ? 'rotate-180 text-white' : ''}`} />
-                  </button>
-
-                  {/* Desktop Quick Contact Popover */}
-                  <div
-                    className={`absolute left-0 top-full pt-3 transition-all duration-300 ease-out origin-top-left ${
-                      desktopContactOpen
-                        ? 'opacity-100 translate-y-0 pointer-events-auto'
-                        : 'opacity-0 -translate-y-2 pointer-events-none'
-                    }`}
-                  >
-                    <div className="w-[320px] bg-[#0a0a0a]/95 backdrop-blur-2xl border border-stone-800/90 rounded-2xl p-4 shadow-2xl shadow-black/80 font-peyda text-right space-y-3">
-                      
-                      {/* Header */}
-                      <div className="pb-2 border-b border-stone-800 flex items-center justify-between">
-                        <span className="text-xs font-bold text-white">راه‌های ارتباط و سالن‌ها</span>
-                        <span className="text-[10px] text-stone-500 font-mono">CONCIERGE</span>
-                      </div>
-
-                      {/* Gallery Addresses */}
-                      <div className="space-y-1 text-right">
-                        <div className="flex items-start gap-2 text-stone-300 text-xs">
-                          <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                          <div>
-                            <span className="font-semibold text-white block">گالری داود آموزگار (مشهد):</span>
-                            <span className="text-[11px] text-stone-400 leading-tight block">مشهد، احمدآباد، قبل از رضا ۲، سمت راست</span>
-                            <span className="text-[10px] text-stone-500 font-mono block mt-0.5">تلفن: ۰۵۱-۳۸۴۳۷۳۹۵</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Direct Channels Grid */}
-                      <div className="grid grid-cols-3 gap-2 pt-1 border-t border-stone-800/70">
-                        {/* Phone */}
-                        <a
-                          href="tel:+985138437395"
-                          className="flex flex-col items-center justify-center p-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white transition-all text-center group cursor-pointer"
-                          title="تماس با گالری: ۰۵۱-۳۸۴۳۷۳۹۵"
-                        >
-                          <Phone className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform mb-1" />
-                          <span className="text-[10px] font-semibold">تماس</span>
-                        </a>
-
-                        {/* WhatsApp */}
-                        <a
-                          href={`https://wa.me/985138437395?text=${encodeURIComponent('درود، جهت مشاوره و استعلام آثار جواهرات آموزگار پیام می‌دهم.')}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex flex-col items-center justify-center p-2 rounded-xl bg-emerald-950/40 border border-emerald-900/60 hover:bg-emerald-900/50 text-emerald-300 transition-all text-center group cursor-pointer"
-                          title="ارتباط در واتساپ"
-                        >
-                          <MessageCircle className="w-4 h-4 text-emerald-400 group-hover:scale-110 transition-transform mb-1" />
-                          <span className="text-[10px] font-semibold">واتساپ</span>
-                        </a>
-
-                        {/* Instagram */}
-                        <a
-                          href="https://instagram.com/amoozegar_jewelry"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex flex-col items-center justify-center p-2 rounded-xl bg-pink-950/40 border border-pink-900/60 hover:bg-pink-900/50 text-pink-300 transition-all text-center group cursor-pointer"
-                          title="اینستاگرام رسمی"
-                        >
-                          <Instagram className="w-4 h-4 text-pink-400 group-hover:scale-110 transition-transform mb-1" />
-                          <span className="text-[10px] font-semibold">اینستاگرام</span>
-                        </a>
-                      </div>
-
-                      {/* Full Contact Page Link */}
-                      <button
-                        onClick={() => handleSectionClick('contact-salon')}
-                        className="w-full py-2 rounded-lg bg-stone-900 hover:bg-white text-stone-300 hover:text-black text-[11px] font-bold transition-all text-center cursor-pointer"
-                      >
-                        مشاهده نقشه و سالن‌های اختصاصی
-                      </button>
-
-                    </div>
-                  </div>
-                </div>
-
+                  ارتباط با ما
+                </button>
               </nav>
 
               {/* Optical Balancer on mobile to guarantee exact center alignment */}
@@ -784,7 +671,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* 3. سفارش اختصاصی (توضیح روند طراحی و ساخت جواهر مطابق سلیقهٔ مشتری) */}
               <button
-                onClick={() => handleSectionClick('bespoke-atelier')}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenVipBooking();
+                }}
                 className="group relative w-full flex items-center justify-between px-6 py-4.5 text-right transition-colors overflow-hidden cursor-pointer"
               >
                 <span className="absolute inset-0 bg-stone-100 translate-x-full group-hover:translate-x-0 group-active:translate-x-0 transition-transform duration-300 ease-out origin-right pointer-events-none" />
@@ -802,7 +692,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
               {/* 4. ارتباط با ما (آدرس گالری، شماره تماس، واتساپ و اینستاگرام) */}
               <button
-                onClick={() => handleSectionClick('contact-salon')}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setTimeout(() => document.getElementById('site-contact')?.scrollIntoView({ behavior: 'smooth' }), 50);
+                }}
                 className="group relative w-full flex items-center justify-between px-6 py-4.5 text-right transition-colors overflow-hidden cursor-pointer"
               >
                 <span className="absolute inset-0 bg-stone-100 translate-x-full group-hover:translate-x-0 group-active:translate-x-0 transition-transform duration-300 ease-out origin-right pointer-events-none" />
@@ -825,7 +718,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             
             {/* Quick Contact Header */}
             <div className="flex items-center justify-between text-xs text-stone-400 pb-2 border-b border-stone-800/80">
-              <span className="font-semibold text-white">ارتباط مستقیم و سالن‌های اختصاصی</span>
+              <span className="font-semibold text-white">ارتباط مستقیم و آدرس گالری</span>
             </div>
 
             {/* Gallery Address Button */}
@@ -885,14 +778,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="group flex items-center justify-between w-full text-right text-stone-300 hover:text-white transition-colors pt-2 border-t border-stone-800/80 cursor-pointer"
             >
               <div className="flex items-center gap-3">
-                <Clock className="w-4 h-4 text-stone-400 group-hover:text-white shrink-0 transition-colors" />
                 <span className="text-xs font-medium tracking-wide">رزرو وقت بازدید خصوصی VIP</span>
               </div>
             </button>
 
             {/* Bottom Maison Monogram Quote */}
-            <div className="pt-2 flex items-center justify-center gap-2 text-[10px] text-stone-500 font-serif tracking-widest uppercase border-t border-stone-900">
-              <Gem className="w-3 h-3 text-stone-500" />
+            <div className="pt-2 flex items-center justify-center gap-2 text-[10px] text-stone-500 font-grotesk tracking-widest uppercase border-t border-stone-900">
               <span>AMOUZEGAR HAUTE JOAILLERIE</span>
             </div>
 

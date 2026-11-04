@@ -84,7 +84,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [descriptionFa, setDescriptionFa] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [itemCode, setItemCode] = useState(() => `AMZ-${Math.floor(1000 + Math.random() * 9000)}`);
-  const [availability, setAvailability] = useState<'موجود در سالن فرشته' | 'کلکسیون ویژه دبی' | 'تک‌نسخه آتلیه آموزگار'>('تک‌نسخه آتلیه آموزگار');
+  const [availability, setAvailability] = useState<'موجود در گالری احمدآباد' | 'تک‌نسخه آتلیه آموزگار'>('تک‌نسخه آتلیه آموزگار');
 
   // Image Cropper State
   const [isCropperOpen, setIsCropperOpen] = useState(false);
@@ -224,7 +224,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             <ArrowRight className="w-4 h-4 stroke-[1.5]" />
             <span>بازگشت به سایت</span>
           </button>
-          <span className="font-mono text-[11px] text-stone-600 tracking-widest uppercase">
+          <span className="font-grotesk text-[11px] text-stone-600 tracking-widest uppercase">
             ATELIER ADMIN ACCESS
           </span>
         </div>
@@ -308,7 +308,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-[11px] text-stone-500 font-mono hidden sm:inline">
+            <span className="text-[11px] text-stone-500 font-grotesk hidden sm:inline">
               TOTAL: {jewelryItems.length} PIECES
             </span>
             <button
@@ -366,7 +366,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-stone-400 block font-mono">
+                <label className="text-xs font-medium text-stone-400 block font-grotesk">
                   NAME IN ENGLISH
                 </label>
                 <input
@@ -375,7 +375,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   value={nameEn}
                   onChange={(e) => setNameEn(e.target.value)}
                   dir="ltr"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-mono"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-grotesk"
                 />
               </div>
             </div>
@@ -400,7 +400,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-stone-400 block font-mono">
+                <label className="text-xs font-medium text-stone-400 block font-grotesk">
                   ITEM CODE (کد اختصاصی اثر)
                 </label>
                 <input
@@ -408,7 +408,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   value={itemCode}
                   onChange={(e) => setItemCode(e.target.value)}
                   dir="ltr"
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-mono"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-grotesk"
                 />
               </div>
             </div>
@@ -429,7 +429,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     value={imageUrl}
                     onChange={(e) => setImageUrl(e.target.value)}
                     dir="ltr"
-                    className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-mono"
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-grotesk"
                   />
                 </div>
 
@@ -464,11 +464,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       <span className="text-xs text-stone-200 font-medium">
                         پیش‌نمایش تصویر (مقیاس ۱:۱ وب‌سایت)
                       </span>
-                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded border border-stone-800 bg-stone-900 text-stone-400">
+                      <span className="text-[10px] font-grotesk px-1.5 py-0.5 rounded border border-stone-800 bg-stone-900 text-stone-400">
                         1:1 SQUARE
                       </span>
                     </div>
-                    <span className="text-[11px] text-stone-500 font-mono truncate block mt-0.5">
+                    <span className="text-[11px] text-stone-500 font-grotesk truncate block mt-0.5">
                       {imageUrl.slice(0, 48)}...
                     </span>
                   </div>
@@ -515,9 +515,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   value={goldNetWeight}
                   onChange={(e) => setGoldNetWeight(e.target.value)}
                   required
-                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-black border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-mono"
+                  className="flex-1 px-3.5 py-2.5 rounded-xl bg-black border border-stone-800 text-xs text-white placeholder-stone-600 focus:outline-none focus:border-stone-400 transition-colors font-grotesk"
                 />
-                <span className="text-xs font-mono px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-stone-300 shrink-0">
+                <span className="text-xs font-grotesk px-3.5 py-2.5 bg-stone-900 border border-stone-800 rounded-xl text-stone-300 shrink-0">
                   گرم (gr)
                 </span>
               </div>
@@ -537,7 +537,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     سنگ‌ها یا تراش‌های موجود در اثر را با کلیک انتخاب نمایید:
                   </p>
                 </div>
-                <span className="text-[11px] text-stone-400 font-mono">
+                <span className="text-[11px] text-stone-400 font-grotesk">
                   {selectedStones.length} انتخاب شده
                 </span>
               </div>
@@ -617,10 +617,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 <select
                   value={certificateIssuer}
                   onChange={(e) => setCertificateIssuer(e.target.value as any)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white focus:outline-none focus:border-stone-400 transition-colors font-mono"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-stone-950 border border-stone-800 text-xs text-white focus:outline-none focus:border-stone-400 transition-colors font-grotesk"
                 >
                   {CERTIFICATE_ISSUERS.map((iss) => (
-                    <option key={iss} value={iss} className="bg-stone-950 text-white font-mono">
+                    <option key={iss} value={iss} className="bg-stone-950 text-white font-grotesk">
                       {iss}
                     </option>
                   ))}
@@ -685,7 +685,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       <h4 className="text-xs font-bold text-white truncate">
                         {cItem.nameFa}
                       </h4>
-                      <div className="flex items-center gap-2 text-[10px] text-stone-400 font-mono mt-0.5">
+                      <div className="flex items-center gap-2 text-[10px] text-stone-400 font-grotesk mt-0.5">
                         <span>{cItem.itemCode}</span>
                         <span>•</span>
                         <span className="font-peyda">{categoryNameFa(cItem.category)}</span>

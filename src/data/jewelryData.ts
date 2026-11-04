@@ -61,7 +61,7 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     featuredInHeroVideo: true,
     videoTimestamp: '00:06.8 - Stop 2',
     tagsFa: ['شاهکار هیرو', 'انگشتر سولیتر', 'باند الماس', 'طلای سفید'],
-    availability: 'موجود در سالن فرشته',
+    availability: 'موجود در گالری احمدآباد',
   },
   {
     id: 'amuzegar-ruby-necklace-hero',
@@ -120,7 +120,7 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     featuredInHeroVideo: true,
     videoTimestamp: '00:00 - 00:01',
     tagsFa: ['شاهکار هیرو', 'گوشواره آویز', 'آرت‌دکو'],
-    availability: 'موجود در سالن فرشته',
+    availability: 'موجود در گالری احمدآباد',
   },
   {
     id: 'amuzegar-ruby-ring-hero',
@@ -149,7 +149,7 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     featuredInHeroVideo: true,
     videoTimestamp: '00:07 - 00:08',
     tagsFa: ['شاهکار هیرو', 'انگشتر تک‌نگین', 'تراش زمردی'],
-    availability: 'موجود در سالن فرشته',
+    availability: 'موجود در گالری احمدآباد',
   },
   {
     id: 'amuzegar-diamond-tennis-bracelet',
@@ -174,7 +174,7 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     additionalImages: [],
     isMasterpiece: false,
     tagsFa: ['دستبند تنیس', 'طلا سفید', 'مجلسی'],
-    availability: 'موجود در سالن فرشته',
+    availability: 'موجود در گالری احمدآباد',
   },
   {
     id: 'amuzegar-emerald-parure',
@@ -201,7 +201,7 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     ],
     isMasterpiece: true,
     tagsFa: ['زمرد کلمبیا', 'سرویس اشرافی', 'تک نسخه'],
-    availability: 'کلکسیون ویژه دبی',
+    availability: 'تک‌نسخه آتلیه آموزگار',
   },
   {
     id: 'amuzegar-marquise-solitaire',
@@ -226,7 +226,7 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     additionalImages: [],
     isMasterpiece: false,
     tagsFa: ['الماس D-Color', 'رزگلد', 'انگشتر نامزدی'],
-    availability: 'موجود در سالن فرشته',
+    availability: 'موجود در گالری احمدآباد',
   },
   {
     id: 'amuzegar-sapphire-parure',
@@ -276,35 +276,46 @@ export const JEWELRY_ITEMS: JewelryItem[] = [
     additionalImages: [],
     isMasterpiece: false,
     tagsFa: ['چوکر', 'الماس', 'مدرن'],
-    availability: 'موجود در سالن فرشته',
+    availability: 'موجود در گالری احمدآباد',
   }
 ];
 
-export const BESPOKE_STEPS = [
+/**
+ * Pieces shown in the white name index on the home page.
+ * Images are transparent cutouts in public/index/cutouts/ (WebP for the site, PNG originals kept).
+ * `productId` opens that product page; otherwise `category` opens the shop filtered to it.
+ */
+export interface NameIndexPiece {
+  id: string;
+  name: string;
+  image: string;
+  altFa: string;
+  productId?: string;
+  category?: string;
+}
+
+export const NAME_INDEX_PIECES: NameIndexPiece[] = [
   {
-    step: '۰۱',
-    titleFa: 'مشاوره و طراحی اختصاصی',
-    titleEn: 'Haute Bespoke Consultation',
-    descFa: 'جلسه اختصاصی با طراح ارشد گالری آموزگار برای خلق کانسپت و اسکچ دستی متناسب با سلیقه شما.',
+    id: 'nora',
+    name: 'Nora',
+    image: '/index/cutouts/nora.webp',
+    altFa: 'گوشواره بادبزنی الماس',
+    productId: 'amuzegar-diamond-drop-earring-timeline',
   },
   {
-    step: '۰۲',
-    titleFa: 'کارشناسی و گزینش گوهر',
-    titleEn: 'Gemstone Selection & Certification',
-    descFa: 'مشاهده حضوری و مقایسه یاقوت‌های طبیعی برمه، زمردهای کلمبیا و الماس‌های دارای شناسنامه GIA.',
+    id: 'astra',
+    name: 'Astra',
+    image: '/index/cutouts/astra.webp',
+    altFa: 'انگشتر الماس با نگین‌های مربعی',
+    category: 'ring',
   },
   {
-    step: '۰۳',
-    titleFa: 'مدل‌سازی سه‌بعدی و نمونه مومی',
-    titleEn: '3D CAD & Precision Prototype',
-    descFa: 'شبیه‌سازی دیجیتال و ساخت قالب مومی جهت پرو ابعاد اثر بر روی دست پیش از ریخته‌گری نهایی.',
+    id: 'ruby',
+    name: 'Ruby',
+    image: '/index/cutouts/ruby.webp',
+    altFa: 'انگشتر یاقوت سرخ با هاله الماس',
+    category: 'ruby',
   },
-  {
-    step: '۰۴',
-    titleFa: 'ریخته‌گری، مخراج‌کاری و شناسنامه',
-    titleEn: 'Master Atelier Craft & Passport',
-    descFa: 'مخراج‌کاری دستی زیر میکروسکوپ در طلای ۱۸ عیار یا پلاتین ۹۵۰ و صدور شناسنامه هولوگرام‌دار آموزگار.',
-  }
 ];
 
 export const SALON_BRANCHES = [
